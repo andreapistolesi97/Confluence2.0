@@ -8,8 +8,8 @@ use App\Http\Controllers\BusinessDriverController;
 use App\Http\Controllers\RolePermissionController;
 
 // LOGIN
-Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+Route::get('/', [LoginController::class, 'create'])->name('login');
+Route::post('/', [LoginController::class, 'store'])->name('login.store');
 
 // LOGOUT
 Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
@@ -45,6 +45,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/autocoupling', [BusinessDriverController::class, 'index'])
         ->name('autocoupling');
+        
+    Route::get('/autocoupling/filter', [BusinessDriverController::class, 'filter'])
+        ->name('autocoupling.filter');
 
     Route::get('/schedulerlogs', function () {
         return view('logs.schedulerlogs');

@@ -11,10 +11,11 @@
         </span>
     </div>
 
-    <div class="grid grid-cols-5 gap-5 mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-8">
 
         <!-- CARD 1 -->
-        <div class="bg-white border border-gray-200 rounded-xl p-6 flex justify-between items-center transition">
+        <div
+            class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total User </p>
                 <p class="text-3xl font-bold mt-1">{{ $totalUsers }}</p>
@@ -26,7 +27,8 @@
         </div>
 
         <!-- CARD 2 -->
-        <div class="bg-red-200 border border-gray-200 rounded-xl p-6 flex justify-between items-center  transition">
+        <div
+            class="bg-red-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Administrator</p>
                 <p class="text-3xl font-bold mt-1">{{ $admin }}</p>
@@ -38,7 +40,8 @@
         </div>
 
         <!-- CARD 3 -->
-        <div class="bg-yellow-200 border border-gray-200 rounded-xl p-6 flex justify-between items-center  transition">
+        <div
+            class="bg-yellow-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Integrator</p>
                 <p class="text-3xl font-bold mt-1">{{ $integrator }}</p>
@@ -51,7 +54,8 @@
 
         <!-- CARD 4 -->
 
-        <div class="bg-blue-200 border border-gray-200 rounded-xl p-6 flex justify-between items-center  transition">
+        <div
+            class="bg-blue-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Production Planner</p>
                 <p class="text-3xl font-bold mt-1">{{ $productionplanner }}</p>
@@ -64,7 +68,8 @@
 
         <!-- CARD 5 -->
 
-        <div class="bg-green-200 border border-gray-200 rounded-xl p-6 flex justify-between items-center  transition">
+        <div
+            class="bg-green-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Sales</p>
                 <p class="text-3xl font-bold mt-1">{{ $sales }}</p>

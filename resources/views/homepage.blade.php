@@ -22,7 +22,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zM12 3a9 9 0 110 18 9 9 0 010-18z" />
                     </svg>
-                    <h2 class="text-xl font-semibold text-gray-700">Profilo Utente</h2>
+                    <h2 class="text-xl font-semibold text-gray-700">User Profile</h2>
                 </div>
 
                 <div class="flex items-center gap-6 mb-6">
@@ -69,15 +69,15 @@
                 </div>
 
                 <div class="flex flex-col gap-4">
+
+
                     <a href="/schedulerlogs"
-                        class="p-1.5 text-sm flex items-center gap-3 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
-                        <div class=" p-2 flex items-center justify-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700" viewBox="0 0 16 16">
-                                <path fill="currentColor" fill-rule="evenodd"
-                                    d="M3.5 2.5v11h9v-11h-9ZM3 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3Zm5 10a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 11Zm-2 1a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm2-4a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 8ZM6 9a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm2-4a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 5ZM6 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
+                        class=" p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700" viewBox="0 0 16 16">
+                            <path fill="currentColor" fill-rule="evenodd"
+                                d="M3.5 2.5v11h9v-11h-9ZM3 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3Zm5 10a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 11Zm-2 1a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm2-4a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 8ZM6 9a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm2-4a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 5ZM6 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
                         Scheduler Logs
                     </a>
                     <hr class=" border-gray-300">

@@ -1,5 +1,5 @@
 <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
-    class="text-heading bg-neutral-primary box-border border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-lg text-sm p-2 focus:outline-none"
+    class="text-heading bg-neutral-primary box-border border border-gray-200 hover:bg-neutral-secondary-medium focus:ring-2 focus:ring-neutral-tertiary font-medium leading-5 rounded-lg text-sm p-2 focus:outline-none"
     type="button">
     <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
         viewBox="0 0 24 24">
@@ -12,21 +12,39 @@
     <ul class="p-2 text-sm text-body font-medium" aria-labelledby="dropdownMenuIconButton">
         <li>
             <a href="/myprofile"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">My Profile</a>
+                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">My
+                Profile</a>
         </li>
         <li>
             <a href="/rolepermissions"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Role &
+                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Role
+                &
                 Permissions</a>
         </li>
         <li>
             <a href="/adduser"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Add User</a>
+                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Add
+                User</a>
         </li>
-         <li>
+        <li>
             <a href="/logout"
                 class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Logout</a>
         </li>
     </ul>
-  
+
 </div>
+<script>
+    document.addEventListener('click', function(event) {
+
+        const button = document.getElementById('dropdownMenuIconButton');
+        const menu = document.getElementById('dropdownDots');
+
+        // Se clicchi sul bottone → lascia gestire a Flowbite
+        if (button.contains(event.target)) return;
+
+        // Se il menu è aperto e clicchi fuori → chiudi
+        if (!menu.contains(event.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+</script>
