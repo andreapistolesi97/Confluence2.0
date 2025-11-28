@@ -19,7 +19,7 @@
                     <!-- BUSINESS DRIVER -->
                     <div class="flex flex-col">
                         <label class="text-sm text-gray-700 mb-2">
-                            Choose a business driver :
+                            Choose a Business Driver :
                         </label>
 
                         <x-dropdownmenubusinessdriver id="business-driver" :drivers="$drivers" />
@@ -27,14 +27,14 @@
 
                     <!-- RESULT TYPE -->
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-700 mb-2">Choose a results type :</label>
+                        <label class="text-sm text-gray-700 mb-2">Choose a Results Type :</label>
 
                         <x-dropdownmenuselect id="dropdown-result" />
                     </div>
 
                     <!-- QUALIFICATION -->
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-700 mb-2">Choose a qualification settings :</label>
+                        <label class="text-sm text-gray-700 mb-2">Choose a Qualification Settings :</label>
 
                         <x-dropdownmenuqualification id="dropdown-qualification" />
                     </div>

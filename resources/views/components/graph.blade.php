@@ -109,6 +109,7 @@
     </div>
 </div>
 </div>
+<<<<<<< HEAD
 <script>
     // Get the CSS variable --color-brand and convert it to hex for ApexCharts
     const getBrandColor = () => {
@@ -116,6 +117,14 @@
         const computedStyle = getComputedStyle(document.documentElement);
 
         // Get the value of the --color-brand CSS variable
+=======
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+    const getBrandColor = () => {
+        const computedStyle = getComputedStyle(document.documentElement);
+
+>>>>>>> f90fbe7 (Aggiunti Blade components (dropdown, layout, tablecoupling) e aggiornate view autocoupling/homepage)
         return computedStyle.getPropertyValue('--color-fg-brand').trim() || "#1447E6";
     };
 

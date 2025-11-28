@@ -2,6 +2,8 @@
 
 <div class="relative inline-block w-full">
 
+    <input type="hidden" name="business_driver_id" id="input-{{ $id }}">
+
     {{-- BUTTON --}}
     <button
         id="btn-{{ $id }}"
@@ -25,9 +27,14 @@
 
         <ul class="py-2 text-sm">
             @foreach($drivers as $driver)
+                @php
+          
+                    $realName = explode(' - ', $driver->driver_name)[0];
+                @endphp
+
                 <li>
                     <a href="#" 
-                       data-value="{{ $driver->db_name }}" 
+                       data-value="{{ $realName }}"
                        data-label="{{ $driver->driver_name }}"
                        class="block px-4 py-2 hover:bg-gray-100 dropdown-option">
                        
@@ -46,17 +53,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrapper = button.closest("div.relative");
     const label = wrapper.querySelector(".dropdown-label");
     const menu = document.getElementById("{{ $id }}");
+    const hidden = document.getElementById("input-{{ $id }}");
 
     wrapper.querySelectorAll("[data-value]").forEach(option => {
         option.addEventListener("click", (e) => {
             e.preventDefault();
 
+            // Testo visibile
             label.textContent = option.dataset.label;
 
+            // Valore per Laravel
+            hidden.value = option.dataset.value;
+
+            // Chiudi menu
             menu.classList.add("hidden");
-            button.dispatchEvent(new Event("click"));
         });
     });
-
 });
 </script>

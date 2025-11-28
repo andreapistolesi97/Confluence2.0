@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confluence Dashboard</title>
+    <title>Confluence</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@200..1000&display=swap" rel="stylesheet">
+<<<<<<< HEAD
     <style>
         body {
             font-family: "Roboto Flex", sans-serif !important;
@@ -27,6 +28,27 @@
     <aside
         class="flex flex-col w-[310px] h-screen py-2 overflow-y-auto bg-white border-r dark:bg-gray-900 dark:border-gray-700">
         <nav class="flex flex-col flex-1 space-y-2 mx-5">
+=======
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.tailwindcss.css">
+
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.tailwindcss.js"></script>
+
+
+</head>
+
+<body class="bg-gray-50">
+
+    {{-- SIDEBAR FISSA --}}
+    <aside class="fixed top-0 left-0 w-[310px] h-screen bg-white border-r flex flex-col">
+
+        {{-- MENU SCORREVOLE --}}
+        <div class="flex-1 overflow-y-auto py-2 px-5">
+>>>>>>> f90fbe7 (Aggiunti Blade components (dropdown, layout, tablecoupling) e aggiornate view autocoupling/homepage)
 
             <a href="">
                 <img class="w-auto h-100" src="/images/confluence-logo.png" alt="">
@@ -36,33 +58,42 @@
             <div class="border-t border-gray-200 my-2"></div>
 
 
-
-            <x-sidebarmenu title="Auto Copling Overview" url="/autocoupling" icon="autocopling" />
+            <x-sidebarmenu title="Auto Coupling Overview" url="/autocoupling" icon="autocopling" />
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Review" icon="review" :items="[
                 ['label' => 'Review', 'url' => '/review'],
                 ['label' => 'Detailed Review', 'url' => '/detailedreview'],
                 ['label' => 'Review Queue Overview', 'url' => '/queueoverview'],
             ]" />
+
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Logs" icon="logs" :items="[
                 ['label' => 'Scheduler Logs', 'url' => '/schedulerlogs'],
                 ['label' => 'Production Logs', 'url' => '/productionlogs'],
                 ['label' => 'SIMs Logs', 'url' => '/simslogs'],
             ]" />
+
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Production Action" url="/productionaction" icon="productionaction" />
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Monitoring" icon="monitoring" :items="[
                 ['label' => 'Diagnostics', 'url' => '/diagnostics'],
                 ['label' => 'Real Time Monitoring', 'url' => '/realtimemonitoring'],
             ]" />
+
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Searches" icon="searches" :items="[
                 ['label' => 'Contacs', 'url' => '/contacts'],
                 ['label' => 'Phone Number Formatting', 'url' => '/phonenumberformatting'],
             ]" />
+
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Documentation" icon="documentation" :items="[
                 ['label' => 'Field Overview', 'url' => '/fieldoverview'],
                 ['label' => 'Formatting Overview', 'url' => '/formattingoverview'],
@@ -70,26 +101,24 @@
                 ['label' => 'Process Documentation', 'url' => '/processdocumentation'],
                 ['label' => 'Contacts Policies', 'url' => '/contactspolicies'],
             ]" />
+
+
             <div class="border-t border-gray-200 my-2"></div>
+
             <x-sidebarmenu title="Help & Support" url="/help" icon="help" />
 
-        </nav>
+        </div>
 
-        <div
-            class="rounded-3xl border border-color-gray-200 w-full px-2 py-2 w-[250px] mx-5
-           flex items-center justify-between gap-4 bg-white my-4">
+        {{-- CARD UTENTE FISSA --}}
+        <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
 
-            <!-- Avatar + Nome -->
             <a href="/myprofile" class="flex items-center gap-3">
-
-                <!-- logo persona -->
                 <div
                     class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center text-white text-xl font-semibold">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}{{ strtoupper(substr(Auth::user()->surname, 0, 1)) }}
                 </div>
 
-                <!-- Nome -->
-                <span class="text-gray-700 text-sm whitespace-nowrap">
+                <span class="text-gray-800 text-sm whitespace-nowrap">
                     {{ Auth::user()->name }} {{ Auth::user()->surname }}
                 </span>
             </a>

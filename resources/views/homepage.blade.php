@@ -174,7 +174,7 @@
         <!-- COLONNA DESTRA -->
         <div class="flex-1 flex flex-col gap-6">
 
-            <div class="bg-white rounded-xl p-8 border border-gray-200 w-full">
+            <div class="bg-white rounded-xl p-8 border border-gray-200 w-full min-h-[400px] min-w-[500px]">
                 <div class="flex items-center gap-2 mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

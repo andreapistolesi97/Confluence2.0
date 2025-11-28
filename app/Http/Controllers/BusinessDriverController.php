@@ -25,16 +25,15 @@ class BusinessDriverController extends Controller
 
         /** BUSINESS DRIVER */
         if ($request->business_driver_id) {
-            $query->where(DB::raw('`Business Driver`'), $request->business_driver_id);
+            $query->where(DB::raw('`Business Driver`'), 'LIKE', $request->business_driver_id . '%');
         }
 
-         /* RESULT TYPE */
+        /* RESULT TYPE */
         if ($request->result_type === 'not_done') {
             $query->where(DB::raw('`Total Coupled`'), '=', 0);
         }
 
-
-        /* QUALIFICATION SETTINGS*/
+        /* QUALIFICATION SETTINGS */
         if ($request->qualification === 'mix') {
             $query->where(function ($q) {
                 $q->where(DB::raw('`Qualification Settings`'), 'LIKE', 'QS2%')
@@ -43,17 +42,18 @@ class BusinessDriverController extends Controller
             });
         }
 
-        // SOLO QS1
         if ($request->qualification === 'qs1') {
             $query->where(DB::raw('`Qualification Settings`'), 'LIKE', 'QS1%');
         }
 
-        // NO QUALIFICATION
         if ($request->qualification === 'none') {
-            $query->whereNull(DB::raw('`Qualification Settings`'));
+            $query->where(function ($q) {
+                $q->whereNull(DB::raw('`Qualification Settings`'))
+                    ->orWhere(DB::raw('`Qualification Settings`'), '=', '');
+            });
         }
 
-        /*END DATE */
+        /* END DATE */
         if ($request->end_date) {
             $query->whereDate(DB::raw('`Day End`'), '<=', $request->end_date);
         }
