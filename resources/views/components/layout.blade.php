@@ -102,21 +102,14 @@
                 </span>
             </a>
 
-            <!-- MENU A TRE PUNTINI (fuori dal link, ora funziona) -->
-            <x-hamburgermenu />            
-
+            <x-hamburgermenu />
         </div>
-
-
 
     </aside>
 
     {{-- CONTENUTO DELLA PAGINA --}}
-    <main class="flex-1 p-8 bg-gray-50">
-        {{ $slot }}
+    <main class="ml-[310px] p-8"> {{ $slot }}
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>
 
