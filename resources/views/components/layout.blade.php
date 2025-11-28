@@ -9,26 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@200..1000&display=swap" rel="stylesheet">
-<<<<<<< HEAD
-    <style>
-        body {
-            font-family: "Roboto Flex", sans-serif !important;
-        }
-    </style>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/alpinejs" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
-</head>
-
-<body class="flex">
-
-    {{-- SIDEBAR --}}
-    <aside
-        class="flex flex-col w-[310px] h-screen py-2 overflow-y-auto bg-white border-r dark:bg-gray-900 dark:border-gray-700">
-        <nav class="flex flex-col flex-1 space-y-2 mx-5">
-=======
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -48,7 +28,6 @@
 
         {{-- MENU SCORREVOLE --}}
         <div class="flex-1 overflow-y-auto py-2 px-5">
->>>>>>> f90fbe7 (Aggiunti Blade components (dropdown, layout, tablecoupling) e aggiornate view autocoupling/homepage)
 
             <a href="">
                 <img class="w-auto h-100" src="/images/confluence-logo.png" alt="">
