@@ -1,8 +1,14 @@
 @props([
-    'id' => 'dropdown-scheduler',
+    'id' => 'dropdown-logs',
+    'sources' => collect(),  
+    'current' => null,        
 ])
 
-<div class="relative inline-block">
+<div class="relative inline-block w-full">
+
+    <input type="hidden" name="log" id="input-{{ $id }}" value="{{ $current->id ?? '' }}">
+
+    {{-- BUTTON --}}
     <button
         id="btn-{{ $id }}"
         data-dropdown-toggle="{{ $id }}"
@@ -10,7 +16,9 @@
         class="inline-flex items-center justify-between bg-white border border-gray-300 
                text-gray-700 w-[400px] rounded-lg px-4 py-2.5 text-sm shadow-sm"
     >
-        <span class="dropdown-label">Select...</span>
+        <span class="dropdown-label">
+            {{ $current?->label ?? 'Select...' }}
+        </span>
 
         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
              viewBox="0 0 24 24" stroke="currentColor">
@@ -19,19 +27,21 @@
         </svg>
     </button>
 
-    <div
-        id="{{ $id }}"
-        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-[400px] border"
-    >
+    {{-- MENU --}}
+    <div id="{{ $id }}"
+         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-[400px] max-h-64 overflow-y-auto">
+
         <ul class="py-2 text-sm text-gray-700" aria-labelledby="btn-{{ $id }}">
-
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="Custom-Proxy IT">Custom-Proxy IT</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="Custom-Proxy FR">Custom-Proxy FR</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="Custom-Proxy ES">Custom-Proxy ES</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="Custom-Proxy Others">Custom-Proxy Others</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="Frogproxy IT">Frogproxy IT</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="Frogproxy FR">Frogproxy FR</a></li>
-
+            @foreach($sources as $source)
+                <li>
+                    <a href="#"
+                       data-id="{{ $source->id }}"
+                       data-label="{{ $source->label }}"
+                       class="block px-4 py-2 hover:bg-gray-100 dropdown-option">
+                        {{ $source->label }}
+                    </a>
+                </li>
+            @endforeach
         </ul>
     </div>
 </div>
@@ -39,25 +49,25 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-    const button = document.getElementById("btn-{{ $id }}");
+    const button  = document.getElementById("btn-{{ $id }}");
     const wrapper = button.closest("div.relative");
-    const label = wrapper.querySelector(".dropdown-label");
-    const menu = document.getElementById("{{ $id }}");
+    const label   = wrapper.querySelector(".dropdown-label");
+    const menu    = document.getElementById("{{ $id }}");
+    const hidden  = document.getElementById("input-{{ $id }}");
 
-    wrapper.querySelectorAll("[data-value]").forEach(option => {
-        option.addEventListener("click", function(e) {
+    wrapper.querySelectorAll(".dropdown-option").forEach(option => {
+        option.addEventListener("click", (e) => {
             e.preventDefault();
 
-            // Aggiorna testo della label
-            label.textContent = this.dataset.value;
+            // Aggiorno testo visibile
+            label.textContent = option.dataset.label;
 
-            // Chiudi menu
+            // Imposto ID sorgente selezionata per il controller
+            hidden.value = option.dataset.id;
+
+            // Chiudo il menu
             menu.classList.add("hidden");
-
-            // Reset Flowbite
-            button.dispatchEvent(new Event("click"));
         });
     });
-
 });
 </script>

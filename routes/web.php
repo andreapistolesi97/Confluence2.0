@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Country;
 use App\Http\Controllers\BusinessDriverController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\RolePermissionController;
 
 // LOGIN
@@ -45,21 +46,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/autocoupling', [BusinessDriverController::class, 'index'])
         ->name('autocoupling');
-        
+
     Route::get('/autocoupling/filter', [BusinessDriverController::class, 'filter'])
         ->name('autocoupling.filter');
 
-    Route::get('/schedulerlogs', function () {
-        return view('logs.schedulerlogs');
-    });
+    Route::get('/schedulerlogs', [LogController::class, 'scheduler'])->name('logs.schedulerlogs');
+    Route::get('/productionlogs', [LogController::class, 'production'])->name('productionlogs');
+    Route::get('/simslogs',       [LogController::class, 'sims'])->name('simslogs');
 
-    Route::get('/productionlogs', function () {
-        return view('logs.productionlogs');
-    });
 
-    Route::get('/simslogs', function () {
-        return view('logs.simslogs');
-    });
 
     Route::get('/contacts', function () {
         return view('searches.contacts');

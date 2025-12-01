@@ -179,7 +179,7 @@
                     </span>
                 </th>
                 <th class="px-4 py-5 cursor-pointer">
-                    <span class="inline-flex items-center gap-1">>Qualification Settings
+                    <span class="inline-flex items-center gap-1">Qualification Settings
                         Limit<span class="sort-icon">
                             <x-sidebaricons icon="sort-up" />
                         </span>
@@ -356,11 +356,17 @@
     document.addEventListener("DOMContentLoaded", () => {
 
         const table = document.querySelector("table");
+        if (!table) return;
+
         const headers = table.querySelectorAll("thead th");
         const tbody = table.querySelector("tbody");
 
         let dragSrcIndex = null;
         let isDragging = false;
+
+        // ======================
+        //  SORT + DRAG & DROP
+        // ======================
 
         headers.forEach((header) => {
 
@@ -414,8 +420,8 @@
                 }
 
                 const sorted = rows.sort((a, b) => {
-                    const cellA = a.children[columnIndex].innerText.trim();
-                    const cellB = b.children[columnIndex].innerText.trim();
+                    const cellA = a.children[columnIndex]?.innerText.trim() ?? "";
+                    const cellB = b.children[columnIndex]?.innerText.trim() ?? "";
 
                     const numA = parseFloat(cellA.replace(",", ""));
                     const numB = parseFloat(cellB.replace(",", ""));
@@ -471,7 +477,6 @@
             rows.forEach((row) => {
                 const cells = Array.from(row.children);
 
-                // Safety nel caso qualche riga abbia meno celle
                 if (fromIndex < 0 || fromIndex >= cells.length ||
                     toIndex < 0 || toIndex >= cells.length) return;
 
@@ -484,5 +489,127 @@
                 }
             });
         }
+
+        // ======================
+        //  DROPDOWN "FILTER COLUMNS" FUORI DALLA TABELLA
+        // ======================
+
+        const wrapper = table.parentElement;              // div overflow-x-auto...
+        const outer = wrapper.parentElement;              // card/container esterno
+
+        if (!outer) return;
+
+        outer.classList.add("relative");
+
+        // Barra sopra la tabella, allineata a destra
+        const topBar = document.createElement("div");
+        topBar.className = "flex justify-end mb-2";
+
+        const panelWrapper = document.createElement("div");
+        panelWrapper.className = "relative";
+        topBar.appendChild(panelWrapper);
+
+        // Inserisco la barra PRIMA del wrapper della tabella
+        outer.insertBefore(topBar, wrapper);
+
+        // Bottone che apre/chiude il menu
+        const filterBtn = document.createElement("button");
+        filterBtn.type = "button";
+        filterBtn.className =
+            "inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium " +
+            "bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50";
+
+        filterBtn.innerHTML = `
+            <span>Filter columns</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd" />
+            </svg>
+        `;
+
+        // Dropdown vero e proprio (menu a tendina)
+        const dropdown = document.createElement("div");
+        dropdown.className =
+            "hidden absolute right-0 mt-1 w-96 bg-white border border-gray-200 " +
+            "rounded-lg shadow-lg text-xs p-3 z-30";
+
+        dropdown.style.maxHeight = "360px";
+        dropdown.style.overflowY = "auto";
+
+        const title = document.createElement("div");
+        title.className = "mb-2 font-semibold text-gray-800";
+        title.textContent = "Show / hide columns";
+        dropdown.appendChild(title);
+
+        const grid = document.createElement("div");
+        // 3 colonne nel menu (tipo “pagination” visiva)
+        grid.className = "grid grid-cols-3 gap-2";
+        dropdown.appendChild(grid);
+
+        const headerArray = Array.from(headers);
+
+        headerArray.forEach((header) => {
+            const item = document.createElement("label");
+            item.className =
+                "flex items-center gap-1 px-2 py-1 rounded cursor-pointer hover:bg-gray-50";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = !header.classList.contains("hidden");
+            checkbox.className = "rounded border-gray-300";
+
+            const textSpan = document.createElement("span");
+            textSpan.className = "truncate";
+            textSpan.title = header.innerText.trim();
+            textSpan.textContent = header.innerText.trim() || "Column";
+
+            item.appendChild(checkbox);
+            item.appendChild(textSpan);
+            grid.appendChild(item);
+
+            checkbox.addEventListener("change", (e) => {
+                // ricalcolo l’indice reale (supporta drag&drop)
+                const currentHeaders = Array.from(table.querySelectorAll("thead th"));
+                const currentIndex = currentHeaders.indexOf(header);
+                if (currentIndex === -1) return;
+
+                // header
+                if (e.target.checked) {
+                    header.classList.remove("hidden");
+                } else {
+                    header.classList.add("hidden");
+                }
+
+                // celle di tutte le righe
+                const rows = table.querySelectorAll("tbody tr");
+                rows.forEach((row) => {
+                    const cell = row.children[currentIndex];
+                    if (!cell) return;
+                    if (e.target.checked) {
+                        cell.classList.remove("hidden");
+                    } else {
+                        cell.classList.add("hidden");
+                    }
+                });
+            });
+        });
+
+        panelWrapper.appendChild(filterBtn);
+        panelWrapper.appendChild(dropdown);
+
+        // Toggle apertura/chiusura dropdown
+        filterBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle("hidden");
+        });
+
+        // Chiudi cliccando fuori
+        document.addEventListener("click", (e) => {
+            if (!panelWrapper.contains(e.target)) {
+                dropdown.classList.add("hidden");
+            }
+        });
+
     });
 </script>
