@@ -12,21 +12,24 @@
     <ul class="p-2 text-sm text-body font-medium" aria-labelledby="dropdownMenuIconButton">
         <li>
             <a href="/myprofile"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">My Profile</a>
+                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">My
+                Profile</a>
         </li>
         <li>
             <a href="/rolepermissions"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Role &
+                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Role
+                &
                 Permissions</a>
         </li>
         <li>
             <a href="/adduser"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Add User</a>
+                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Add
+                User</a>
         </li>
-         <li>
-            <a href="/logout"
+        <li>
+            <a href="/"
                 class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Logout</a>
         </li>
     </ul>
-  
+
 </div>

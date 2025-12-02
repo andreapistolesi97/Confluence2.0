@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Http\Controllers\BusinessDriverController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\ProfileController;
 
 // LOGIN
 Route::get('/', [LoginController::class, 'create'])->name('login');
@@ -40,8 +41,12 @@ Route::middleware(['auth'])->group(function () {
         return view('monitoring.realtimemonitoring');
     });
 
-    Route::get('/myprofile', function () {
-        return view('profile.myprofile');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/myprofile', [ProfileController::class, 'show'])
+            ->name('profile.myprofile');
+
+        Route::put('/myprofile', [ProfileController::class, 'update'])
+            ->name('profile.myprofile.update');
     });
 
     Route::get('/autocoupling', [BusinessDriverController::class, 'index'])

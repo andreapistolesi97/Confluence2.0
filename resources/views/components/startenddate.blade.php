@@ -1,4 +1,4 @@
-<div id="date-range-picker" date-rangepicker class="flex items-start space-x-6 rounded-lg">
+<div id="date-range-picker" datepicker-format="yyyy-mm-dd"date-rangepicker class="flex items-start space-x-6 rounded-lg">
 
     <!-- START DATE -->
     <div class="flex flex-col">

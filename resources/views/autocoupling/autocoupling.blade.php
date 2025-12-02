@@ -48,17 +48,16 @@
                     </div>
 
                 </div>
-
-            </div>
-
-            <!-- RUN BUTTON -->
-            <div class="mt-4">
-                <button type="submit"
-                    class="text-white text-sm rounded-xl bg-green-600 px-5 py-2.5
+                <div class="mt-4">
+                    <button type="submit"
+                        class="text-white text-sm rounded-xl bg-green-600 px-5 py-2.5
                            transition hover:bg-green-700 border border-color-gray-700">
-                    Run Filters
-                </button>
+                        Run Filters
+                    </button>
+                </div>
+
             </div>
+
 
         </form>
 
