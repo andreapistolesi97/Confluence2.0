@@ -2,7 +2,6 @@
 
     <div class="p-8 space-y-12 mt-15">
 
-
         <div class="bg-white rounded-xl p-6 border border-gray-200 space-y-6">
             <h1 class ="font-bold text-2xl">Diagnostics</h1>
             <span class="block">Choose all these filters to see the results.</span>
@@ -13,9 +12,9 @@
                 <p class=" mt-6 flex items-center space-x-2">
                     <span>Date Range :</span>
                 </p>
+
                 <x-startenddate></x-startenddate>
             </div>
-
 
             <hr class="border-1 rounded-lg mt-8">
 
@@ -28,28 +27,100 @@
                     placeholder="es. 1234" />
             </div>
 
-            <div class="mt-10">
-                <button
+            <div class="mt-10 flex justify-between items-center">
+                <button id="btn-run-filters" type="button"
                     class="text-white text-sm rounded-xl bg-green-600 p-2.5
-transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">Run
-                    filters</button>
+transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">
+                    Run filters
+                </button>
+
                 <div class="flex justify-end gap-4">
                     <button
                         class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5
-transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">Download
-                        Contacts CSV
+transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
+                        Download Contacts CSV
                     </button>
                     <button
                         class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5
-transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">Download
-                        Logs CSV
+transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
+                        Download Logs CSV
                     </button>
                 </div>
             </div>
 
         </div>
 
+        <div class="mt-6 space-y-5">
+            <x-tablediagnostics></x-tablediagnostics>
+            <x-tablelogs></x-tablelogs>
+        </div>
 
+    </div>
 
+    <script>
+        console.log('SCRIPT diagnostics eseguito');
 
+        const btn = document.getElementById('btn-run-filters');
+        console.log('Bottone trovato:', btn);
+
+        if (!btn) {
+            console.error(' Non trovo #btn-run-filters nel DOM');
+        } else {
+            btn.addEventListener('click', async () => {
+                console.log(' Click su Run filters');
+
+                const startInput = document.getElementById('datepicker-range-start');
+                const endInput = document.getElementById('datepicker-range-end');
+
+                const start_date = startInput ? startInput.value : null;
+                const end_date = endInput ? endInput.value : null;
+
+                const offer_num = document.getElementById('offer').value;
+
+                const csrfToken = document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute('content');
+
+                const payload = {
+                    type: "diagnostics",
+                    filters: {
+                        start_date: start_date,
+                        end_date: end_date,
+                        offer_number: offer_num || null,
+                    }
+                };
+
+                console.log(' Payload che mando a Laravel:', payload);
+
+                try {
+                    const response = await fetch('{{ route('diagnostics.run') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    console.log('Response object:', response);
+
+                    let data;
+                    try {
+                        data = await response.json(); // provo a leggerla come JSON
+                    } catch (e) {
+                        data = await response.text(); // se non è JSON, la leggo come testo
+                    }
+
+                    console.log('Risposta diagnostics.run (status = ' + response.status + '):', data);
+
+                    // qui per ora NON facciamo throw, anche se status è 500
+                    // più avanti, quando capiamo il formato buono, mettiamo la logica "seria"
+
+                } catch (error) {
+                    console.error('❌ Errore nella chiamata a diagnostics.run:', error);
+                }
+            });
+        }
+    </script>
 </x-layout>

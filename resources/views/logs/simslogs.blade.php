@@ -5,16 +5,17 @@
             SIMs Logs
         </h1>
 
-        <div class="bg-white rounded-lg p-7 border border-color-gray-200 
+        <div
+            class="bg-white rounded-lg p-7 border border-color-gray-200 
                     flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
 
             <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4">
-                <span class="text-gray-700 text-sm w-60">Choose a SIM :</span>
+                <span class=" w-60 text-sm text-gray-700 mb-2 font-medium">Choose a SIM </span>
                 <x-dropdownmenulogs id="dropdown-sims" />
             </div>
 
             <button
-                class="text-white text-sm rounded-xl bg-green-600 px-4 py-2
+                class="text-white text-sm font-medium  rounded-xl bg-green-600 px-4 py-2
                        transition-colors duration-300 ease-in-out hover:bg-green-700">
                 Run Filters
             </button>

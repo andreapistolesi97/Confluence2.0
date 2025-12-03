@@ -32,7 +32,7 @@
                     <div class="col-span-12 sm:col-span-9">
                         <input type="text" disabled
                             class="border border-gray-300 py-2 px-3 w-full rounded-lg shadow-sm 
-                                   focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 text-sm"
+                                   focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 text-xs text-gray-500"
                             value="{{ Auth::user()->name }}">
                     </div>
 
@@ -44,7 +44,7 @@
                     <div class="col-span-12 sm:col-span-9">
                         <input type="text" disabled
                             class="border border-gray-300 py-2 px-3 w-full rounded-lg shadow-sm 
-                                   focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 text-sm"
+                                   focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 text-xs text-gray-500"
                             value="{{ Auth::user()->surname }}">
                     </div>
 
@@ -56,7 +56,7 @@
                     <div class="col-span-12 sm:col-span-9">
                         <input type="email" disabled
                             class="border border-gray-300 py-2 px-3 w-full rounded-lg shadow-sm 
-                                   focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 text-sm"
+                                   focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 text-xs text-gray-500"
                             value="{{ Auth::user()->email }}">
                     </div>
 
@@ -70,7 +70,7 @@
                             <input :type="showCurrent ? 'text' : 'password'" name="current_password"
                                 :disabled="!edit" id="password_current"
                                 class="py-2.5 pl-4 pr-12 w-full border border-gray-300 rounded-lg text-sm
-                                       focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 placeholder:text-sm"
+                                       focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 placeholder:text-xs text-gray-500"
                                 placeholder="Enter your current password">
 
                             <button type="button" x-show="edit" @click="showCurrent = !showCurrent"
@@ -95,7 +95,7 @@
                             <input :type="showNew ? 'text' : 'password'" name="password" :disabled="!edit"
                                 id="password_new"
                                 class="py-2.5 pl-4 pr-12 w-full border border-gray-300 rounded-lg text-sm
-                                       focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 placeholder:text-sm"
+                                       focus:outline-indigo-600 disabled:bg-gray-100 disabled:opacity-70 placeholder:text-xs text-gray-600"
                                 placeholder="Enter new password">
 
                             <button type="button" x-show="edit" @click="showNew = !showNew"
@@ -125,7 +125,7 @@
 
                     <!-- EDIT / CANCEL -->
                     <button type="button" @click="edit = !edit"
-                        class="text-white text-sm rounded-xl bg-blue-600 px-4 py-2.5
+                        class="text-white text-sm rounded-xl bg-gray-500 px-4 py-2.5
                                transition-colors duration-300 ease-in-out hover:bg-blue-700">
                         <span x-show="!edit">Edit Profile</span>
                         <span x-show="edit">Cancel</span>

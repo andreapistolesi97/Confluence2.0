@@ -11,11 +11,11 @@
         </span>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-5 mt-8 min-w-0 ">
 
         <!-- CARD 1 -->
         <div
-            class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
+            class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition ">
             <div>
                 <p class="text-gray-600 text-sm">Total User </p>
                 <p class="text-3xl font-bold mt-1">{{ $totalUsers }}</p>
@@ -75,7 +75,7 @@
                 <p class="text-3xl font-bold mt-1">{{ $sales }}</p>
             </div>
 
-            <div class="w-12 h-12 rounded-full bg-white border broder-color-gray-200 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full bg-white border border-color-gray-200 flex items-center justify-center">
                 <span class="text-gray-400 font-bold">{{ $sales }}</span>
             </div>
         </div>

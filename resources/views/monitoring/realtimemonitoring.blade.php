@@ -43,5 +43,11 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
             </div>
 
         </div>
+
+        <div class="mt-6 space-y-5">
+            <x-tableairtable></x-tableairtable>
+            <x-tableconfluence></x-tableconfluence>
+
+        </div>
     </div>
 </x-layout>

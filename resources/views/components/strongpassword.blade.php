@@ -29,7 +29,6 @@
     <div id="{{ $hintsId }}" class="mb-3">
 
         <div>
-            <span class="text-sm text-gray-800">Level:</span>
             <span
                 data-hs-strong-password-hints-weakness-text='["Empty","Weak","Medium","Strong","Very Strong","Super Strong"]'
                 class="text-sm font-semibold text-gray-800 hs-strong-password-hints-level">

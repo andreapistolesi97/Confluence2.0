@@ -8,6 +8,8 @@ use App\Http\Controllers\BusinessDriverController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DiagnosticsController;
+
 
 // LOGIN
 Route::get('/', [LoginController::class, 'create'])->name('login');
@@ -33,9 +35,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/productionaction', [BusinessDriverController::class, 'productionAction']);
 
+
+
     Route::get('/diagnostics', function () {
         return view('monitoring.diagnostics');
     });
+
+    Route::post('/diagnostics/run', [DiagnosticsController::class, 'run'])
+        ->name('diagnostics.run');
 
     Route::get('/realtimemonitoring', function () {
         return view('monitoring.realtimemonitoring');

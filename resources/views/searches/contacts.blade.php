@@ -51,17 +51,18 @@
                         placeholder="es. +39/331123456" required />
                 </div>
             </div>
-
-        </div>
-
-        <!-- BUTTON -->
-        <div class="flex items-center gap-20">
-            <button
-                class="text-white text-sm rounded-xl bg-green-600 p-2.5
+            <!-- BUTTON -->
+            <div class="flex items-center gap-20">
+                <button
+                    class="text-white text-sm font-medium  rounded-xl bg-green-600 p-2.5
                 transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">
-                Check List
-            </button>
+                    Check List
+                </button>
+            </div>
+
+
         </div>
+
 
     </div>
 </x-layout>

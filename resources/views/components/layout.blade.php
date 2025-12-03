@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Confluence</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +19,7 @@
 
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.tailwindcss.js"></script>
-        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 
 
@@ -53,7 +55,7 @@
             <x-sidebarmenu title="Logs" icon="logs" :items="[
                 ['label' => 'Scheduler Logs', 'url' => '/schedulerlogs'],
                 ['label' => 'Production Logs', 'url' => '/productionlogs'],
-                ['label' => 'SIMs Logs', 'url' => '/simslogs'],
+                //  ['label' => 'SIMs Logs', 'url' => '/simslogs'],
             ]" />
 
             <div class="border-t border-gray-200 my-2"></div>
@@ -87,6 +89,10 @@
             <div class="border-t border-gray-200 my-2"></div>
 
             <x-sidebarmenu title="Help & Support" url="/help" icon="help" />
+
+            <div class="border-t border-gray-200 my-2"></div>
+
+            <x-sidebarmenu title="Perfomance" url="/perfo" icon="help" />
 
         </div>
 
