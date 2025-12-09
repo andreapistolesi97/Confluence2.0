@@ -86,7 +86,7 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
                     }
                 };
 
-                console.log('📦 Payload che mando alla Cloud Function:', payload);
+                console.log('Payload che mando alla Cloud Function:', payload);
 
                 try {
                     const response = await fetch(
@@ -103,17 +103,15 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
 
                     let data;
                     try {
-                        data = await response.json(); // provo a leggerla come JSON
+                        data = await response.json();
                     } catch (e) {
-                        data = await response.text(); // se non è JSON, la leggo come testo
+                        data = await response.text();
                     }
 
                     console.log('Risposta Cloud Function:', data);
 
-                    // TODO: qui poi riempi le tabelle con `data`
-
                 } catch (error) {
-                    console.error('❌ Errore nella chiamata diretta alla Cloud Function:', error);
+                    console.error('Errore nella chiamata diretta alla Cloud Function:', error);
                 }
             });
         }

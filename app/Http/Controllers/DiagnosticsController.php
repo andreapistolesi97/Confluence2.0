@@ -14,7 +14,6 @@ class DiagnosticsController extends Controller
         $payload = $request->all();
 
         try {
-            // timeout di 20 secondi (ad esempio)
             $response = Http::timeout(20)->post(
                 'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production',
                 $payload
@@ -26,7 +25,7 @@ class DiagnosticsController extends Controller
 
             return response()->json([
                 'error' => 'Timeout nella chiamata al servizio di diagnostics',
-            ], 504); // 504 Gateway Timeout
+            ], 504);
         }
 
         $status  = $response->status();
