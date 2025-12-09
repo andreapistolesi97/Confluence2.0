@@ -64,10 +64,10 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
         console.log('Bottone trovato:', btn);
 
         if (!btn) {
-            console.error(' Non trovo #btn-run-filters nel DOM');
+            console.error('Non trovo #btn-run-filters nel DOM');
         } else {
             btn.addEventListener('click', async () => {
-                console.log(' Click su Run filters');
+                console.log('Click su Run filters');
 
                 const startInput = document.getElementById('datepicker-range-start');
                 const endInput = document.getElementById('datepicker-range-end');
@@ -76,10 +76,6 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
                 const end_date = endInput ? endInput.value : null;
 
                 const offer_num = document.getElementById('offer').value;
-
-                const csrfToken = document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute('content');
 
                 const payload = {
                     type: "diagnostics",
@@ -90,20 +86,20 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
                     }
                 };
 
-                console.log(' Payload che mando a Laravel:', payload);
+                console.log('📦 Payload che mando alla Cloud Function:', payload);
 
                 try {
-                    const response = await fetch('{{ route('diagnostics.run') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                            'Accept': 'application/json',
-                        },
-                        body: JSON.stringify(payload),
-                    });
+                    const response = await fetch(
+                        'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(payload),
+                        }
+                    );
 
-                    console.log('Response object:', response);
+                    console.log('Response object CF:', response);
 
                     let data;
                     try {
@@ -112,13 +108,12 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
                         data = await response.text(); // se non è JSON, la leggo come testo
                     }
 
-                    console.log('Risposta diagnostics.run (status = ' + response.status + '):', data);
+                    console.log('Risposta Cloud Function:', data);
 
-                    // qui per ora NON facciamo throw, anche se status è 500
-                    // più avanti, quando capiamo il formato buono, mettiamo la logica "seria"
+                    // TODO: qui poi riempi le tabelle con `data`
 
                 } catch (error) {
-                    console.error('❌ Errore nella chiamata a diagnostics.run:', error);
+                    console.error('❌ Errore nella chiamata diretta alla Cloud Function:', error);
                 }
             });
         }

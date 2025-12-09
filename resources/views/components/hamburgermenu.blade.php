@@ -21,11 +21,13 @@
                 &
                 Permissions</a>
         </li>
-        <li>
-            <a href="/adduser"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Add
-                User</a>
-        </li>
+        @if (Auth::user()->role === 'Admin')
+            <li>
+                <a href="/adduser"
+                    class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Add
+                    User</a>
+            </li>
+        @endif
         <li>
             <a href="/"
                 class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Logout</a>
