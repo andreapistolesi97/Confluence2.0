@@ -56,7 +56,6 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
         </div>
 
     </div>
-
     <script>
         console.log('SCRIPT diagnostics eseguito');
 
@@ -77,29 +76,31 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
 
                 const offer_num = document.getElementById('offer').value;
 
+                // payload SEMPLICE verso Laravel (non verso CF)
                 const payload = {
-                    type: "diagnostics",
-                    filters: {
-                        start_date: start_date,
-                        end_date: end_date,
-                        offer_number: offer_num || null,
-                    }
+                    start_date: start_date,
+                    end_date: end_date,
+                    offer_number: offer_num || null,
                 };
 
-                console.log('Payload che mando alla Cloud Function:', payload);
+                console.log('Payload che mando a Laravel:', payload);
+
+                const csrfToken = document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute('content');
 
                 try {
-                    const response = await fetch(
-                        'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(payload),
-                        }
-                    );
+                    const response = await fetch('{{ route('diagnostics.run') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
 
-                    console.log('Response object CF:', response);
+                    console.log('Response object da Laravel:', response);
 
                     let data;
                     try {
@@ -108,12 +109,15 @@ transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color
                         data = await response.text();
                     }
 
-                    console.log('Risposta Cloud Function:', data);
+                    console.log('Risposta diagnostics.run (Laravel → CF):', data);
+
+                    // TODO: qui poi aggiorni le tabelle x-tablediagnostics / x-tablelogs
 
                 } catch (error) {
-                    console.error('Errore nella chiamata diretta alla Cloud Function:', error);
+                    console.error('Errore nella chiamata a diagnostics.run:', error);
                 }
             });
         }
     </script>
+
 </x-layout>

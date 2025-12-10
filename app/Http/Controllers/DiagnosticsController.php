@@ -11,7 +11,24 @@ class DiagnosticsController extends Controller
 {
     public function run(Request $request)
     {
-        $payload = $request->all();
+        // prendo i dati dal frontend
+        $start_date   = $request->input('start_date');
+        $end_date     = $request->input('end_date');
+        $offer_number = $request->input('offer_number');
+
+        // costruisco il payload ESATTAMENTE come l'esempio Python
+        $payload = [
+            'type'    => 'diagnostics',
+            'filters' => [
+                'start_date'   => $start_date,
+                'end_date'     => $end_date,
+                'offer_number' => $offer_number !== null && $offer_number !== ''
+                    ? (int) $offer_number
+                    : null,
+            ],
+        ];
+
+        Log::info('Invio payload a CF', ['payload' => $payload]);
 
         try {
             $response = Http::timeout(20)->post(
@@ -30,6 +47,11 @@ class DiagnosticsController extends Controller
 
         $status  = $response->status();
         $rawBody = $response->body();
+
+        Log::info('Risposta CF', [
+            'status' => $status,
+            'body'   => $rawBody,
+        ]);
 
         $decoded = json_decode($rawBody, true);
         if (json_last_error() === JSON_ERROR_NONE) {
