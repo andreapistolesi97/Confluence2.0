@@ -10,6 +10,7 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiagnosticsController;
 use App\Http\Controllers\PerformanceController;
+use App\Http\Controllers\MonitoringController;
 
 
 
@@ -66,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/realtimemonitoring', function () {
         return view('monitoring.realtimemonitoring');
     });
+
+
+    Route::post('/realtimemonitoring/run', [MonitoringController::class, 'run'])
+        ->name('monitoring.realtimemonitoring');
 
 
     //AUTOCOUPLING
