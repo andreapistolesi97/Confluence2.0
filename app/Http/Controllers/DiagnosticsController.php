@@ -10,12 +10,14 @@ class DiagnosticsController extends Controller
 {
     public function run(Request $request)
     {
+        // 1) Validazione input (dal FRONTEND)
         $validated = $request->validate([
             'start_date'    => 'required|date',
             'end_date'      => 'required|date|after_or_equal:start_date',
             'offer_number'  => 'nullable|string',
         ]);
 
+        // 2) Payload nel formato atteso dalla CLOUD FUNCTION
         $payload = [
             'type'    => 'diagnostics',
             'filters' => [
@@ -25,8 +27,9 @@ class DiagnosticsController extends Controller
             ],
         ];
 
-        try {
+        Log::info('Diagnostics - Invio payload a CF', ['payload' => $payload]);
 
+        try {
             $response = Http::asJson()->post(
                 'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production',
                 $payload

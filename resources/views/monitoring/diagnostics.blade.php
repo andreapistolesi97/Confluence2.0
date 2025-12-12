@@ -47,6 +47,7 @@
                     </button>
                 </div>
             </div>
+
             <div id="diagnostics-progress" class="w-full bg-gray-200 rounded-full h-2 mt-4 hidden">
                 <div id="diagnostics-progress-inner"
                     class="bg-green-600 h-2 rounded-full w-0 transition-all duration-300"></div>
@@ -64,6 +65,7 @@
     <script>
         console.log('SCRIPT diagnostics eseguito');
 
+        // Progress bar ----------------------------------------------------------
 
         const progressBar = document.getElementById('diagnostics-progress');
         const progressBarInner = document.getElementById('diagnostics-progress-inner');
@@ -77,6 +79,7 @@
 
             let value = 0;
             progressInterval = setInterval(() => {
+                // barra finta indeterminata: si ferma al 90%, poi il 100% lo mette stopProgress()
                 value = Math.min(value + 5, 90);
                 progressBarInner.style.width = value + '%';
             }, 300);
@@ -92,12 +95,14 @@
 
             progressBarInner.style.width = '100%';
 
+            // dopo mezzo secondo nascondo la barra
             setTimeout(() => {
                 progressBar.classList.add('hidden');
                 progressBarInner.style.width = '0%';
             }, 500);
         }
 
+        // Tabella CONTACTS ------------------------------------------------------
 
         function fillContactsTable(contacts) {
             const body = document.getElementById('contacts-body');
@@ -136,6 +141,7 @@
             });
         }
 
+        // (Facoltativo) Tabella LOGS: per ora solo "No data" se vuota ----------------
         function fillLogsTable(logs) {
             const body = document.getElementById('logs-body');
             if (!body) return;
@@ -153,8 +159,10 @@
                 return;
             }
 
+            // Se poi ti serve, qui puoi mappare i campi dei log come per i contacts
         }
 
+        // Bottone RUN FILTERS ---------------------------------------------------
 
         const btn = document.getElementById('btn-run-filters');
         console.log('Bottone trovato:', btn);
@@ -184,6 +192,7 @@
 
                 console.log('Payload DIRETTO a CF:', payload);
 
+                // Disabilito bottone + avvio progress bar
                 btn.disabled = true;
                 const originalText = btn.textContent;
                 btn.textContent = 'Running...';
@@ -229,6 +238,7 @@
                     console.error('Errore chiamata DIRETTA:', error);
                     alert('Errore di connessione alla Cloud Function');
                 } finally {
+                    // Ripristino bottone + stop progress bar
                     stopProgress();
                     btn.disabled = false;
                     btn.textContent = originalText;
