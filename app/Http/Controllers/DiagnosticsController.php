@@ -10,14 +10,12 @@ class DiagnosticsController extends Controller
 {
     public function run(Request $request)
     {
-        // 1) Validazione input (dal FRONTEND)
         $validated = $request->validate([
-            'start_date'    => 'required|date',
-            'end_date'      => 'required|date|after_or_equal:start_date',
-            'offer_number'  => 'nullable|string',
+            'start_date'   => 'required|date',
+            'end_date'     => 'required|date|after_or_equal:start_date',
+            'offer_number' => 'nullable|string',
         ]);
 
-        // 2) Payload nel formato atteso dalla CLOUD FUNCTION
         $payload = [
             'type'    => 'diagnostics',
             'filters' => [
@@ -27,7 +25,8 @@ class DiagnosticsController extends Controller
             ],
         ];
 
-        Log::info('Diagnostics - Invio payload a CF', ['payload' => $payload]);
+        $t0 = microtime(true);
+        Log::info('Diagnostics - START', ['t0' => $t0, 'payload' => $payload]);
 
         try {
             $response = Http::asJson()->post(
@@ -35,27 +34,23 @@ class DiagnosticsController extends Controller
                 $payload
             );
 
-            Log::info('Diagnostics - Risposta CF', [
-                'status' => $response->status(),
-                'body'   => $response->body(),
+            Log::info('Diagnostics - END', [
+                'elapsed_s' => round(microtime(true) - $t0, 3),
+                'status'    => $response->status(),
+                'body'      => $response->body(),
             ]);
 
-            if ($response->successful()) {
-                return response()->json($response->json(), $response->status());
-            }
+            return response()->json($response->json(), $response->status());
+        } catch (\Throwable $e) {
+            Log::error('Diagnostics - EXCEPTION', [
+                'elapsed_s' => round(microtime(true) - $t0, 3),
+                'message'   => $e->getMessage(),
+            ]);
 
             return response()->json([
-                'error'   => 'Cloud Function error',
-                'status'  => $response->status(),
-                'details' => $response->body(),
-            ], $response->status());
-        } catch (\Exception $e) {
-            Log::error('Diagnostics - Errore CF', ['message' => $e->getMessage()]);
-
-            return response()->json([
-                'error'   => 'Timeout o errore di connessione',
+                'error'   => 'connection_error',
                 'message' => $e->getMessage(),
-            ], 504);
+            ], 502);
         }
     }
 }

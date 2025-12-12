@@ -63,6 +63,7 @@
 
     <script>
         console.log('SCRIPT diagnostics eseguito');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
         // Progress bar ----------------------------------------------------------
 
@@ -201,34 +202,39 @@
                 startProgress();
 
                 try {
-                    const response = await fetch(
-                        'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(payload),
-                        }
-                    );
+                    const response = await fetch('{{ route('diagnostics.run') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            start_date: start_date,
+                            end_date: end_date,
+                            offer_number: offer_num || null,
+                        }),
+                    });
 
                     console.log('Response status:', response.status);
 
-                    let data;
+                    const raw = await response.text();
+                    console.log('Raw body:', raw);
+
+                    // prova a parsare JSON se possibile
+                    let data = null;
                     try {
-                        data = await response.json();
-                    } catch (e) {
-                        data = await response.text();
-                        console.log('Risposta non JSON:', data);
+                        data = JSON.parse(raw);
+                    } catch {}
+
+                    if (!response.ok) {
+                        alert('Errore HTTP ' + response.status + ': ' + (data?.message || data?.error || raw));
                         return;
                     }
 
-                    console.log('Risposta DIRETTA da CF:', data);
-
-                    const contacts = Array.isArray(data.contacts) ? data.contacts : [];
-                    const logs = Array.isArray(data.logs) ? data.logs : [];
-
-                    console.log('Contacts length:', contacts.length);
-                    console.log('Logs length:', logs.length);
+                    // se OK
+                    const contacts = Array.isArray(data?.contacts) ? data.contacts : [];
+                    const logs = Array.isArray(data?.logs) ? data.logs : [];
 
                     fillContactsTable(contacts);
                     fillLogsTable(logs);
