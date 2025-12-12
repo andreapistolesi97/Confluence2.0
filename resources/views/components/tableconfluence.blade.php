@@ -1,14 +1,23 @@
 <div class="relative overflow-y-auto max-h-[50vh] border border-gray-200 rounded-lg">
-    <table class="min-w-[2200px] text-sm text-gray-600">
-        <thead class="bg-white text-sm font-semibold whitespace-nowrap border border-color-gray-200 rounded-lg">
+    <table class="w-full text-sm text-gray-600 table-fixed">
+        <thead
+            class="sticky top-0 z-10 bg-white text-sm font-semibold whitespace-nowrap border-b border-gray-200 rounded-lg">
             <tr>
-                <th class="px-4 py-5 cursor-pointer">
-                    <span class="flex items-start gap-1">
-                        Confluence
-                    </span>
-                </th>
+                <th class="px-4 py-3 text-left w-[5%]">#</th>
+                <th class="px-4 py-3 text-left w-[15%]">AM ID</th>
+                <th class="px-4 py-3 text-left w-[45%]">Offer Name</th>
+                <th class="px-4 py-3 text-left w-[20%]">Phase</th>
+                <th class="px-4 py-3 text-left w-[7.5%]">Coupled</th>
+                <th class="px-4 py-3 text-left w-[7.5%]">Reviewed</th>
             </tr>
         </thead>
 
+        <tbody id="confluence-body">
+            <tr>
+                <td colspan="6" class="px-4 py-3 text-center text-gray-400 bg-white">
+                    No data loaded yet
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>

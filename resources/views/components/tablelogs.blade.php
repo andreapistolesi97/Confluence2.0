@@ -6,7 +6,11 @@
             </tr>
         </thead>
         <tbody id="logs-body">
-            <!-- Righe riempite via JS -->
+            <tr>
+                <td colspan="5" class="px-4 py-3 text-center text-gray-400 bg-white">
+                    No data loaded yet
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

@@ -8,51 +8,61 @@ use Illuminate\Support\Facades\Log;
 
 class MonitoringController extends Controller
 {
+
     public function run(Request $request)
     {
-        $validated = $request->validate([
-            'start_date' => 'required|date',
-            'end_date'   => 'required|date|after_or_equal:start_date',
-        ]);
+        $start = $request->input('start_date');
+        $end   = $request->input('end_date');
+
+        if (!$start || !$end) {
+            return response()->json([
+                'error'   => 'invalid_input',
+                'message' => 'start_date e end_date sono obbligatori',
+            ], 400);
+        }
 
         $payload = [
             'type'    => 'monitoring',
             'filters' => [
-                'start_date' => $validated['start_date'],
-                'end_date'   => $validated['end_date'],
+                'start_date' => $start,
+                'end_date'   => $end,
             ],
         ];
 
-        $t0 = microtime(true);
+        Log::info('Monitoring - Invio payload a CF', ['payload' => $payload]);
+
+        @set_time_limit(300);
 
         try {
             $response = Http::asJson()
-                ->connectTimeout(20)
-                ->timeout(200)
+                ->connectTimeout(15)
                 ->post(
                     'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production',
                     $payload
                 );
 
-            Log::info('Monitoring elapsed', [
-                's' => round(microtime(true) - $t0, 2),
+            Log::info('Monitoring - Risposta CF', [
                 'status' => $response->status(),
+                'body'   => $response->body(),
             ]);
 
-            $data = $response->json();
-            if ($data === null) {
-                return response($response->body(), $response->status())
-                    ->header('Content-Type', $response->header('Content-Type') ?? 'text/plain');
+            if ($response->successful()) {
+                return response()->json($response->json(), $response->status());
             }
 
-            return response()->json($data, $response->status());
-        } catch (\Throwable $e) {
-            Log::error('Monitoring error', ['message' => $e->getMessage()]);
+            return response()->json([
+                'error'   => 'cloud_function_error',
+                'status'  => $response->status(),
+                'details' => $response->body(),
+            ], $response->status());
+        } catch (\Exception $e) {
+            Log::error('Monitoring - Errore CF', ['message' => $e->getMessage()]);
 
             return response()->json([
                 'error'   => 'connection_error',
-                'message' => $e->getMessage(),
-            ], 502);
+                'message' => 'Errore di connessione verso la Cloud Function',
+                'detail'  => $e->getMessage(),
+            ], 500);
         }
     }
 }
