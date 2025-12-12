@@ -47,7 +47,6 @@
                     </button>
                 </div>
             </div>
-
             <div id="diagnostics-progress" class="w-full bg-gray-200 rounded-full h-2 mt-4 hidden">
                 <div id="diagnostics-progress-inner"
                     class="bg-green-600 h-2 rounded-full w-0 transition-all duration-300"></div>
@@ -248,6 +247,4 @@
             });
         }
     </script>
-
-
 </x-layout>
