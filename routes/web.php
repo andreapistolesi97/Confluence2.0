@@ -106,3 +106,12 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/performance/activity/{user}', [PerformanceController::class, 'activity'])
     ->name('performance.performance.activity');
+
+
+Route::get('/_diag/php', function () {
+    return response()->json([
+        'max_execution_time'      => ini_get('max_execution_time'),
+        'default_socket_timeout'  => ini_get('default_socket_timeout'),
+        'memory_limit'            => ini_get('memory_limit'),
+    ]);
+});
