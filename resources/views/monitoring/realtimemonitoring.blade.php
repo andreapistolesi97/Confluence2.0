@@ -18,7 +18,7 @@
             <hr class="border-1 rounded-lg mt-8">
 
             <div class="mt-10">
-                <button
+                <button id="btn-run-monitoring"
                     class="text-white text-sm rounded-xl bg-green-600 p-2.5
 transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">Run
                     filters</button>

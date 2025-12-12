@@ -26,23 +26,16 @@ class DiagnosticsController extends Controller
         ];
 
         $t0 = microtime(true);
-        Log::info('Diagnostics - START', ['t0' => $t0, 'payload' => $payload]);
 
         try {
             $response = Http::asJson()
                 ->connectTimeout(20)
-                ->timeout(200) // o 120/200, deve essere > del tempo della CF
+                ->timeout(200)
                 ->post(
                     'https://us-central1-tidy-tine-302317.cloudfunctions.net/diagnostic_monitoring_production',
                     $payload
                 );
 
-
-            Log::info('Diagnostics - END', [
-                'elapsed_s' => round(microtime(true) - $t0, 3),
-                'status'    => $response->status(),
-                'body'      => $response->body(),
-            ]);
 
             return response()->json($response->json(), $response->status());
         } catch (\Throwable $e) {
