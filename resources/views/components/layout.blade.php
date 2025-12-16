@@ -73,6 +73,7 @@
             <x-sidebarmenu title="Searches" icon="searches" :items="[
                 ['label' => 'Contacs', 'url' => '/contacts'],
                 ['label' => 'Phone Number Formatting', 'url' => '/phonenumberformatting'],
+                ['label' => 'Black List', 'url' => '/blacklist'],
             ]" />
 
             <div class="border-t border-gray-200 my-2"></div>

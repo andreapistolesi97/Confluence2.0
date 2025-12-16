@@ -17,31 +17,27 @@ class LogController extends Controller
             return view('logs.schedulerlogs', [
                 'title'   => 'Scheduler Logs',
                 'sources' => $sources,
-                'current' => null,       // nessun log scelto
-                'rows'    => collect(),  // tabella vuota
+                'current' => null,
+                'rows'    => collect(),
             ]);
         }
 
-        // id scelto dall'utente (se c'è)
-        $selectedId = $request->input('log');   // GET o POST, come vuoi
+        $selectedId = $request->input('log');
 
-        // Se l'utente ha scelto qualcosa -> prendo quella riga
-        // Se NON ha scelto nulla -> rimane null
+
         $current = $sources->firstWhere('id', $selectedId);
 
         if ($current) {
-            // ho un log selezionato -> carico le righe
             $rows = DB::table($current->table_name)->get();
         } else {
-            // nessun log selezionato -> tabella vuota
             $rows = collect();
         }
 
         return view('logs.schedulerlogs', [
             'title'   => 'Scheduler Logs',
             'sources' => $sources,
-            'current' => $current,   // può essere null
-            'rows'    => $rows,      // vuoto se current null
+            'current' => $current,
+            'rows'    => $rows,
         ]);
     }
 

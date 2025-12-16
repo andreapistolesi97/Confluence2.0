@@ -39,7 +39,6 @@ class ProfileController extends Controller
             ]
         );
 
-        // Controlla che la current password sia corretta
         if (! Hash::check($request->current_password, $user->password)) {
             return back()
                 ->withErrors(['current_password' => 'Current password is incorrect.'])
@@ -47,7 +46,6 @@ class ProfileController extends Controller
                 ->withInput();
         }
 
-        // Aggiorna SOLO la password
         $user->password = Hash::make($request->password);
         $user->save();
 

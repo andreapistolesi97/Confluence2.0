@@ -223,7 +223,6 @@
                         return;
                     }
 
-                    // se OK
                     const contacts = Array.isArray(data?.contacts) ? data.contacts : [];
                     const logs = Array.isArray(data?.logs) ? data.logs : [];
 

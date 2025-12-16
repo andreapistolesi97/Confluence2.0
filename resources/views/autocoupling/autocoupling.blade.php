@@ -8,12 +8,13 @@
             <span class="block text-gray-600">Choose all these filters to see the results</span>
         </div>
 
-        <form method="GET" action="{{ route('autocoupling.filter') }}">
+        {{-- FORM: ora faccio  POST a autocoupling.run (UserActionController) --}}
+        <form method="POST" action="{{ route('autocoupling.run') }}">
+            @csrf
 
             <!-- FILTER CONTAINER -->
             <div class="bg-white rounded-lg p-7 border border-gray-200 space-y-10">
 
-                <!-- FILA 1 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
                     <!-- BUSINESS DRIVER -->
@@ -21,45 +22,43 @@
                         <label class="text-sm text-gray-700 mb-2 font-medium">
                             Choose a Business Driver
                         </label>
-
                         <x-dropdownmenubusinessdriver id="business-driver" :drivers="$drivers" />
                     </div>
 
                     <!-- RESULT TYPE -->
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-700 mb-2 font-medium ">Choose a
-                            Results Type </label>
-
+                        <label class="text-sm text-gray-700 mb-2 font-medium">
+                            Choose a Results Type
+                        </label>
                         <x-dropdownmenuselect id="dropdown-result" />
                     </div>
 
                     <!-- QUALIFICATION -->
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-700 mb-2 font-medium">Choose a Qualification Settings </label>
-
+                        <label class="text-sm text-gray-700 mb-2 font-medium">
+                            Choose a Qualification Settings
+                        </label>
                         <x-dropdownmenuqualification id="dropdown-qualification" />
                     </div>
 
                     <!-- END DATE -->
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-700 mb-2 font-medium">Choose an End Date </label>
-
+                        <label class="text-sm text-gray-700 mb-2 font-medium">
+                            Choose an End Date
+                        </label>
                         <x-enddatepicker />
-
                     </div>
-
                 </div>
+
                 <div class="mt-4">
                     <button type="submit"
                         class="text-white text-sm font-medium rounded-xl bg-green-600 px-5 py-2.5
-                           transition hover:bg-green-700 border border-color-gray-700">
+                               transition hover:bg-green-700 border border-color-gray-700">
                         Run Filters
                     </button>
                 </div>
 
             </div>
-
-
         </form>
 
         <!-- TABLE -->

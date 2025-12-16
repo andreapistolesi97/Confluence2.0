@@ -30,7 +30,6 @@ class AddUserController extends Controller
 
         try {
 
-            // GENERO USERNAME AUTOMATICO 
             $username = strstr($validated['email'], '@', true);
 
             // CREAZIONE UTENTE
@@ -39,8 +38,8 @@ class AddUserController extends Controller
                 'surname'   => $validated['surname'],
                 'email'     => $validated['email'],
                 'role'      => $validated['role'],
-                'username'  => $username, 
-                'password'  => bcrypt($validated['password']), 
+                'username'  => $username,
+                'password'  => bcrypt($validated['password']),
             ]);
 
             return redirect()->back()->with('success', 'User created successfully!');

@@ -11,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiagnosticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\UserActionController;
+
 
 
 
@@ -81,6 +83,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/autocoupling/filter', [BusinessDriverController::class, 'filter'])
         ->name('autocoupling.filter');
 
+    Route::post('/autocoupling/run', [UserActionController::class, 'autocouplingRun'])
+        ->name('autocoupling.run')
+        ->middleware('auth');
+
 
     //LOGS
     Route::get('/schedulerlogs', [LogController::class, 'scheduler'])->name('logs.schedulerlogs');
@@ -99,10 +105,17 @@ Route::middleware(['auth'])->group(function () {
         return view('searches.phonenumberformatting', compact('countries'));
     });
 
-    //PERFORMANCE
+    Route::get('/blacklist', function () {
+        return view('searches.blacklist');
+    });
 
+    //PERFORMANCE
     Route::get('/performance', [PerformanceController::class, 'index'])
         ->name('performance.performance.index');
 });
 Route::get('/performance/activity/{user}', [PerformanceController::class, 'activity'])
     ->name('performance.performance.activity');
+
+
+Route::post('/actions/button', [UserActionController::class, 'store'])
+    ->name('actions.button');
