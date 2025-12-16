@@ -62,4 +62,22 @@ class UserActionController extends Controller
 
         return redirect()->route('schedulerlogs', $params);
     }
+    public function diagnosticslogRun(Request $request)
+    {
+        $user = $request->user();
+
+        activity('User Action')
+            ->causedBy($user)
+            ->performedOn($user)
+            ->withProperties([
+                'action'  => 'diagnosticslogs_view_filters',
+                'filters' => $request->except('_token'),
+            ])
+            ->event('button_clicked')
+            ->log('User clicked Diagnostics Logs Filters');
+
+        $params = $request->except('_token');
+
+        return redirect()->route('diagnosticslogs', $params);
+    }
 }

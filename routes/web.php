@@ -58,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/productionaction', [BusinessDriverController::class, 'productionAction']);
 
 
+
+
     //MONITORING
     Route::get('/diagnostics', function () {
         return view('monitoring.diagnostics');
@@ -65,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/diagnostics/run', [DiagnosticsController::class, 'run'])
         ->name('diagnostics.run');
+
+    Route::post('/diagnostics/log', [UserActionController::class, 'diagnosticslogRun'])
+        ->name('diagnostics.log')
+        ->middleware('auth');
 
     Route::get('/realtimemonitoring', function () {
         return view('monitoring.realtimemonitoring');

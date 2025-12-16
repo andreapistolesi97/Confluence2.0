@@ -19,7 +19,7 @@
 
             <div class="mt-10 flex justify-between items-center">
                 <div class="space-x-3">
-                    <button id="btn-run-filters"
+                    <button type="submit" id="btn-run-filters"
                         class="text-white text-sm rounded-xl bg-green-600 p-2.5 transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">
                         Run filters
                     </button>
