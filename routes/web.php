@@ -89,9 +89,23 @@ Route::middleware(['auth'])->group(function () {
 
 
     //LOGS
-    Route::get('/schedulerlogs', [LogController::class, 'scheduler'])->name('logs.schedulerlogs');
-    Route::get('/productionlogs', [LogController::class, 'production'])->name('productionlogs');
-    Route::get('/simslogs',       [LogController::class, 'sims'])->name('simslogs');
+    Route::get('/schedulerlogs', [LogController::class, 'scheduler'])
+        ->name('schedulerlogs')
+        ->middleware('auth');
+
+    Route::post('/schedulerlogs/run', [UserActionController::class, 'schedulerlogsRun'])
+        ->name('schedulerlogs.run')
+        ->middleware('auth');
+
+
+    Route::get('/productionlogs', [LogController::class, 'production'])
+        ->name('productionlogs')
+        ->middleware('auth');
+
+    Route::post('/productionlogs/run', [UserActionController::class, 'productionlogsRun'])
+        ->name('productionlogs.run')
+        ->middleware('auth');
+    // Route::get('/simslogs',       [LogController::class, 'sims'])->name('simslogs');
 
 
 

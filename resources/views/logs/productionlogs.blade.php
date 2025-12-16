@@ -6,14 +6,17 @@
         </h1>
 
         {{-- FORM PER IL FILTRO --}}
-        <form method="GET"
+        <form method="POST" action="{{ route('productionlogs.run') }}"
             class="bg-white rounded-lg p-7 border border-color-gray-200 
-                   flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                     flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+
+            @csrf
 
             <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4">
-                <span class=" w-60 text-sm text-gray-700 mb-2 font-medium">Choose a Production </span>
+                <span class="w-60 text-sm text-gray-700 mb-2 font-medium">
+                    Choose a Production
+                </span>
 
-                {{-- QUI riusi il TUO component --}}
                 <x-dropdownmenulogs id="dropdown-production" :sources="$sources" :current="$current" />
             </div>
 

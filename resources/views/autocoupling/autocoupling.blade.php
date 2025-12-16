@@ -8,7 +8,6 @@
             <span class="block text-gray-600">Choose all these filters to see the results</span>
         </div>
 
-        {{-- FORM: ora faccio  POST a autocoupling.run (UserActionController) --}}
         <form method="POST" action="{{ route('autocoupling.run') }}">
             @csrf
 
