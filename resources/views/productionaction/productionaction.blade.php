@@ -8,17 +8,11 @@
         </div>
 
         <div class="bg-white rounded-lg p-6 border border-color-gray-600 space-y-10">
-            <div class="flex flex-col">
-                <label class="text-sm text-gray-700 mb-2">
-                    Choose a business driver :
-                </label>
+            <div class="grid grid-cols-[240px_1fr] items-center gap-y-6 gap-x-10">
+                <span class="text-sm text-gray-700 font-medium">Choose a Business Driver</span>
                 <x-dropdownmenubusinessdriver id="business-driver" :drivers="$drivers" />
-            </div>
 
-            <div class="flex flex-col">
-                <label class="text-sm text-gray-700 mb-2">
-                    Choose a country:
-                </label>
+                <span class="text-sm text-gray-700 font-medium">Choose a Country</span>
                 <x-dropdownmenucountry id="dropdown-country" :countries="$countries" />
             </div>
             <div class="space-x-6 flex flex-items">

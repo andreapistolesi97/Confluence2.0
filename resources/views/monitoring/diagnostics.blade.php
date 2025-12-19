@@ -13,7 +13,7 @@
             <div class="bg-white rounded-xl p-6 border border-gray-200 mt-3">
                 <div class="flex flex-col md:flex-row md:items-center md:space-x-8 mt-4">
                     <p class="mt-6 flex items-center space-x-2">
-                        <span>Date Range :</span>
+                        <span class="text-sm text-gray-700 font-medium">Date Range :</span>
                     </p>
 
                     <x-startenddate></x-startenddate>
@@ -22,7 +22,7 @@
                 <hr class="border-1 rounded-lg mt-8">
 
                 <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-3">
-                    <label for="offer">Insert an offer number : </label>
+                    <label for="offer" class="text-sm text-gray-700 font-medium">Insert an offer number : </label>
                     <input id="offer" type="text" name="offer"
                         class="h-10 border border-black-600 rounded-md bg-white px-3 text-base text-gray-900 
                               outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 

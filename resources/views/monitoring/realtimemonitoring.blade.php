@@ -9,7 +9,7 @@
         <div class="bg-white rounded-xl p-6 border border-gray-200 mt-4">
             <div class="flex flex-col md:flex-row md:items-center md:space-x-8 mt-3">
                 <p class="mt-6 flex items-center space-x-2">
-                    <span>Date Range :</span>
+                    <span class="text-sm text-gray-700 font-medium">Date Range</span>
                 </p>
                 <x-startenddate></x-startenddate>
             </div>

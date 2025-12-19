@@ -11,7 +11,7 @@
         class="mt-4 bg-white p-6 rounded-lg border border-color-gray-600 overflow-x-auto overflow-y-auto gap-x-3">
 
         <div class="flex items-start gap-4">
-            <span class="text-sm text-gray-800 whitespace-nowrap mt-3">
+            <span class="text-sm text-gray-700 font-medium whitespace-nowrap mt-3">
                 Choose a Role
             </span>
 

@@ -2,9 +2,9 @@
     <form method="POST" action="{{ route('adduser.store') }}">
         @csrf
 
-       <div class="w-full px-8 py-10">
+        <div class="w-full px-8 py-10">
 
-            <div class="bg-white rounded-xl shadow-xs p-4 sm:p-7">
+            <div class="bg-white rounded-lg border border-color-gray-200 p-4 sm:p-7">
 
                 <!-- HEADER -->
                 <div class="mb-8">
@@ -19,7 +19,7 @@
 
                     <!-- NAME -->
                     <div class="sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Name :</label>
+                        <label class="text-sm text-gray-700 font-medium">Name :</label>
                     </div>
 
                     <div class="sm:col-span-9">
@@ -31,7 +31,7 @@
 
                     <!-- SURNAME -->
                     <div class="sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Surname :</label>
+                        <label class="text-sm text-gray-700 font-medium">Surname :</label>
                     </div>
 
                     <div class="sm:col-span-9">
@@ -43,7 +43,7 @@
 
                     <!-- EMAIL -->
                     <div class="sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Email :</label>
+                        <label class="text-sm text-gray-700 font-medium">Email :</label>
                     </div>
 
                     <div class="sm:col-span-9">
@@ -55,7 +55,7 @@
 
                     <!-- PASSWORD -->
                     <div class="sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Password :</label>
+                        <label class="text-sm text-gray-700 font-medium">Password :</label>
                     </div>
 
                     <div class="sm:col-span-9">
@@ -64,7 +64,7 @@
 
                     <!-- CONFIRM PASSWORD -->
                     <div class="sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Confirm Password :</label>
+                        <label class="text-sm text-gray-700 font-medium">Confirm Password :</label>
                     </div>
 
                     <div class="sm:col-span-9">
@@ -73,7 +73,7 @@
 
                     <!-- ROLE -->
                     <div class="sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Role :</label>
+                        <label class="text-sm text-gray-700 font-medium">Role :</label>
                     </div>
 
                     <div class="sm:col-span-9">

@@ -1,7 +1,7 @@
 <x-layout>
     <div class="w-full px-8 py-10" x-data="{ edit: false }">
 
-        <div class="bg-white rounded-xl shadow-xs p-6">
+        <div class="bg-white rounded-lg border border-color-gray-200 p-6">
 
             <!-- HEADER -->
             <div class="mb-2 flex justify-between items-start">
@@ -26,7 +26,7 @@
 
                     <!-- NAME -->
                     <div class="col-span-12 sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Your Name :</label>
+                        <label class="text-sm text-gray-700 font-medium">Your Name :</label>
                     </div>
 
                     <div class="col-span-12 sm:col-span-9">
@@ -38,7 +38,7 @@
 
                     <!-- SURNAME -->
                     <div class="col-span-12 sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Your Surname :</label>
+                        <label class="text-sm text-gray-700 font-medium">Your Surname :</label>
                     </div>
 
                     <div class="col-span-12 sm:col-span-9">
@@ -50,7 +50,7 @@
 
                     <!-- EMAIL (solo lettura) -->
                     <div class="col-span-12 sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Email :</label>
+                        <label class="text-sm text-gray-700 font-medium">Email :</label>
                     </div>
 
                     <div class="col-span-12 sm:col-span-9">
@@ -62,7 +62,7 @@
 
                     <!-- CURRENT PASSWORD -->
                     <div class="col-span-12 sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Current Password :</label>
+                        <label class="text-sm text-gray-700 font-medium">Current Password :</label>
                     </div>
 
                     <div class="col-span-12 sm:col-span-9">
@@ -87,7 +87,7 @@
 
                     <!-- NEW PASSWORD -->
                     <div class="col-span-12 sm:col-span-3 flex items-center">
-                        <label class="text-sm text-gray-800">Modify your Password :</label>
+                        <label class="text-sm text-gray-700 font-medium">Modify your Password :</label>
                     </div>
 
                     <div class="col-span-12 sm:col-span-9">

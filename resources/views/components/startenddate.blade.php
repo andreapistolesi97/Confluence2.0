@@ -1,8 +1,8 @@
 <div id="date-range-picker" datepicker-format="yyyy-mm-dd"date-rangepicker class="flex items-start space-x-6 rounded-lg">
 
     <!-- START DATE -->
-    <div class="flex flex-col">
-        <label for="datepicker-range-start" class=" text-sm mb-1">Start Date</label>
+    <div class="flex flex-col gap-y-2">
+        <label for="datepicker-range-start" class="text-xs text-gray-700 ">Start Date</label>
 
         <div class="relative">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -14,15 +14,15 @@
 
             <input id="datepicker-range-start" name="start" type="text"
                 class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium 
-                       text-heading text-sm rounded-lg focus:outline-indigo-600 shadow-xs
+                       text-heading text-xs rounded-lg focus:outline-indigo-600 shadow-xs
                        placeholder:text-body"
                 placeholder="Select date start">
         </div>
     </div>
 
     <!-- END DATE -->
-    <div class="flex flex-col">
-        <label for="datepicker-range-end" class=" text-sm mb-1">End Date</label>
+    <div class="flex flex-col gap-y-2">
+        <label for="datepicker-range-end" class="text-xs text-gray-700">End Date</label>
 
         <div class="relative">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -34,7 +34,7 @@
 
             <input id="datepicker-range-end" name="end" type="text"
                 class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium 
-                       text-heading text-sm rounded-lg focus:outline-indigo-600 shadow-xs
+                       text-heading text-xs rounded-lg focus:outline-indigo-600 shadow-xs
                        placeholder:text-body"
                 placeholder="Select date end">
         </div>
