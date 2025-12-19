@@ -74,11 +74,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/realtimemonitoring', function () {
         return view('monitoring.realtimemonitoring');
-    });
-
+    })->name('realtimemonitoring');
 
     Route::post('/realtimemonitoring/run', [MonitoringController::class, 'run'])
         ->name('monitoring.realtimemonitoring');
+
+    Route::post('/realtimemonitoring/log', [UserActionController::class, 'realtimemonitoringlogRun'])
+        ->name('realtimemonitoring.log')
+        ->middleware('auth');
+
+    Route::post('/realtimemonitoring/refresh', [MonitoringController::class, 'run'])
+        ->name('realtimemonitoring.refresh')
+        ->middleware('auth');
+
+    Route::post('/realtimemonitoring/refresh/log', [UserActionController::class, 'refreshLogRun'])
+        ->name('realtimemonitoring.refresh.log')
+        ->middleware('auth');
 
 
     //AUTOCOUPLING
@@ -112,6 +123,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('productionlogs.run')
         ->middleware('auth');
     // Route::get('/simslogs',       [LogController::class, 'sims'])->name('simslogs');
+
+    // REVIEW
+    Route::get('/review', [BusinessDriverController::class, 'review'])
+        ->name('review');
 
 
 

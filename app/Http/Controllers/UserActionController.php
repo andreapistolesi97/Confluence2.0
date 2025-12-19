@@ -78,6 +78,42 @@ class UserActionController extends Controller
 
         $params = $request->except('_token');
 
+
         return redirect()->route('diagnosticslogs', $params);
+    }
+    public function realtimemonitoringlogRun(Request $request)
+    {
+        $user = $request->user();
+
+        activity('User Action')
+            ->causedBy($user)
+            ->performedOn($user)
+            ->withProperties([
+                'action'  => 'realtimemonitoringlog_view_filters',
+                'filters' => $request->except('_token'),
+            ])
+            ->event('button_clicked')
+            ->log('User clicked Monitoring Logs Filters');
+
+        $params = $request->except('_token');
+
+        return redirect()->route('realtimemonitoring', $params);
+    }
+    public function refreshLogRun(Request $request)
+    {
+        $user = $request->user();
+
+        activity('User Action')
+            ->causedBy($user)
+            ->performedOn($user)
+            ->withProperties(['action' => 'realtimemonitoringlog_refresh'])
+            ->event('button_clicked')
+            ->log('User clicked Monitoring Refresh Logs');
+
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return redirect()->route('realtimemonitoring');
     }
 }

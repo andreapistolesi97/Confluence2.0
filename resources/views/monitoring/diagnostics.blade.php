@@ -2,7 +2,7 @@
 
     <div class="p-8 space-y-12 mt-15">
 
-        <form method="POST" action="{{ route('diagnostics.run') }}">
+        <form method="POST" action="{{ route('diagnostics.log') }}">
             @csrf
 
             <div class="bg-white rounded-xl p-6 border border-gray-200 space-y-6">
@@ -61,13 +61,12 @@
                 <x-tablediagnostics></x-tablediagnostics>
                 <x-tablelogs></x-tablelogs>
             </div>
-
+        </form>
     </div>
 
     <script>
         console.log('SCRIPT diagnostics eseguito');
         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
 
         const progressBar = document.getElementById('diagnostics-progress');
         const progressBarInner = document.getElementById('diagnostics-progress-inner');
@@ -102,10 +101,8 @@
             }, 500);
         }
 
-
         function fillContactsTable(contacts) {
             const body = document.getElementById('contacts-body');
-
             if (!body) {
                 console.error('Non trovo #contacts-body nel DOM');
                 return;
@@ -115,12 +112,12 @@
 
             if (!contacts || contacts.length === 0) {
                 body.innerHTML = `
-                <tr>
-                    <td colspan="5" class="px-4 py-3 text-center text-gray-400">
-                        No contacts found
-                    </td>
-                </tr>
-            `;
+            <tr>
+                <td colspan="5" class="px-4 py-3 text-center text-gray-400">
+                    No contacts found
+                </td>
+            </tr>
+        `;
                 return;
             }
 
@@ -129,12 +126,12 @@
                 tr.className = 'border-t border-gray-100 hover:bg-gray-50';
 
                 tr.innerHTML = `
-                <td class="px-4 py-3">${index + 1}</td>
-                <td class="px-4 py-3">${row['ID_Contact'] ?? ''}</td>
-                <td class="px-4 py-3">${row['email'] ?? ''}</td>
-                <td class="px-4 py-3">${row['Timestamp_Uploading'] ?? ''}</td>
-                <td class="px-4 py-3">${row['Timestamp_Upload'] ?? ''}</td>
-            `;
+            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3">${row['ID_Contact'] ?? ''}</td>
+            <td class="px-4 py-3">${row['email'] ?? ''}</td>
+            <td class="px-4 py-3">${row['Timestamp_Uploading'] ?? ''}</td>
+            <td class="px-4 py-3">${row['Timestamp_Upload'] ?? ''}</td>
+        `;
 
                 body.appendChild(tr);
             });
@@ -148,26 +145,25 @@
 
             if (!logs || logs.length === 0) {
                 body.innerHTML = `
-                <tr>
-                    <td class="px-4 py-3 text-center text-gray-400">
-                        No logs found
-                    </td>
-                </tr>
-            `;
+            <tr>
+                <td class="px-4 py-3 text-center text-gray-400">
+                    No logs found
+                </td>
+            </tr>
+        `;
                 return;
             }
-
         }
 
-
+        const form = document.querySelector('form');
         const btn = document.getElementById('btn-run-filters');
-        console.log('Bottone trovato:', btn);
 
         if (!btn) {
             console.error('Non trovo #btn-run-filters nel DOM');
         } else {
-            btn.addEventListener('click', async () => {
-                console.log('Click su Run filters - TEST DIRETTO');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
 
                 const startInput = document.getElementById('datepicker-range-start');
                 const endInput = document.getElementById('datepicker-range-end');
@@ -186,7 +182,6 @@
                     }
                 };
 
-                console.log('Payload DIRETTO a CF:', payload);
 
                 btn.disabled = true;
                 const originalText = btn.textContent;
@@ -197,6 +192,20 @@
                 startProgress();
 
                 try {
+                    await fetch('{{ route('diagnostics.log') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            start_date: start_date,
+                            end_date: end_date,
+                            offer_number: offer_num || null,
+                        }),
+                    });
+
                     const response = await fetch('{{ route('diagnostics.run') }}', {
                         method: 'POST',
                         headers: {
@@ -211,7 +220,6 @@
                         }),
                     });
 
-                    console.log('Response status:', response.status);
 
                     const raw = await response.text();
                     console.log('Raw body:', raw);
@@ -233,8 +241,8 @@
                     fillLogsTable(logs);
 
                 } catch (error) {
-                    console.error('Errore chiamata DIRETTA:', error);
-                    alert('Errore di connessione alla Cloud Function');
+                    console.error('Errore call direct:', error);
+                    alert('Errore connection alla Cloud Function');
                 } finally {
                     stopProgress();
                     btn.disabled = false;
@@ -245,4 +253,6 @@
             });
         }
     </script>
+
+
 </x-layout>

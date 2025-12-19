@@ -70,4 +70,12 @@ class BusinessDriverController extends Controller
 
         return view('productionaction.productionaction', compact('drivers', 'countries'));
     }
+
+    public function review()
+    {
+        $drivers = BusinessDriver::orderBy('driver_name')->get();
+        $countries = Country::orderBy('Description')->get();
+
+        return view('review.review', compact('drivers', 'countries'));
+    }
 }

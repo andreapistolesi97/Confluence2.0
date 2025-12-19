@@ -1,5 +1,4 @@
 <x-layout>
-
     <div class="p-8 space-y-12 mt-15">
 
         <div class="bg-white rounded-xl p-6 border border-gray-200">
@@ -7,7 +6,7 @@
             <p>Choose all these filters to see the results.</p>
         </div>
 
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <div class="bg-white rounded-xl p-6 border border-gray-200 mt-4">
             <div class="flex flex-col md:flex-row md:items-center md:space-x-8 mt-3">
                 <p class="mt-6 flex items-center space-x-2">
                     <span>Date Range :</span>
@@ -19,32 +18,37 @@
 
             <div class="mt-10 flex justify-between items-center">
                 <div class="space-x-3">
-                    <button type="submit" id="btn-run-filters"
-                        class="text-white text-sm rounded-xl bg-green-600 p-2.5 transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">
-                        Run filters
-                    </button>
-                    <button id="btn-refresh"
+                    <form method="POST" action="{{ route('realtimemonitoring.log') }}" class="inline">
+                        @csrf
+                        <button type="submit" id="btn-run-filters"
+                            class="text-white text-sm rounded-xl bg-green-600 p-2.5 transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">
+                            Run filters
+                        </button>
+                    </form>
+
+                    <button type="button" id="btn-refresh"
                         class="text-white text-sm rounded-xl bg-blue-600 p-2.5 transition-colors duration-300 ease-in-out hover:bg-blue-700 border border-color-gray-600">
                         Refresh
                     </button>
                 </div>
-
-                <div class="flex justify-end gap-4">
-                    <button id="btn-export-airtable"
-                        class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
-                        Export Airtable CSV
-                    </button>
-                    <button id="btn-export-confluence"
-                        class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
-                        Export Confluence CSV
-                    </button>
-                </div>
             </div>
 
-            {{-- Progress bar --}}
-            <div id="monitoring-progress" class="w-full bg-gray-200 rounded-full h-2 mt-4 hidden">
-                <div id="monitoring-progress-inner"
-                    class="bg-green-600 h-2 rounded-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <div class="flex justify-end gap-4">
+            <button id="btn-export-airtable"
+                class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
+                Export Airtable CSV
+            </button>
+            <button id="btn-export-confluence"
+                class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
+                Export Confluence CSV
+            </button>
+        </div>
+
+        {{-- Progress bar --}}
+        <div id="monitoring-progress" class="w-full bg-gray-200 rounded-full h-2 mt-4 hidden">
+            <div id="monitoring-progress-inner" class="bg-green-600 h-2 rounded-full w-0 transition-all duration-300">
             </div>
         </div>
 
@@ -92,6 +96,7 @@
             }, 500);
         }
 
+        // Funzione per aggiornare la tabella Airtable
         function fillAirtableTable(rows) {
             const body = document.getElementById('airtable-body');
             if (!body) {
@@ -103,12 +108,12 @@
 
             if (!rows || rows.length === 0) {
                 body.innerHTML = `
-                    <tr>
-                        <td colspan="5" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
-                            No Airtable records found
-                        </td>
-                    </tr>
-                `;
+                <tr>
+                    <td colspan="5" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
+                        No Airtable records found
+                    </td>
+                </tr>
+            `;
                 return;
             }
 
@@ -117,17 +122,18 @@
                 tr.className = 'border-t border-gray-100 hover:bg-gray-50';
 
                 tr.innerHTML = `
-                    <td class="px-4 py-3 bg-white hover:bg-gray-50">${index + 1}</td>
-                    <td class="px-4 py-3 bg-white  hover:bg-gray-50">${row['AM ID'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white  hover:bg-gray-50">${row['Offer Name'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white  hover:bg-gray-50">${row['Phase'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white  hover:bg-gray-50">${row['Offer Number'] ?? ''}</td>
-                `;
+                <td class="px-4 py-3 bg-white hover:bg-gray-50">${index + 1}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['AM ID'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['Offer Name'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['Phase'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['Offer Number'] ?? ''}</td>
+            `;
 
                 body.appendChild(tr);
             });
         }
 
+        // Funzione per aggiornare la tabella Confluence
         function fillConfluenceTable(rows) {
             const body = document.getElementById('confluence-body');
             if (!body) {
@@ -139,12 +145,12 @@
 
             if (!rows || rows.length === 0) {
                 body.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
-                            No Confluence records found
-                        </td>
-                    </tr>
-                `;
+                <tr>
+                    <td colspan="6" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
+                        No Confluence records found
+                    </td>
+                </tr>
+            `;
                 return;
             }
 
@@ -153,23 +159,49 @@
                 tr.className = 'border-t border-gray-100 hover:bg-gray-50';
 
                 tr.innerHTML = `
-                    <td class="px-4 py-3 bg-white hover:bg-gray-200">${index + 1}</td>
-                    <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['AM ID'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Offer Name'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Phase'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Coupled'] ?? ''}</td>
-                    <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Reviewed'] ?? ''}</td>
-                `;
+                <td class="px-4 py-3 bg-white hover:bg-gray-200">${index + 1}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['AM ID'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Offer Name'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Phase'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Coupled'] ?? ''}</td>
+                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Reviewed'] ?? ''}</td>
+            `;
 
                 body.appendChild(tr);
             });
         }
 
-        const btnRunFilters = document.getElementById('btn-run-filters');
+        async function fetchTableData(startDate, endDate) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        if (!btnRunFilters) {
-            console.error('Non trovo btn-run-filters nel DOM');
-        } else {
+            fetch('{{ route('realtimemonitoring.refresh.log') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                }
+            });
+
+            const response = await fetch('{{ route('realtimemonitoring.refresh') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    start_date: startDate,
+                    end_date: endDate
+                }),
+            });
+
+            const data = await response.json();
+            fillAirtableTable(data.airtable ?? []);
+            fillConfluenceTable(data.confluence ?? []);
+        }
+
+        const btnRunFilters = document.getElementById('btn-run-filters');
+        if (btnRunFilters) {
             btnRunFilters.addEventListener('click', async () => {
                 console.log('Click su Run filters (via Laravel)');
 
@@ -189,11 +221,7 @@
                     end_date: end_date,
                 };
 
-                console.log('Payload che mando a Laravel (monitoring.run):', payload);
-
-                const csrfToken = document
-                    .querySelector('meta[name="csrf-token"]')
-                    ?.getAttribute('content');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 btnRunFilters.disabled = true;
                 const originalText = btnRunFilters.textContent;
@@ -204,6 +232,19 @@
                 startProgress();
 
                 try {
+                    await fetch('{{ route('realtimemonitoring.log') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            start_date: start_date,
+                            end_date: end_date,
+                        }),
+                    });
+
                     const response = await fetch('{{ route('monitoring.realtimemonitoring') }}', {
                         method: 'POST',
                         headers: {
@@ -233,7 +274,6 @@
                         return;
                     }
 
-
                     const airtable = Array.isArray(data.airtable) ? data.airtable : [];
                     const confluence = Array.isArray(data.confluence) ? data.confluence : [];
 
@@ -258,8 +298,40 @@
 
         const btnRefresh = document.getElementById('btn-refresh');
         if (btnRefresh) {
-            btnRefresh.addEventListener('click', () => location.reload());
+            btnRefresh.addEventListener('click', async (e) => {
+                e.preventDefault();
+                console.log('Refresh button clicked');
+
+                const startInput = document.getElementById('datepicker-range-start');
+                const endInput = document.getElementById('datepicker-range-end');
+
+                const start_date = startInput ? startInput.value : null;
+                const end_date = endInput ? endInput.value : null;
+
+                if (!start_date || !end_date) {
+                    alert('Select start and end date before refreshing.');
+                    return;
+                }
+
+                btnRefresh.disabled = true;
+                const originalText = btnRefresh.textContent;
+                btnRefresh.textContent = 'Refreshing...';
+                btnRefresh.classList.add('opacity-60', 'cursor-not-allowed');
+
+                startProgress();
+
+                try {
+                    await fetchTableData(start_date, end_date);
+                } catch (err) {
+                    console.error(err);
+                    alert('Refresh failed');
+                } finally {
+                    stopProgress();
+                    btnRefresh.disabled = false;
+                    btnRefresh.textContent = originalText;
+                    btnRefresh.classList.remove('opacity-60', 'cursor-not-allowed');
+                }
+            });
         }
     </script>
-
 </x-layout>
