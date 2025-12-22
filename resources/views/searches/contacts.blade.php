@@ -56,7 +56,7 @@
 
                 <!-- BUTTON -->
                 <div class="flex items-center gap-20">
-                    <button type="submit"
+                    <button type="submit" id="btn-checklist"
                         class="text-white text-sm font-medium  rounded-xl bg-green-600 p-2.5
                 transition-colors duration-300 ease-in-out hover:bg-green-700 border border-color-gray-600">
                         Check List
@@ -112,5 +112,29 @@
         @endif
 
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('btn-checklist');
+            if (!btn) return;
+
+            btn.addEventListener('click', () => {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute(
+                    'content');
+
+                fetch("{{ route('searches.contacts.search') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken,
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById('email')?.value ?? null,
+                        phone: document.getElementById('phone')?.value ?? null,
+                    })
+                }).catch(() => {});
+            });
+        });
+    </script>
 
 </x-layout>

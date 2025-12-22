@@ -1,6 +1,8 @@
-@props(['id', 'countries'])
+@props(['id', 'countries', 'name' => 'Country', 'selected' => null])
 
 <div class="relative inline-block">
+
+    <input type="hidden" name="{{ $name }}" id="{{ $id }}-input" value="{{ $selected ?? '' }}">
 
     <button id="btn-{{ $id }}" data-dropdown-toggle="{{ $id }}" type="button"
         class="inline-flex items-center justify-between bg-white border border-gray-300 
@@ -13,14 +15,14 @@
     </button>
 
     <div id="{{ $id }}"
-        class="z-10 hidden bg-white shadow w-[400px] border rounded-lg
-            max-h-64 overflow-y-auto">
+        class="z-10 hidden bg-white shadow w-[400px] border rounded-lg max-h-64 overflow-y-auto">
         <ul class="py-2 text-sm text-gray-700" aria-labelledby="btn-{{ $id }}">
 
             @foreach ($countries as $country)
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                        data-value="{{ $country->Description }}">
+
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100" data-value="{{ $country->Country }}"
+                        data-label="{{ $country->Description }}">
                         {{ $country->Description }}
                     </a>
                 </li>
@@ -33,24 +35,29 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-
         const button = document.getElementById("btn-{{ $id }}");
         const wrapper = button.closest("div.relative");
         const label = wrapper.querySelector(".dropdown-label");
         const menu = document.getElementById("{{ $id }}");
+        const hidden = document.getElementById("{{ $id }}-input");
+
+        if (hidden.value) {
+            const selectedEl = wrapper.querySelector(`[data-value="${hidden.value}"]`);
+            if (selectedEl) label.textContent = selectedEl.dataset.label;
+        }
 
         wrapper.querySelectorAll("[data-value]").forEach(option => {
             option.addEventListener("click", function(e) {
                 e.preventDefault();
 
-                label.textContent = this.dataset.value;
+                label.textContent = this.dataset.label;
+
+                hidden.value = this.dataset.value;
 
                 menu.classList.add("hidden");
 
-                // Fix del doppio click (Flowbite)
                 button.dispatchEvent(new Event("click"));
             });
         });
-
     });
 </script>

@@ -11,8 +11,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiagnosticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\PhoneNumberFormattingController;
 use App\Http\Controllers\UserActionController;
 use App\Http\Controllers\SearchContactController;
+
 
 
 
@@ -138,15 +140,25 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/searches/contacts/run', [SearchContactController::class, 'search'])
         ->name('searches.contacts.run');
 
-    Route::get('/phonenumberformatting', function () {
+    Route::post('/searches/contacts/search', [UserActionController::class, 'searchcontactsLog'])
+        ->name('searches.contacts.search')
+        ->middleware('auth');
+
+    Route::get('/searches/phonenumberformatting', function () {
         $countries = Country::orderBy('Description')->get();
         return view('searches.phonenumberformatting', compact('countries'));
     });
 
+    Route::post('/searches/phonenumberformatting/run', [PhoneNumberFormattingController::class, 'run'])
+        ->name('searches.phonenumberformatting.run');
+
+    Route::post('/searches/phonenumberformatting/search', [UserActionController::class, 'searchnumberformattingLog'])
+        ->name('searches.phonenumberformatting.search')
+        ->middleware('auth');
+
     Route::get('/blacklist', function () {
         return view('searches.blacklist');
     });
-
     //PERFORMANCE
     Route::get('/performance', [PerformanceController::class, 'index'])
         ->name('performance.performance.index');

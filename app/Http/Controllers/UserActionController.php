@@ -116,4 +116,45 @@ class UserActionController extends Controller
 
         return redirect()->route('realtimemonitoring');
     }
+
+    public function searchcontactsLog(Request $request)
+    {
+        $user = $request->user();
+
+        activity('User Action')
+            ->causedBy($user)
+            ->performedOn($user)
+            ->withProperties([
+                'action'  => 'searchcontacts_perform_search',
+                'filters' => $request->except('_token'),
+            ])
+            ->event('button_clicked')
+            ->log('User clicked Search Contacts Check List');
+
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return redirect()->route('searches.contacts');
+    }
+
+    public function searchnumberformattingLog(Request $request)
+    {
+        $user = $request->user();
+
+        activity('User Action')
+            ->causedBy($user)
+            ->performedOn($user)
+            ->withProperties([
+                'action'  => 'searchnumberformatting_perform_search',
+                'filters' => $request->except('_token'),
+            ])
+            ->event('button_clicked')
+            ->log('User clicked Search Number Formatting Check List');
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return redirect()->route('searches.phonenumberformatting');
+    }
 }
