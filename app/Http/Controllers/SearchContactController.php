@@ -41,8 +41,13 @@ class SearchContactController extends Controller
             ]);
         }
 
-        $fernet = new Fernet(env('APP_ENC_KEY'));
+        $key = config('fernet.key');
 
+        if (!$key) {
+            abort(500, 'APP_ENC_KEY missing');
+        }
+
+        $fernet = new Fernet($key);
         $found = null;
 
         DB::connection('contacts_mysql')

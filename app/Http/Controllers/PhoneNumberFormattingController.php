@@ -30,8 +30,13 @@ class PhoneNumberFormattingController extends Controller
         $country = $request->input('Country');
         $countries = Country::orderBy('Description')->get();
 
-        $fernet = new Fernet(env('APP_ENC_KEY'));
-        $counts = [];
+        $key = config('fernet.key');   
+
+        if (!$key) {
+            abort(500, 'APP_ENC_KEY missing');
+        }
+
+        $fernet = new Fernet($key);
 
         $prefixesSet = [];
 
