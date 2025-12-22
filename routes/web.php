@@ -12,6 +12,8 @@ use App\Http\Controllers\DiagnosticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UserActionController;
+use App\Http\Controllers\SearchContactController;
+
 
 
 
@@ -129,11 +131,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('review');
 
 
-
     //SEARCHES 
-    Route::get('/contacts', function () {
-        return view('searches.contacts');
-    });
+    Route::get('/searches/contacts', [SearchContactController::class, 'index'])
+        ->name('searches.contacts');
+
+    Route::post('/searches/contacts/run', [SearchContactController::class, 'search'])
+        ->name('searches.contacts.run');
 
     Route::get('/phonenumberformatting', function () {
         $countries = Country::orderBy('Description')->get();
