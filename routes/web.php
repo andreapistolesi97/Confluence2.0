@@ -14,6 +14,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PhoneNumberFormattingController;
 use App\Http\Controllers\UserActionController;
 use App\Http\Controllers\SearchContactController;
+use App\Http\Controllers\TotalUserController;
 
 
 
@@ -156,9 +157,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('searches.phonenumberformatting.search')
         ->middleware('auth');
 
-    Route::get('/blacklist', function () {
-        return view('searches.blacklist');
-    });
+
     //PERFORMANCE
     Route::get('/performance', [PerformanceController::class, 'index'])
         ->name('performance.performance.index');
@@ -169,3 +168,10 @@ Route::get('/performance/activity/{user}', [PerformanceController::class, 'activ
 
 Route::post('/actions/button', [UserActionController::class, 'store'])
     ->name('actions.button');
+
+Route::post('/rolepermissions/save', [RolePermissionController::class, 'save'])
+    ->name('rolepermissions.save');
+
+
+Route::get('/totalusers', [TotalUserController::class, 'index'])
+    ->name('totalusers.index');

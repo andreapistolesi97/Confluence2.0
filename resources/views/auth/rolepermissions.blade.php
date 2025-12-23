@@ -14,21 +14,24 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-5 mt-8 min-w-0 ">
 
         <!-- CARD 1 -->
-        <div
-            class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition ">
-            <div>
-                <p class="text-gray-600 text-sm">Total User </p>
-                <p class="text-3xl font-bold mt-1">{{ $totalUsers }}</p>
-            </div>
+        <a href="/totalusers">
+            <div
+                class="bg-white hover:bg-gray-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition ">
+                <div>
+                    <button class="text-gray-600 text-sm">Total User
+                    </button>
+                    <p class="text-3xl font-bold mt-1">{{ $totalUsers }}</p>
+                </div>
 
-            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                <span class="text-blue-600 font-bold">{{ $totalUsers }}</span>
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                    <span class="text-blue-600 font-bold">{{ $totalUsers }}</span>
+                </div>
             </div>
-        </div>
+        </a>
 
         <!-- CARD 2 -->
         <div
-            class="bg-red-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
+            class="bg-red-200 hover:bg-red-300 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Administrator</p>
                 <p class="text-3xl font-bold mt-1">{{ $admin }}</p>
@@ -41,7 +44,7 @@
 
         <!-- CARD 3 -->
         <div
-            class="bg-yellow-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
+            class="bg-yellow-200 hover:bg-yellow-300 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Integrator</p>
                 <p class="text-3xl font-bold mt-1">{{ $integrator }}</p>
@@ -55,7 +58,7 @@
         <!-- CARD 4 -->
 
         <div
-            class="bg-blue-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
+            class="bg-blue-200 hover:bg-blue-300 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Production Planner</p>
                 <p class="text-3xl font-bold mt-1">{{ $productionplanner }}</p>
@@ -69,7 +72,7 @@
         <!-- CARD 5 -->
 
         <div
-            class="bg-green-200 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
+            class="bg-green-200 hover:bg-green-300 border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-3 transition">
             <div>
                 <p class="text-gray-600 text-sm">Total Sales</p>
                 <p class="text-3xl font-bold mt-1">{{ $sales }}</p>
@@ -83,11 +86,9 @@
 
     </div>
 
-    <div class="mt-5 flex justify-start items-start">
-        <x-searchuser class="w-64 " />
-    </div>
+
     <div>
-        <x-tablepermissions :users="$users" />
+        <x-tablepermissions :permissions="$permissions" :rolePermissions="$rolePermissions" />
     </div>
 
 

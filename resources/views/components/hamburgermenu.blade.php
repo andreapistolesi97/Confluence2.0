@@ -15,12 +15,14 @@
                 class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">My
                 Profile</a>
         </li>
-        <li>
-            <a href="/rolepermissions"
-                class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Role
-                &
-                Permissions</a>
-        </li>
+        @if (Auth::user()->role === 'Admin')
+            <li>
+                <a href="/rolepermissions"
+                    class="inline-flex items-center w-full p-2 hover:bg-gray-200 hover:text-heading rounded text-gray-600">Role
+                    &
+                    Permissions</a>
+            </li>
+        @endif
         @if (Auth::user()->role === 'Admin')
             <li>
                 <a href="/adduser"

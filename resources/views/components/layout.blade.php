@@ -40,40 +40,53 @@
             <x-sidebarmenu title="Homepage" url="/homepage" icon="home" />
             <div class="border-t border-gray-200 my-2"></div>
 
+            @if (Auth::user()->role === 'Admin' ||
+                    Auth::user()->role === 'Integrator' ||
+                    Auth::user()->role === 'Production Planner')
+                <x-sidebarmenu title="Auto Coupling Overview" url="/autocoupling" icon="autocopling" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
 
-            <x-sidebarmenu title="Auto Coupling Overview" url="/autocoupling" icon="autocopling" />
-            <div class="border-t border-gray-200 my-2"></div>
+            @if (Auth::user()->role === 'Admin' ||
+                    Auth::user()->role === 'Integrator' ||
+                    Auth::user()->role === 'Production Planner')
+                <x-sidebarmenu title="Review" icon="review" :items="[
+                    ['label' => 'Review', 'url' => '/review'],
+                    ['label' => 'Detailed Review', 'url' => '/detailedreview'],
+                    ['label' => 'Review Queue Overview', 'url' => '/queueoverview'],
+                ]" />
 
-            <x-sidebarmenu title="Review" icon="review" :items="[
-                ['label' => 'Review', 'url' => '/review'],
-                ['label' => 'Detailed Review', 'url' => '/detailedreview'],
-                ['label' => 'Review Queue Overview', 'url' => '/queueoverview'],
-            ]" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
 
-            <div class="border-t border-gray-200 my-2"></div>
+            @if (Auth::user()->role === 'Admin' || Auth::user()->role === 'Production Planner')
+                <x-sidebarmenu title="Logs" icon="logs" :items="[
+                    ['label' => 'Scheduler Logs', 'url' => '/schedulerlogs'],
+                    ['label' => 'Production Logs', 'url' => '/productionlogs'],
+                    //  ['label' => 'SIMs Logs', 'url' => '/simslogs'],
+                ]" />
 
-            <x-sidebarmenu title="Logs" icon="logs" :items="[
-                ['label' => 'Scheduler Logs', 'url' => '/schedulerlogs'],
-                ['label' => 'Production Logs', 'url' => '/productionlogs'],
-                //  ['label' => 'SIMs Logs', 'url' => '/simslogs'],
-            ]" />
-
-            <div class="border-t border-gray-200 my-2"></div>
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
 
             <x-sidebarmenu title="Production Action" url="/productionaction" icon="productionaction" />
             <div class="border-t border-gray-200 my-2"></div>
 
-            <x-sidebarmenu title="Monitoring" icon="monitoring" :items="[
-                ['label' => 'Diagnostics', 'url' => '/diagnostics'],
-                ['label' => 'Real Time Monitoring', 'url' => '/realtimemonitoring'],
-            ]" />
+            @if (Auth::user()->role === 'Admin' ||
+                    Auth::user()->role === 'Integrator' ||
+                    Auth::user()->role === 'Production Planner')
+                <x-sidebarmenu title="Monitoring" icon="monitoring" :items="[
+                    ['label' => 'Diagnostics', 'url' => '/diagnostics'],
+                    ['label' => 'Real Time Monitoring', 'url' => '/realtimemonitoring'],
+                ]" />
 
-            <div class="border-t border-gray-200 my-2"></div>
+
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
 
             <x-sidebarmenu title="Searches" icon="searches" :items="[
                 ['label' => 'Contacs', 'url' => '/searches/contacts'],
-                ['label' => 'Phone Number Formatting', 'url' => 'searches/phonenumberformatting'],
-                ['label' => 'Black List', 'url' => '/blacklist'],
+                ['label' => 'Phone Number Formatting', 'url' => '/searches/phonenumberformatting'],
             ]" />
 
             <div class="border-t border-gray-200 my-2"></div>
