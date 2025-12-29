@@ -31,8 +31,6 @@ Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 //GROUP MIDDLEWARE
 Route::middleware(['auth'])->group(function () {
 
-
-
     //HOMEPAGE
     Route::get('/homepage', function () {
         return view('homepage');

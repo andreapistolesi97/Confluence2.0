@@ -32,79 +32,81 @@
 
         {{-- MENU SCORREVOLE --}}
         <div class="flex-1 overflow-y-auto py-2 px-5">
+            @php($role = Auth::user()->role ?? '')
 
             <a href="">
                 <img class="w-auto h-100" src="/images/confluence-logo.png" alt="">
             </a>
 
-            <x-sidebarmenu title="Homepage" url="/homepage" icon="home" />
-            <div class="border-t border-gray-200 my-2"></div>
 
-            @if (Auth::user()->role === 'Admin' ||
-                    Auth::user()->role === 'Integrator' ||
-                    Auth::user()->role === 'Production Planner')
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'homepage'))
+                <x-sidebarmenu title="Homepage" url="/homepage" icon="home" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
+
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'autocoupling'))
                 <x-sidebarmenu title="Auto Coupling Overview" url="/autocoupling" icon="autocopling" />
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
-            @if (Auth::user()->role === 'Admin' ||
-                    Auth::user()->role === 'Integrator' ||
-                    Auth::user()->role === 'Production Planner')
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'review'))
                 <x-sidebarmenu title="Review" icon="review" :items="[
                     ['label' => 'Review', 'url' => '/review'],
                     ['label' => 'Detailed Review', 'url' => '/detailedreview'],
                     ['label' => 'Review Queue Overview', 'url' => '/queueoverview'],
                 ]" />
-
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
-            @if (Auth::user()->role === 'Admin' || Auth::user()->role === 'Production Planner')
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'logs'))
                 <x-sidebarmenu title="Logs" icon="logs" :items="[
                     ['label' => 'Scheduler Logs', 'url' => '/schedulerlogs'],
                     ['label' => 'Production Logs', 'url' => '/productionlogs'],
                     //  ['label' => 'SIMs Logs', 'url' => '/simslogs'],
                 ]" />
-
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
-            <x-sidebarmenu title="Production Action" url="/productionaction" icon="productionaction" />
-            <div class="border-t border-gray-200 my-2"></div>
 
-            @if (Auth::user()->role === 'Admin' ||
-                    Auth::user()->role === 'Integrator' ||
-                    Auth::user()->role === 'Production Planner')
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'productionaction'))
+                <x-sidebarmenu title="Production Action" url="/productionaction" icon="productionaction" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
+
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'monitoring'))
                 <x-sidebarmenu title="Monitoring" icon="monitoring" :items="[
                     ['label' => 'Diagnostics', 'url' => '/diagnostics'],
                     ['label' => 'Real Time Monitoring', 'url' => '/realtimemonitoring'],
                 ]" />
-
-
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
-            <x-sidebarmenu title="Searches" icon="searches" :items="[
-                ['label' => 'Contacs', 'url' => '/searches/contacts'],
-                ['label' => 'Phone Number Formatting', 'url' => '/searches/phonenumberformatting'],
-            ]" />
 
-            <div class="border-t border-gray-200 my-2"></div>
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'searches'))
+                <x-sidebarmenu title="Searches" icon="searches" :items="[
+                    ['label' => 'Contacs', 'url' => '/searches/contacts'],
+                    ['label' => 'Phone Number Formatting', 'url' => '/searches/phonenumberformatting'],
+                ]" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
 
-            <x-sidebarmenu title="Documentation" icon="documentation" :items="[
-                ['label' => 'Field Overview', 'url' => '/fieldoverview'],
-                ['label' => 'Formatting Overview', 'url' => '/formattingoverview'],
-                ['label' => 'General Documentation', 'url' => '/generaldocumentation'],
-                ['label' => 'Process Documentation', 'url' => '/processdocumentation'],
-                ['label' => 'Contacts Policies', 'url' => '/contactspolicies'],
-            ]" />
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'documentation'))
+                <x-sidebarmenu title="Documentation" icon="documentation" :items="[
+                    ['label' => 'Field Overview', 'url' => '/fieldoverview'],
+                    ['label' => 'Formatting Overview', 'url' => '/formattingoverview'],
+                    ['label' => 'General Documentation', 'url' => '/generaldocumentation'],
+                    ['label' => 'Process Documentation', 'url' => '/processdocumentation'],
+                    ['label' => 'Contacts Policies', 'url' => '/contactspolicies'],
+                ]" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
+
+            @if (\App\Support\CheckPermission::hasPermissions($role, 'help'))
+                <x-sidebarmenu title="Help & Support" url="/help" icon="help" />
+                <div class="border-t border-gray-200 my-2"></div>
+            @endif
 
 
-            <div class="border-t border-gray-200 my-2"></div>
-
-            <x-sidebarmenu title="Help & Support" url="/help" icon="help" />
-
-            <div class="border-t border-gray-200 my-2"></div>
 
             @if (Auth::user()->role === 'Admin')
                 <x-sidebarmenu title="Performance" url="/performance" icon="performance" />
