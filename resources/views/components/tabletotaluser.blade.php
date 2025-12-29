@@ -30,7 +30,8 @@
                     <td class="px-4 py-3">{{ $loop->iteration }}</td>
                     <td class="px-4 py-3">{{ $user->name }} {{ $user->surname }}</td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
-                    <td class="px-4 py-3 "><span class="text-white bg-blue-400 rounded-xl p-1 text-xs">
+                    <td class="px-4 py-3 "><span
+                            class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
                             {{ ucfirst($user->role) }}
                         </span></td>
                 </tr>
