@@ -227,7 +227,7 @@
                 </div>
 
                 <div class="space-y-4 text-gray-700 text-sm">
-                    <x-graph></x-graph>
+                    <x-graph />
                 </div>
             </div>
 

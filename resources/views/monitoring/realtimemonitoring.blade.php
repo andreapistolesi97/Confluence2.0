@@ -32,19 +32,20 @@
                     </button>
                 </div>
             </div>
+            <div class="flex justify-end gap-4">
+                <button id="btn-export-airtable"
+                    class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
+                    Export Airtable CSV
+                </button>
+                <button id="btn-export-confluence"
+                    class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
+                    Export Confluence CSV
+                </button>
+            </div>
 
         </div>
 
-        <div class="flex justify-end gap-4">
-            <button id="btn-export-airtable"
-                class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
-                Export Airtable CSV
-            </button>
-            <button id="btn-export-confluence"
-                class="text-gray-600 text-sm rounded-xl bg-gray-100 p-2.5 transition-colors duration-300 ease-in-out hover:bg-gray-200 border border-color-gray-600">
-                Export Confluence CSV
-            </button>
-        </div>
+
 
         {{-- Progress bar --}}
         <div id="monitoring-progress" class="w-full bg-gray-200 rounded-full h-2 mt-4 hidden">

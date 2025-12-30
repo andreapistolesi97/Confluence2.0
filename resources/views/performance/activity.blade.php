@@ -27,7 +27,7 @@
 
 
     <div class="mt-6 bg-white p-6 rounded-lg border border-color-gray-200">
-        @if (!empty($actions))
+        @if ($actions->isNotEmpty())
             <table class="w-full text-sm text-left text-gray-700">
                 <thead>
                     <tr>
@@ -39,7 +39,7 @@
                 </thead>
                 <tbody>
                     @foreach ($actions as $index => $action)
-                        <tr class="border-t border-gray-100">
+                        <tr class="border-t border-gray-100 hover:bg-gray-50">
                             <td class="px-4 py-2">{{ $index + 1 }}</td>
                             <td class="px-4 py-2">{{ $action->date }}</td>
                             <td class="px-4 py-2">{{ $action->time }}</td>

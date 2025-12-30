@@ -132,6 +132,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('review');
 
 
+
+
+
+
     //SEARCHES 
     Route::get('/searches/contacts', [SearchContactController::class, 'index'])
         ->name('searches.contacts');
@@ -147,7 +151,6 @@ Route::middleware(['auth'])->group(function () {
         $countries = Country::orderBy('Description')->get();
         return view('searches.phonenumberformatting', compact('countries'));
     });
-
     Route::post('/searches/phonenumberformatting/run', [PhoneNumberFormattingController::class, 'run'])
         ->name('searches.phonenumberformatting.run');
 
@@ -156,20 +159,30 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('auth');
 
 
+
+
+
+
+
     //PERFORMANCE
     Route::get('/performance', [PerformanceController::class, 'index'])
         ->name('performance.performance.index');
+
+    Route::get('/performance/activity/{user}', [PerformanceController::class, 'activity'])
+        ->name('performance.performance.activity');
+
+
+
+
+
+
+    Route::post('/actions/button', [UserActionController::class, 'store'])
+        ->name('actions.button');
+
+    Route::post('/rolepermissions/save', [RolePermissionController::class, 'save'])
+        ->name('rolepermissions.save');
+
+
+    Route::get('/totalusers', [TotalUserController::class, 'index'])
+        ->name('totalusers.index');
 });
-Route::get('/performance/activity/{user}', [PerformanceController::class, 'activity'])
-    ->name('performance.performance.activity');
-
-
-Route::post('/actions/button', [UserActionController::class, 'store'])
-    ->name('actions.button');
-
-Route::post('/rolepermissions/save', [RolePermissionController::class, 'save'])
-    ->name('rolepermissions.save');
-
-
-Route::get('/totalusers', [TotalUserController::class, 'index'])
-    ->name('totalusers.index');

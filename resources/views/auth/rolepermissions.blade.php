@@ -23,8 +23,9 @@
                     <p class="text-3xl font-bold mt-1">{{ $totalUsers }}</p>
                 </div>
 
-                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                    <span class="text-blue-600 font-bold">{{ $totalUsers }}</span>
+                <div
+                    class="w-12 h-12 rounded-full bg-white border border-color-gray-200 flex items-center justify-center">
+                    <span class="text-black font-bold ">{{ $totalUsers }}</span>
                 </div>
             </div>
         </a>
