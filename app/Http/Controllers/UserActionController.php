@@ -93,7 +93,7 @@ class UserActionController extends Controller
                 'filters' => $request->except('_token'),
             ])
             ->event('button_clicked')
-            ->log('User clicked Monitoring Logs Filters');
+            ->log('User clicked Real Time Monitoring Logs Filters');
 
         $params = $request->except('_token');
 
