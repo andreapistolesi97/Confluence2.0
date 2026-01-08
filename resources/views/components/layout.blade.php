@@ -84,7 +84,7 @@
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'searches'))
                 <x-sidebarmenu title="Searches" icon="searches" :items="[
-                    ['label' => 'Contacs', 'url' => '/searches/contacts'],
+                    ['label' => 'Contacts', 'url' => '/searches/contacts'],
                     ['label' => 'Phone Number Formatting', 'url' => '/searches/phonenumberformatting'],
                 ]" />
                 <div class="border-t border-gray-200 my-2"></div>
