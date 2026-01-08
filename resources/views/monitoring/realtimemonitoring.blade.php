@@ -98,41 +98,58 @@
         }
 
         // Funzione per aggiornare la tabella Airtable
-        function fillAirtableTable(rows) {
-            const body = document.getElementById('airtable-body');
-            if (!body) {
-                console.error('Non trovo #airtable-body nel DOM');
-                return;
-            }
+   function fillAirtableTable(rows) {
+    const body = document.getElementById('airtable-body');
+    if (!body) {
+        console.error('Non trovo #airtable-body nel DOM');
+        return;
+    }
 
-            body.innerHTML = '';
-
-            if (!rows || rows.length === 0) {
-                body.innerHTML = `
-                <tr>
-                    <td colspan="5" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
-                        No Airtable records found
-                    </td>
-                </tr>
-            `;
-                return;
-            }
-
-            rows.forEach((row, index) => {
-                const tr = document.createElement('tr');
-                tr.className = 'border-t border-gray-100 hover:bg-gray-50';
-
-                tr.innerHTML = `
-                <td class="px-4 py-3 bg-white hover:bg-gray-50">${index + 1}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['AM ID'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['Offer Name'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['Phase'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-50">${row['Offer Number'] ?? ''}</td>
-            `;
-
-                body.appendChild(tr);
-            });
+    // converte qualsiasi valore in stringa "stampabile"
+    const cell = (v) => {
+        if (v === null || v === undefined) return '';
+        if (typeof v === 'object') {
+            if (Array.isArray(v)) return v.join(', ');
+            return JSON.stringify(v); // <-- evita [object Object]
         }
+        return String(v);
+    };
+
+    body.innerHTML = '';
+
+    if (!rows || rows.length === 0) {
+        body.innerHTML = `
+            <tr>
+                <td colspan="12" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
+                    No Airtable records found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    rows.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-t border-gray-200 hover:bg-gray-200';
+
+        tr.innerHTML = `
+            <td class="px-4 py-3 ">${index + 1}</td>
+            <td class="px-4 py-3 ">${cell(row['AM ID'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Phase'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Active Offer Check'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Airtable Production Checks'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Country Check'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Production Checks'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Production Checks Message'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Production Mean Check'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Timezone Production Check'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Contacts Ready to Upload'])}</td>
+            <td class="px-4 py-3 ">${cell(row['Country Production Status'])}</td>
+        `;
+
+        body.appendChild(tr);
+    });
+}
 
         // Funzione per aggiornare la tabella Confluence
         function fillConfluenceTable(rows) {

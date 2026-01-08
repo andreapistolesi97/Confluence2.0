@@ -41,3 +41,42 @@
     </div>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const startInput = document.getElementById('datepicker-range-start');
+    const endInput   = document.getElementById('datepicker-range-end');
+
+    if (!startInput || !endInput) return;
+
+    // Se vuoi evitare di sovrascrivere quando l'utente ha già selezionato date
+    // (o quando la pagina viene ricaricata con valori già presenti)
+    const shouldSetDefaults = (!startInput.value && !endInput.value);
+    if (!shouldSetDefaults) return;
+
+    const pad = (n) => String(n).padStart(2, '0');
+    const formatYMD = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+    const today = new Date();
+    const startDate = new Date(today);
+
+    // JS: getDay() => 0=Dom, 1=Lun, 2=Mar, 3=Mer, 4=Gio, 5=Ven, 6=Sab
+    const day = today.getDay();
+
+    let endDate = new Date(today);
+
+    if (day === 5) {            // Venerdì -> Domenica
+        endDate.setDate(endDate.getDate() + 2);
+    } else if (day === 6) {     // Sabato -> Domenica (consigliato)
+        endDate.setDate(endDate.getDate() + 1);
+    } 
+    // Lun-Gio => oggi (già impostato)
+    // Dom => oggi (già impostato)
+
+    startInput.value = formatYMD(startDate);
+    endInput.value   = formatYMD(endDate);
+
+    // Se il tuo datepicker ascolta change/input, triggeriamo l'evento
+    startInput.dispatchEvent(new Event('change', { bubbles: true }));
+    endInput.dispatchEvent(new Event('change', { bubbles: true }));
+});
+</script>

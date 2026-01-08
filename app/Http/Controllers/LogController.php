@@ -28,7 +28,9 @@ class LogController extends Controller
         $current = $sources->firstWhere('id', $selectedId);
 
         if ($current) {
-            $rows = DB::table($current->table_name)->get();
+            $rows = DB::table($current->table_name)
+            ->orderByDesc('Timestamp-UTC')
+            ->get();
         } else {
             $rows = collect();
         }
@@ -61,7 +63,9 @@ class LogController extends Controller
 
 
         if ($current) {
-            $rows = DB::table($current->table_name)->get();
+            $rows = DB::table($current->table_name)
+            ->orderByDesc('Timestamp-UTC')
+            ->get();
         } else {
             $rows = collect();
         }

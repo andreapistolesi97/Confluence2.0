@@ -1,4 +1,6 @@
 <div class="relative overflow-y-auto max-h-[50vh] border border-gray-200 rounded-lg">
+            <div class="px-3 p-5 font-medium bg-gray-500 text-white">Confluence</div>
+
     <table class="w-full text-sm text-gray-600 table-fixed">
         <thead
             class="sticky top-0 z-10 bg-white text-sm font-semibold whitespace-nowrap border-b border-gray-200 rounded-lg">

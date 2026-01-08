@@ -56,4 +56,5 @@
         @endif
 
     </div>
+    
 </x-layout>
