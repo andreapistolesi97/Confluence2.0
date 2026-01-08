@@ -15,7 +15,7 @@ class SearchContactController extends Controller
     try {
         return $fernet->decrypt($token);
     } catch (\Throwable $e) {
-        return null; // token non Fernet / sporco / corto
+        return null;
     }
 }
     public function index()

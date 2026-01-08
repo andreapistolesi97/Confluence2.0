@@ -542,12 +542,48 @@
         title.textContent = "Show / hide columns";
         dropdown.appendChild(title);
 
+        // ✅ BOTTONI SELECT / DESELECT ALL
+        const actions = document.createElement("div");
+        actions.className = "flex items-center gap-2 mb-3";
+
+        const btnAll = document.createElement("button");
+        btnAll.type = "button";
+        btnAll.className = "px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-50";
+        btnAll.textContent = "Select all";
+
+        const btnNone = document.createElement("button");
+        btnNone.type = "button";
+        btnNone.className = "px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-50";
+        btnNone.textContent = "Deselect all";
+
+        actions.appendChild(btnAll);
+        actions.appendChild(btnNone);
+        dropdown.appendChild(actions);
+
         const grid = document.createElement("div");
-        // 3 colonne nel menu (tipo “pagination” visiva)
+        // 3 colonne nel menu
         grid.className = "grid grid-cols-3 gap-2";
         dropdown.appendChild(grid);
 
         const headerArray = Array.from(headers);
+
+        // ✅ funzioni riusabili (supporta drag&drop: ricalcola indice reale)
+        function setColumnVisibleByHeader(headerEl, visible) {
+            const currentHeaders = Array.from(table.querySelectorAll("thead th"));
+            const idx = currentHeaders.indexOf(headerEl);
+            if (idx === -1) return;
+
+            headerEl.classList.toggle("hidden", !visible);
+
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach((row) => {
+                const cell = row.children[idx];
+                if (!cell) return;
+                cell.classList.toggle("hidden", !visible);
+            });
+        }
+
+        const checkboxItems = []; // { header, checkbox }
 
         headerArray.forEach((header) => {
             const item = document.createElement("label");
@@ -568,30 +604,25 @@
             item.appendChild(textSpan);
             grid.appendChild(item);
 
+            checkboxItems.push({ header, checkbox });
+
             checkbox.addEventListener("change", (e) => {
-                // ricalcolo l’indice reale (supporta drag&drop)
-                const currentHeaders = Array.from(table.querySelectorAll("thead th"));
-                const currentIndex = currentHeaders.indexOf(header);
-                if (currentIndex === -1) return;
+                setColumnVisibleByHeader(header, e.target.checked);
+            });
+        });
 
-                // header
-                if (e.target.checked) {
-                    header.classList.remove("hidden");
-                } else {
-                    header.classList.add("hidden");
-                }
+        // ✅ SELECT ALL / DESELECT ALL
+        btnAll.addEventListener("click", () => {
+            checkboxItems.forEach(({ header, checkbox }) => {
+                checkbox.checked = true;
+                setColumnVisibleByHeader(header, true);
+            });
+        });
 
-                // celle di tutte le righe
-                const rows = table.querySelectorAll("tbody tr");
-                rows.forEach((row) => {
-                    const cell = row.children[currentIndex];
-                    if (!cell) return;
-                    if (e.target.checked) {
-                        cell.classList.remove("hidden");
-                    } else {
-                        cell.classList.add("hidden");
-                    }
-                });
+        btnNone.addEventListener("click", () => {
+            checkboxItems.forEach(({ header, checkbox }) => {
+                checkbox.checked = false;
+                setColumnVisibleByHeader(header, false);
             });
         });
 

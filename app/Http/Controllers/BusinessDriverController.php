@@ -24,7 +24,9 @@ class BusinessDriverController extends Controller
         $query = DB::table('automatic_coupling_queue');
 
         /** BUSINESS DRIVER */
-        if ($request->business_driver_id) {
+
+
+        if ($request->business_driver_id && $request->business_driver_id !== 'All') {
             $query->where(DB::raw('`Business Driver`'), 'LIKE', $request->business_driver_id . '%');
         }
 
@@ -55,7 +57,7 @@ class BusinessDriverController extends Controller
 
         /* END DATE */
         if ($request->end_date) {
-            $query->whereDate(DB::raw('`Day End`'), '<=', $request->end_date);
+            $query->whereDate(DB::raw('`Day End`'), '=', $request->end_date);
         }
 
         $results = $query->get();

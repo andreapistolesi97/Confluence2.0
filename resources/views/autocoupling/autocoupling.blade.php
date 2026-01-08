@@ -12,9 +12,9 @@
             @csrf
 
             <!-- FILTER CONTAINER -->
-            <div class="bg-white rounded-lg p-7 border border-gray-200 space-y-10">
+            <div class="bg-white rounded-lg p-7 border border-gray-200">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 
                     <!-- BUSINESS DRIVER -->
                     <div class="flex flex-col">
@@ -61,7 +61,7 @@
         </form>
 
         <!-- TABLE -->
-        <div class="mt-6">
+        <div >
             <x-tablecoupling :results="$results" />
         </div>
 
