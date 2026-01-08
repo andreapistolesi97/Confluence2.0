@@ -36,7 +36,7 @@
                         <tr>
                             <th class="px-4 py-3 cursor-pointer">ID_Production-Log</th>
                             <th class="px-4 py-3 cursor-pointer">Timestamp-UTC</th>
-                            <th class="px-4 py-3 cursor-pointer">Message</th>
+                            <th class="px-4 py-3 cursor-pointer">Production Snapshot</th>
                         </tr>
                     </thead>
 
@@ -45,7 +45,7 @@
                             <tr class="bg-white border-b hover:bg-gray-50">
                                 <td class="px-4 py-2">{{ $row->{'ID_Production-Log'} ?? ($row->id ?? '-') }}</td>
                                 <td class="px-4 py-2">{{ $row->{'Timestamp-UTC'} ?? ($row->timestamp ?? '-') }}</td>
-                                <td class="px-4 py-2 text-gray-800">{{ $row->Message ?? ($row->message ?? '-') }}</td>
+                                <td class="px-4 py-2 text-gray-800">{{ $row->ProductionSnapshot ?? ($row->productionsnapshot ?? '-') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
