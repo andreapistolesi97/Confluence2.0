@@ -2,9 +2,9 @@
 
     <div class="bg-white rounded-xl p-6 border border-gray-200 space-y-2">
         <h1 class="font-bold text-2xl">
-            Welcome to your Homepage, {{ Auth::user()->name }} {{ Auth::user()->surname }}.
+            Overview, {{ Auth::user()->name }} {{ Auth::user()->surname }}.
         </h1>
-        <span class="block text-gray-600">Full profile overview, quick actions.</p>
+        <span class="block text-gray-600">Your workspace at a glance</p>
     </div>
 
     <!-- CONTAINER RESPONSIVE -->
@@ -14,7 +14,8 @@
         <div class="flex-1 flex flex-col gap-6">
 
             <!-- PROFILO -->
-            <div class="bg-white rounded-xl p-8 border border-gray-200 w-full">
+           <a href="/myprofile">
+            <div class="bg-white hover:bg-gray-100 rounded-xl p-8 border border-gray-200 w-full">
 
                 <div class="flex items-center gap-2 mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
@@ -24,6 +25,7 @@
                     </svg>
                     <h2 class="text-xl font-semibold text-gray-700">User Profile</h2>
                 </div>
+                
 
                 <div class="flex items-center gap-6 mb-6">
                     <div
@@ -41,6 +43,7 @@
                         </span>
                     </div>
                 </div>
+            </a>
 
                 <div class="space-y-4 text-blue-900 text-sm">
                     <div class="flex items-start gap-3 border border-color-gray-700 rounded-lg p-3">

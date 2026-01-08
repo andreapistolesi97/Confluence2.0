@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Country;
 use App\Http\Controllers\BusinessDriverController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ProfileController;
@@ -56,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/help', function () {
         return view('help.help');
     });
+
+    Route::post('/help' ,[ContactController::class, 'send'])->name('help.send'); 
 
     //PRODUCTION ACTION
     Route::get('/productionaction', [BusinessDriverController::class, 'productionAction']);

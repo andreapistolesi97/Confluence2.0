@@ -40,7 +40,7 @@
                             <tr class="bg-white border-b hover:bg-gray-50">
                                 <td class="px-4 py-2">{{ $row->{'ID_Scheduler-Log'} ?? ($row->id ?? '-') }}</td>
                                 <td class="px-4 py-2">{{ $row->{'Timestamp-UTC'} ?? ($row->timestamp ?? '-') }}</td>
-                                <td class="px-4 py-2 text-gray-800">{{ $row->Message ?? ($row->message ?? '-') }}</td>
+                                <td class="px-4 py-2 text-gray-800">{{ $row->{'Message'} ?? ($row->message ?? '-') }}</td>
                             </tr>
                         @endforeach
                     </tbody>

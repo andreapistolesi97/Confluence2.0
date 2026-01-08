@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class SearchContactController extends Controller
 {
+    private function safeDecrypt(Fernet $fernet, ?string $token): ?string
+{
+    if (!$token) return null;
+
+    try {
+        return $fernet->decrypt($token);
+    } catch (\Throwable $e) {
+        return null; // token non Fernet / sporco / corto
+    }
+}
     public function index()
     {
         return view('searches.contacts', [
@@ -68,8 +78,13 @@ class SearchContactController extends Controller
                     $emailToken = $r->email_standardized ?: $r->email;
                     $phoneToken = $r->phone_standardized ?: $r->phone;
 
-                    $emailPlain = $emailToken ? $fernet->decrypt($emailToken) : null;
-                    $phonePlain = $phoneToken ? $fernet->decrypt($phoneToken) : null;
+                    $emailPlain = $r->email_standardized
+    ? $this->safeDecrypt($fernet, $r->email_standardized)
+    : ($r->email ?: null);
+
+$phonePlain = $r->phone_standardized
+    ? $this->safeDecrypt($fernet, $r->phone_standardized)
+    : ($r->phone ?: null);
 
                     $emailPlainN = $this->normEmail($emailPlain);
                     $phonePlainN = $this->normPhone($phonePlain);

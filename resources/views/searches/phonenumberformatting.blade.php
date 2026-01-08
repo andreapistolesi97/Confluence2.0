@@ -6,8 +6,9 @@
             @csrf
 
             <div class="bg-white border border-color-gray-200 rounded-lg p-6 space-y-2">
+                
                 <h1 class="font-bold text-2xl">Phone Number Formatting</h1>
-                <span class="block">Select from the dropdown menu the country you want to analyze</span>
+                <span class="block text-gray-400">Select from the dropdown menu the country you want to analyze</span>
             </div>
 
             <div class="bg-white border border-color-gray-200 rounded-lg p-6">

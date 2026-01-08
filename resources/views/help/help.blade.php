@@ -28,12 +28,12 @@
                         <!-- First / Last Name -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <input type="text"
-                                   placeholder="First Name"
+                                   placeholder="Name"
                                    class="text-sm border border-gray-300 py-2 px-3 w-full rounded-lg placeholder:text-sm
                                           focus:outline-indigo-600 focus:ring-indigo-600 focus:border-indigo-600" />
 
                             <input type="text"
-                                   placeholder="Last Name"
+                                   placeholder="Surname"
                                    class="text-sm border border-gray-300 py-2 px-3 w-full rounded-lg placeholder:text-sm
                                           focus:outline-indigo-600 focus:ring-indigo-600 focus:border-indigo-600" />
                         </div>
@@ -41,12 +41,6 @@
                         <!-- Email -->
                         <input type="email"
                                placeholder="Email"
-                               class="text-sm border border-gray-300 py-2 px-3 w-full rounded-lg placeholder:text-sm
-                                      focus:outline-indigo-600 focus:ring-indigo-600 focus:border-indigo-600" />
-
-                        <!-- Phone -->
-                        <input type="text"
-                               placeholder="Phone Number"
                                class="text-sm border border-gray-300 py-2 px-3 w-full rounded-lg placeholder:text-sm
                                       focus:outline-indigo-600 focus:ring-indigo-600 focus:border-indigo-600" />
 
