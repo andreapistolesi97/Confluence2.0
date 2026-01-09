@@ -153,42 +153,64 @@
 
         // Funzione per aggiornare la tabella Confluence
         function fillConfluenceTable(rows) {
-            const body = document.getElementById('confluence-body');
-            if (!body) {
-                console.error('Non trovo #confluence-body nel DOM');
-                return;
-            }
+    const body = document.getElementById('confluence-body');
+    if (!body) {
+        console.error('Non trovo #confluence-body nel DOM');
+        return;
+    }
 
-            body.innerHTML = '';
-
-            if (!rows || rows.length === 0) {
-                body.innerHTML = `
-                <tr>
-                    <td colspan="6" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
-                        No Confluence records found
-                    </td>
-                </tr>
-            `;
-                return;
-            }
-
-            rows.forEach((row, index) => {
-                const tr = document.createElement('tr');
-                tr.className = 'border-t border-gray-100 hover:bg-gray-50';
-
-                tr.innerHTML = `
-                <td class="px-4 py-3 bg-white hover:bg-gray-200">${index + 1}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['AM ID'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Offer Name'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Phase'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Coupled'] ?? ''}</td>
-                <td class="px-4 py-3 bg-white hover:bg-gray-200">${row['Reviewed'] ?? ''}</td>
-            `;
-
-                body.appendChild(tr);
-            });
+    const cell = (v) => {
+        if (v === null || v === undefined) return '';
+        if (typeof v === 'object') {
+            if (Array.isArray(v)) return v.join(', ');
+            try { return JSON.stringify(v); } catch { return String(v); }
         }
+        return String(v);
+    };
 
+    body.innerHTML = '';
+
+    if (!rows || rows.length === 0) {
+        body.innerHTML = `
+            <tr>
+                <td colspan="20" class="px-4 py-3 text-center text-gray-400 bg-white hover:bg-gray-200">
+                    No Confluence records found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    rows.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-t border-gray-100 hover:bg-gray-200';
+
+        tr.innerHTML = `
+            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3">${cell(row['AM ID'])}</td>
+            <td class="px-4 py-3">${cell(row['Offer Number'])}</td>
+            <td class="px-4 py-3">${cell(row['Offer Name'])}</td>
+            <td class="px-4 py-3">${cell(row['Production Machine'])}</td>
+            <td class="px-4 py-3">${cell(row['Phase'])}</td>
+            <td class="px-4 py-3">${cell(row['Coupled'])}</td>
+            <td class="px-4 py-3">${cell(row['Reviewed'])}</td>
+            <td class="px-4 py-3">${cell(row['Active Offer Check'])}</td>
+            <td class="px-4 py-3">${cell(row['Country Check'])}</td>
+            <td class="px-4 py-3">${cell(row['Desktop Only Production Check'])}</td>
+            <td class="px-4 py-3">${cell(row['Different Links Check'])}</td>
+            <td class="px-4 py-3">${cell(row['Production Checks'])}</td>
+            <td class="px-4 py-3">${cell(row['Production Checks Message'])}</td>
+            <td class="px-4 py-3">${cell(row['Production Mean Check'])}</td>
+            <td class="px-4 py-3">${cell(row['Timezone Production Check'])}</td>
+            <td class="px-4 py-3">${cell(row['Confluence Production Checks'])}</td>
+            <td class="px-4 py-3">${cell(row['Country Production Status'])}</td>
+            <td class="px-4 py-3">${cell(row['Contacts Ready to Upload'])}</td>
+            <td class="px-4 py-3">${cell(row['Offer Shoots'])}</td>
+        `;
+
+        body.appendChild(tr);
+    });
+}
         async function fetchTableData(startDate, endDate) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
