@@ -107,6 +107,11 @@
 
                     {{ $masked ?: '-' }}
                 </div>
+
+                 <div class="md:col-span-2">
+                    <span class="w-60 text-sm text-gray-700 mb-2 font-medium">Blacklist:</span>
+                    {{ $contact['Check_Blacklist'] ?? '-' }}
+                </div>
             </div>
         @endif
 

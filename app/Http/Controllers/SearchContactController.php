@@ -71,6 +71,7 @@ class SearchContactController extends Controller
                 'firstname',
                 'lastname',
                 'Info_Country',
+                'Check_Blacklist'
             ])->orderBy('ID_Contact')
             ->chunkById(200, function ($rows) use (&$found, $fernet, $emailIn, $phoneIn) {
 

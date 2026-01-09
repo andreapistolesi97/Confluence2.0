@@ -61,7 +61,6 @@
     </div>
 
     <script>
-        console.log('SCRIPT monitoring eseguito');
 
         // ---------- Progress bar ----------
         const progressBar = document.getElementById('monitoring-progress');

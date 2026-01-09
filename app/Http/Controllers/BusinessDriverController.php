@@ -80,4 +80,12 @@ class BusinessDriverController extends Controller
 
         return view('review.review', compact('drivers', 'countries'));
     }
+
+    public function blacklist()
+    {
+        $drivers = BusinessDriver::orderBy('driver_name')->get();
+        $countries = Country::orderBy('Description')->get();
+
+        return view('searches.blacklist', compact('drivers', 'countries'));
+    }
 }

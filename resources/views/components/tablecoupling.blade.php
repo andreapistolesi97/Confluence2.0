@@ -470,7 +470,6 @@
             });
         });
 
-        // Funzione che sposta la colonna "fromIndex" in posizione "toIndex"
         function moveColumn(table, fromIndex, toIndex) {
             const rows = table.querySelectorAll("tr");
 
@@ -542,7 +541,7 @@
         title.textContent = "Show / hide columns";
         dropdown.appendChild(title);
 
-        // ✅ BOTTONI SELECT / DESELECT ALL
+        // BOTTONI SELECT / DESELECT ALL
         const actions = document.createElement("div");
         actions.className = "flex items-center gap-2 mb-3";
 

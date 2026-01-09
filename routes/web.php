@@ -161,6 +161,13 @@ Route::middleware(['auth'])->group(function () {
         ->name('searches.phonenumberformatting.search')
         ->middleware('auth');
 
+    Route::get('/searches/blacklist', function () {
+        return view('searches.blacklist');
+    })->name('searches.blacklist');
+
+    Route::get('/searches/blacklist', [BusinessDriverController::class, 'blacklist'])
+        ->name('searches.blacklist');
+
 
 
 
