@@ -3,7 +3,7 @@
         <div class="bg-white rounded-lg border border-color-gray-200 p-6">
             <h1 class="font-bold text-2xl">Blacklist</h1>
             <span class="block">
-                Here you can upload blacklisted contact from a File csv choosing a business driver
+                Here you can import and export blacklisted contact from a File csv choosing a business driver
             </span>
         </div>
 
