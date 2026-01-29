@@ -16,9 +16,7 @@ use App\Http\Controllers\PhoneNumberFormattingController;
 use App\Http\Controllers\UserActionController;
 use App\Http\Controllers\SearchContactController;
 use App\Http\Controllers\TotalUserController;
-
-
-
+use App\Http\Controllers\BlacklistController;
 
 
 
@@ -161,12 +159,14 @@ Route::middleware(['auth'])->group(function () {
         ->name('searches.phonenumberformatting.search')
         ->middleware('auth');
 
-    Route::get('/searches/blacklist', function () {
-        return view('searches.blacklist');
-    })->name('searches.blacklist');
-
     Route::get('/searches/blacklist', [BusinessDriverController::class, 'blacklist'])
         ->name('searches.blacklist');
+    
+    Route::get('/searches/blacklist/export', [BlacklistController::class, 'export'])
+    ->name('searches.blacklist.export');
+
+    Route::post('/searches/blacklist/import', [BlacklistController::class, 'import'])
+    ->name('searches.blacklist.import');
 
 
 
