@@ -69,7 +69,7 @@
 
                     @if (Auth::user()->role === 'Admin' || Auth::user()->role === 'Production Planner')
                         <a href="/schedulerlogs"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700" viewBox="0 0 16 16">
                                 <path fill="currentColor" fill-rule="evenodd"
                                     d="M3.5 2.5v11h9v-11h-9ZM3 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3Zm5 10a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 11Zm-2 1a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm2-4a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 8ZM6 9a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm2-4a.75.75 0 0 1 .75-.75h1.75a.75.75 0 0 1 0 1.5H8.75A.75.75 0 0 1 8 5ZM6 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2Z"
@@ -82,7 +82,7 @@
 
                     @if (Auth::user()->role === 'Admin' || Auth::user()->role === 'Production Planner')
                         <a href="/productionlogs"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700" viewBox="0 0 48 48">
                                 <g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4">
                                     <path d="M13 10h28v34H13z" />
@@ -95,7 +95,7 @@
                     @endif
 
                     <a href="/searches/contacts"
-                        class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg text-gray-700">
+                        class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700" viewBox="0 0 512 512">
                             <path fill="currentColor" fill-rule="evenodd"
                                 d="M321.923 42.667H87.256v234.667h42.667v-192h174.293l81.707 81.706v110.294h42.666v-128zM85.573 448V320.028h28.81v105.394h55V448zm153.17-130.23q30.165 0 46.24 19.146q15.444 18.334 15.443 47.143q0 31.519-18.243 50.124q-15.714 16.075-43.44 16.075q-30.165 0-46.24-19.146q-15.443-18.334-15.443-47.866q0-30.887 18.243-49.491q15.804-15.985 43.44-15.985m-.09 22.578q-15.624 0-24.114 13.005q-7.676 11.74-7.676 30.164q0 21.315 9.121 33.055q8.58 11.108 22.759 11.108q15.534 0 24.204-13.095q7.676-11.56 7.676-30.526q0-20.862-9.121-32.603q-8.58-11.108-22.85-11.108m190.83 36.035v65.295q-11.018 3.704-15.534 4.877q-13.998 3.703-30.074 3.703q-31.61 0-48.136-15.895q-18.334-17.52-18.334-48.859q0-36.035 22.759-54.368q16.527-13.365 44.614-13.366q24.024 0 44.705 8.76l-9.844 22.488q-9.754-4.876-17.07-6.819q-7.315-1.941-16.075-1.941q-20.952 0-30.887 13.637q-8.399 11.559-8.399 30.435q0 22.669 12.644 34.138q10.115 9.212 25.107 9.212q8.76 0 16.617-2.98v-25.74H379.54v-22.577z" />
@@ -106,7 +106,7 @@
                     <hr class="border-gray-300">
 
                     <a href="/searches/phonenumberformatting"
-                        class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                        class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700" viewBox="0 0 512 512">
                             <path fill="currentColor" fill-rule="evenodd"
                                 d="M321.923 42.667H87.256v234.667h42.667v-192h174.293l81.707 81.706v110.294h42.666v-128zM85.573 448V320.028h28.81v105.394h55V448zm153.17-130.23q30.165 0 46.24 19.146q15.444 18.334 15.443 47.143q0 31.519-18.243 50.124q-15.714 16.075-43.44 16.075q-30.165 0-46.24-19.146q-15.443-18.334-15.443-47.866q0-30.887 18.243-49.491q15.804-15.985 43.44-15.985m-.09 22.578q-15.624 0-24.114 13.005q-7.676 11.74-7.676 30.164q0 21.315 9.121 33.055q8.58 11.108 22.759 11.108q15.534 0 24.204-13.095q7.676-11.56 7.676-30.526q0-20.862-9.121-32.603q-8.58-11.108-22.85-11.108m190.83 36.035v65.295q-11.018 3.704-15.534 4.877q-13.998 3.703-30.074 3.703q-31.61 0-48.136-15.895q-18.334-17.52-18.334-48.859q0-36.035 22.759-54.368q16.527-13.365 44.614-13.366q24.024 0 44.705 8.76l-9.844 22.488q-9.754-4.876-17.07-6.819q-7.315-1.941-16.075-1.941q-20.952 0-30.887 13.637q-8.399 11.559-8.399 30.435q0 22.669 12.644 34.138q10.115 9.212 25.107 9.212q8.76 0 16.617-2.98v-25.74H379.54v-22.577z" />
@@ -120,7 +120,7 @@
                             Auth::user()->role === 'Integrator' ||
                             Auth::user()->role === 'Production Planner')
                         <a href="/review"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700" viewBox="0 0 32 32">
                                 <path fill="currentColor"
                                     d="m16 8l1.912 3.703l4.088.594L19 15l1 4l-4-2.25L12 19l1-4l-3-2.703l4.2-.594L16 8z" />
@@ -136,7 +136,7 @@
                             Auth::user()->role === 'Integrator' ||
                             Auth::user()->role === 'Production Planner')
                         <a href="/review"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700" viewBox="0 0 16 16">
                                 <g fill="currentColor">
                                     <path
@@ -154,7 +154,7 @@
                             Auth::user()->role === 'Integrator' ||
                             Auth::user()->role === 'Production Planner')
                         <a href="/review"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700"
                                 viewBox="0 0 2048 2048">
                                 <path fill="currentColor"
@@ -169,7 +169,7 @@
                             Auth::user()->role === 'Integrator' ||
                             Auth::user()->role === 'Production Planner')
                         <a href="/diagnostics"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg text-gray-700">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4 text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg class="h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <g fill="currentColor">
                                     <path
@@ -188,7 +188,7 @@
                             Auth::user()->role === 'Integrator' ||
                             Auth::user()->role === 'Production Planner')
                         <a href="/realtimemonitoring"
-                            class="p-1.5 mx-2 text-sm flex items-center gap-4 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
+                            class="p-1.5 mx-2 text-sm flex items-center gap-4  text-gray-700 hover:bg-gray-100 hover:border-color-gray-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700"
                                 viewBox="0 0 24 24">
                                 <path fill="currentColor"

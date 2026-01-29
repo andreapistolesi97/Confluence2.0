@@ -183,4 +183,6 @@ class BlacklistController extends Controller
             "Imported: <b>{$insertedTotal}</b> — Skipped duplicates: <b>{$skippedTotal}</b> — Format: <b>{$data['format']}</b>"
         );
     }
+
+    
 }

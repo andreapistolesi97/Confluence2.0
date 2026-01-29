@@ -168,6 +168,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/searches/blacklist/import', [BlacklistController::class, 'import'])
     ->name('searches.blacklist.import');
 
+    
+
 
 
 

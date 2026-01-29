@@ -34,7 +34,6 @@
                     class="mt-6 space-y-4">
                     @csrf
 
-                    {{-- Seleziona uno o più business driver --}}
                     <div>
                         <label class="text-sm text-gray-700 mb-2 font-medium block">Choose a Business Drivers</label>
 
@@ -56,7 +55,6 @@
                         </div>
                     </div>
 
-                    {{-- Formato --}}
                     <div>
                         <label class="text-sm text-gray-700 mb-2 font-medium block">CSV Format</label>
                         <select name="format" class="border rounded-lg p-2 w-64">
@@ -67,7 +65,6 @@
 
                     </div>
 
-                    {{-- File --}}
                     <div>
                         <label class="text-sm text-gray-700 mb-2 font-medium block">CSV file</label>
                         <input type="file" name="file" accept=".csv,text/csv" class="border rounded-lg p-2 w-120"
@@ -102,43 +99,38 @@
     </div>
 </x-layout>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const btnNone = document.getElementById('bd-deselect-all');
+document.addEventListener('DOMContentLoaded', () => {
+  const btnNone = document.getElementById('bd-deselect-all');
 
-        const allBox = document.querySelector('.bd-checkbox[data-all="1"]');
-        const driverBoxes = () => Array.from(document.querySelectorAll('.bd-checkbox:not([data-all="1"])'));
+  const allBox = document.querySelector('.bd-checkbox[data-all="1"]');
+  const driverBoxes = () => Array.from(document.querySelectorAll('.bd-checkbox:not([data-all="1"])'));
 
-        function setDriversChecked(checked) {
-            driverBoxes().forEach(cb => cb.checked = checked);
-        }
+  function setDriversChecked(checked) {
+    driverBoxes().forEach(cb => cb.checked = checked);
+  }
 
-        allBox?.addEventListener('change', (e) => {
-            setDriversChecked(e.target.checked);
-        });
+  allBox?.addEventListener('change', (e) => {
+    setDriversChecked(e.target.checked);
+  });
 
-        driverBoxes().forEach(cb => {
-            cb.addEventListener('change', () => {
-                const boxes = driverBoxes();
-                const every = boxes.length > 0 && boxes.every(x => x.checked);
-                const none = boxes.every(x => !x.checked);
+  driverBoxes().forEach(cb => {
+    cb.addEventListener('change', () => {
+      const boxes = driverBoxes();
+      const every = boxes.length > 0 && boxes.every(x => x.checked);
+      const none = boxes.every(x => !x.checked);
 
-                if (!allBox) return;
-                allBox.checked = every;
-                allBox.indeterminate = !every && !none;
-            });
-        });
-
-        btnNone?.addEventListener('click', () => {
-            setDriversChecked(false);
-            if (allBox) {
-                allBox.checked = false;
-                allBox.indeterminate = false;
-            }
-        });
-
-        const importForm = document.querySelector('form[action*="blacklist/import"]');
-        importForm?.addEventListener('submit', () => {
-            if (allBox) allBox.checked = false;
-        });
+      if (!allBox) return;
+      allBox.checked = every;
+      allBox.indeterminate = !every && !none;
     });
+  });
+
+  btnNone?.addEventListener('click', () => {
+    setDriversChecked(false);
+    if (allBox) {
+      allBox.checked = false;
+      allBox.indeterminate = false;
+    }
+  });
+});
 </script>
