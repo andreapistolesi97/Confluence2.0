@@ -59,7 +59,7 @@
                     {{-- Formato --}}
                     <div>
                         <label class="text-sm text-gray-700 mb-2 font-medium block">CSV Format</label>
-                        <select name="format" class="border rounded-lg p-2 w-full">
+                        <select name="format" class="border rounded-lg p-2 w-64">
                             <option value="plain">Plain</option>
                             <option value="md5">MD5</option>
                             <option value="sha256">SHA-256</option>
@@ -70,7 +70,7 @@
                     {{-- File --}}
                     <div>
                         <label class="text-sm text-gray-700 mb-2 font-medium block">CSV file</label>
-                        <input type="file" name="file" accept=".csv,text/csv" class="border rounded-lg p-2 w-full"
+                        <input type="file" name="file" accept=".csv,text/csv" class="border rounded-lg p-2 w-120"
                             required>
 
                     </div>
