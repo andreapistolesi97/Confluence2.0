@@ -37,8 +37,6 @@ class PerformanceController extends Controller
             ->limit(10)
             ->get();
 
-
-
         $actions = $rows->map(function ($r) {
             $dt = Carbon::parse($r->created_at);
 

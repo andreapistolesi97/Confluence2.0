@@ -6,17 +6,17 @@
             class="group rounded-lg bg-red-100 hover:bg-[#de5d5d] border border-success-subtle rounded-base 
            flex flex-col items-center justify-center h-[78px] transition-colors duration-200">
 
-            <dt
+            <dt id="top1-count"
                 class="w-8 h-8 rounded-lg text-fg-success-strong text-sm font-semibold 
                flex items-center justify-center mb-1 
                group-hover:text-white transition-colors duration-200">
-                12
+                
             </dt>
 
-            <dd
+            <dd id="top1-label"
                 class="text-fg-success-strong text-sm font-semibold 
                group-hover:text-white transition-colors duration-200">
-                To Do
+                
             </dd>
         </dl>
 
@@ -24,34 +24,34 @@
             class="group rounded-lg bg-blue-100 hover:bg-[#5d75de] border border-success-subtle rounded-base 
            flex flex-col items-center justify-center h-[78px] transition-colors duration-200">
 
-            <dt
+            <dt id="top2-count"
                 class="w-8 h-8 rounded-lg text-fg-success-strong text-sm font-semibold 
                flex items-center justify-center mb-1 
                group-hover:text-white transition-colors duration-200">
-                23
+                
             </dt>
 
-            <dd
+            <dd id="top2-label"
                 class="text-fg-success-strong text-sm font-semibold 
                group-hover:text-white transition-colors duration-200">
-                In Progress
+                
             </dd>
         </dl>
         <dl
             class="group rounded-lg bg-green-100 hover:bg-[#5ddea0] border border-success-subtle rounded-base 
            flex flex-col items-center justify-center h-[78px] transition-colors duration-200">
 
-            <dt
+            <dt id="top3-count"
                 class="w-8 h-8 rounded-lg text-fg-success-strong text-sm font-semibold 
                flex items-center justify-center mb-1 
                group-hover:text-white transition-colors duration-200">
-                64
+                
             </dt>
 
-            <dd
+            <dd id="top3-label"
                 class="text-fg-success-strong text-sm font-semibold 
                group-hover:text-white transition-colors duration-200">
-                Done
+                
             </dd>
         </dl>
     </div>
@@ -60,93 +60,28 @@
 <!-- Radial Chart -->
 <div class="py-6" id="radial-chart"></div>
 
-<div class="grid grid-cols-1 items-center border-light border-t justify-between">
-    <div class="flex justify-between items-center pt-4 md:pt-6">
-        <!-- Button -->
-        <button id="dropdownLastDays6Button" data-dropdown-toggle="LastDays6dropdown" data-dropdown-placement="bottom"
-            class="text-sm font-medium text-body hover:text-heading text-center inline-flex items-center"
-            type="button">
-            Last 7 days
-            <svg class="w-4 h-4 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m19 9-7 7-7-7" />
-            </svg>
-        </button>
-        <!-- Dropdown menu -->
-        <div id="LastDays6dropdown" class="z-10 hidden bg-white border border-default-medium rounded-lg shadow-lg w-44">
-            <ul class="p-2 text-sm text-body font-medium" aria-labelledby="dropdownLastDays6Button">
-                <li>
-                    <a href="#"
-                        class="inline-flex items-center w-full p-2 hover:bg-gray-200 rounded">Yesterday</a>
-                </li>
-                <li>
-                    <a href="#" class="inline-flex items-center w-full p-2 hover:bg-gray-200 rounded">Today</a>
-                </li>
-                <li>
-                    <a href="#" class="inline-flex items-center w-full p-2 hover:bg-gray-200  rounded">Last
-                        7 days</a>
-                </li>
-                <li>
-                    <a href="#" class="inline-flex items-center w-full p-2 hover:bg-gray-200 rounded">Last
-                        30 days</a>
-                </li>
-                <li>
-                    <a href="#" class="inline-flex items-center w-full p-2 hover:bg-gray-200 rounded">Last
-                        90 days</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
-    const getBrandColor = () => {
-        const computedStyle = getComputedStyle(document.documentElement);
+    let chart = null;
 
-        return computedStyle.getPropertyValue('--color-fg-brand').trim() || "#1447E6";
-    };
-
-    const getWarningColor = () => {
-        const computedStyle = getComputedStyle(document.documentElement);
-        return computedStyle.getPropertyValue('--color-warning').trim() || "#1447E6";
-    };
-
-    const getSuccessColor = () => {
-        const computedStyle = getComputedStyle(document.documentElement);
-        return computedStyle.getPropertyValue('--color-success').trim() || "#1447E6";
-    };
-    const getNeutralSecondaryMediumColor = () => {
-        const computedStyle = getComputedStyle(document.documentElement);
-        return computedStyle.getPropertyValue('--color-neutral-secondary-medium').trim() || "#1447E6";
-    };
-
-
-    const brandColor = getBrandColor();
-    const warningColor = getWarningColor();
-    const successColor = getSuccessColor();
-    const neutralSecondaryMediumColor = getNeutralSecondaryMediumColor();
-
-    const getChartOptions = () => {
+    function chartOptions(series, labels) {
         return {
-            series: [90, 85, 70],
-            colors: ["#de5d5d", "#5d75de", "#5ddea0"], //
-
+            series,
+            labels,
+            colors: ["#de5d5d", "#5d75de", "#5ddea0"],
             chart: {
-                height: "350px",
+                height: 350,
                 width: "100%",
                 type: "radialBar",
                 sparkline: {
                     enabled: true
-                },
+                }
             },
-
             plotOptions: {
                 radialBar: {
                     track: {
-                        background: "#E5E7EB",
+                        background: "#E5E7EB"
                     },
                     dataLabels: {
                         show: false
@@ -157,30 +92,58 @@
                     }
                 }
             },
-
-            grid: {
-                show: false
-            },
-
-            labels: ["To do", "In progress", "Done"],
-
             legend: {
                 show: true,
                 position: "bottom",
                 fontFamily: "Inter, sans-serif"
             },
-
             tooltip: {
                 enabled: true,
                 y: {
-                    formatter: (value) => value + "%"
+                    formatter: (v) => v + "%"
                 }
             }
         };
-    };
-
-    if (document.getElementById("radial-chart") && typeof ApexCharts !== "undefined") {
-        const chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions());
-        chart.render();
     }
+
+    function setText(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    }
+
+    async function loadTopActions(days = 7) {
+        const res = await fetch(`{{ route('dashboard.top-actions') }}?days=${days}`, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        const data = await res.json();
+
+        const labels = data.labels || ["No data", "No data", "No data"];
+        const series = data.series || [0, 0, 0];
+        const clicks = data.clicks || [0, 0, 0];
+
+        setText('top1-count', clicks[0] ?? 0);
+        setText('top1-label', labels[0] ?? 'No data');
+
+        setText('top2-count', clicks[1] ?? 0);
+        setText('top2-label', labels[1] ?? 'No data');
+
+        setText('top3-count', clicks[2] ?? 0);
+        setText('top3-label', labels[2] ?? 'No data');
+
+        if (!chart) {
+            chart = new ApexCharts(document.querySelector("#radial-chart"), chartOptions(series, labels));
+            chart.render();
+        } else {
+            chart.updateOptions({
+                labels
+            });
+            chart.updateSeries(series);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTopActions(7);
+    });
 </script>

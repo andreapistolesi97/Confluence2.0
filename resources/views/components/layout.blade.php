@@ -27,10 +27,8 @@
 
 <body class="bg-gray-50">
 
-    {{-- SIDEBAR FISSA --}}
-    <aside class="fixed top-0 left-0 w-[310px] h-screen bg-white border-r flex flex-col">
+    <aside class="fixed top-0 left-0 w-[310px] h-screen bg-white border-r flex flex-col ">
 
-        {{-- MENU SCORREVOLE --}}
         <div class="flex-1 overflow-y-auto py-2 px-5">
             @php($role = Auth::user()->role ?? '')
 
@@ -40,13 +38,13 @@
 
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'homepage'))
-                <x-sidebarmenu title="Homepage" url="/homepage" icon="home" />
+                <x-sidebarmenu title="Homepage" url="/homepage" icon="home"  />
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'autocoupling'))
                 <x-sidebarmenu title="Auto Coupling Overview" url="/autocoupling" icon="autocopling" />
-                <div class="border-t border-gray-200 my-2"></div>
+                <div class="border-t border-gray-200 my-2 "></div>
             @endif
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'review'))
@@ -116,7 +114,6 @@
 
         </div>
 
-        {{-- CARD UTENTE FISSA --}}
         <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
 
             <a href="/myprofile" class="flex items-center gap-3">
@@ -135,7 +132,6 @@
 
     </aside>
 
-    {{-- CONTENUTO DELLA PAGINA --}}
     <main class="ml-[310px] p-8"> {{ $slot }}
     </main>
 

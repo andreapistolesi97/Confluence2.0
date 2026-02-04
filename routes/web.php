@@ -35,6 +35,10 @@ Route::middleware(['auth'])->group(function () {
         return view('homepage');
     })->name('homepage');
 
+    Route::get('/dashboard/top-actions', [UserActionController::class, 'topActions'])
+    ->name('dashboard.top-actions')
+    ->middleware('auth');
+
     //MYPROFILE
     Route::middleware(['auth'])->group(function () {
         Route::get('/myprofile', [ProfileController::class, 'show'])
@@ -169,10 +173,6 @@ Route::middleware(['auth'])->group(function () {
     ->name('searches.blacklist.import');
 
     
-
-
-
-
 
 
 

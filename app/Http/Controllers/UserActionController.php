@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserActionController extends Controller
 {
@@ -156,5 +157,61 @@ class UserActionController extends Controller
         }
 
         return redirect()->route('searches.phonenumberformatting');
+    }
+    public function topActions(Request $request)
+    {
+        $days = (int) $request->get('days', 7);
+        if ($days <= 0) $days = 7;
+        if ($days > 365) $days = 365;
+
+        $rows = DB::table('activity_log')
+            ->where('log_name', 'User Action')
+            ->where('created_at', '>=', now()->subDays($days))
+            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(properties, '$.action')) as action")
+            ->selectRaw("COUNT(*) as clicks")
+            ->whereRaw("JSON_EXTRACT(properties, '$.action') IS NOT NULL")
+            ->groupBy('action')
+            ->orderByDesc('clicks')
+            ->limit(3)
+            ->get();
+
+        $labelMap = [
+            'autocoupling_run_filters'            => 'Auto Coupling Run Filters',
+            'realtimemonitoringlog_view_filters'  => 'Real Time Monitoring View Filters',
+            'realtimemonitoringlog_refresh'       => 'Real Time Monitoring Refresh Filters',
+            'searchcontacts_perform_search'       => 'Search Contacts',
+            'searchnumberformatting_perform_search' => 'Search Phone Formatting ',
+            'blacklist_export'                    => 'Blacklist Export',
+            'blacklist_import'                    => 'Blacklist Import',
+            'schedulerlogs_view_filters'          => 'Scheduler Logs View Filters',
+            'productionlos_view_filters'          => 'Production Logs View Filters',
+            'diagnosticslogs_view_filters'       => 'Diagnostics Logs View Filters',
+        ];
+
+        $pretty = function ($action) use ($labelMap) {
+            if (!$action) return 'Unknown';
+            if (isset($labelMap[$action])) return $labelMap[$action];
+            $action = str_replace(['_', '-'], ' ', $action);
+            return ucwords(trim($action));
+        };
+
+        $clicks = $rows->pluck('clicks')->map(fn($x) => (int)$x)->values();
+        $labels = $rows->pluck('action')->map(fn($a) => $pretty($a))->values();
+
+        $max = $clicks->max() ?: 1;
+        $series = $clicks->map(fn($c) => (int) round(($c / $max) * 100))->values();
+
+        while ($series->count() < 3) {
+            $series->push(0);
+            $clicks->push(0);
+            $labels->push('No data');
+        }
+
+        return response()->json([
+            'days'   => $days,
+            'labels' => $labels,
+            'series' => $series,
+            'clicks' => $clicks,
+        ]);
     }
 }

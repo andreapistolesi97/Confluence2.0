@@ -1,6 +1,6 @@
 <x-layout>
 
-    <div class="bg-white rounded-xl p-6 border border-gray-200 space-y-2">
+    <div class="bg-white rounded-xl p-6 border border-gray-200 space-y-2 ">
         <h1 class="font-bold text-2xl">
             Overview, {{ Auth::user()->name }} {{ Auth::user()->surname }}.
         </h1>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-4 text-blue-900 text-sm">
+                    <div class="space-y-4 text-blue-900 text-sm bg-white">
                         <div class="flex items-start gap-3 border border-gray-300 rounded-lg p-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" viewBox="0 0 20 20"
                                 fill="currentColor">

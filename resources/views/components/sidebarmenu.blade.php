@@ -54,7 +54,6 @@
 
 @endif
 
-{{-- SCRIPT ACCORDION --}}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 

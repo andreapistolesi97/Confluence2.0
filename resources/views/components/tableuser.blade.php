@@ -34,7 +34,7 @@
                     <td class="px-4 py-3">{{ $user->role }}</td>
                     <td class="px-4 py-3">
                         <a href="{{ route('performance.performance.activity', $user) }}"
-                            class="text-indigo-600 hover:underline cursor-pointer">
+                            class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
                             View
                         </a>
                     </td>
