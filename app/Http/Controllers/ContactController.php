@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\ContactInquiryMail;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -10,14 +12,20 @@ class ContactController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:60'],
+            'email' => ['required','email','max:60'],
             'surname' => ['required', 'string', 'max:60'],
             'details' => ['required', 'string', 'max:3000'],
         ]);
 
-        $fullName = $data['name'].''.$data['surname']
+        Mail::to('mail@confluence.revdev.it')->send(new ContactInquiryMail(
+            name: $data['name'],
+            surname: $data['surname'] ?? '',
+            email: $data['email'],
+            details: $data['details']
+        ));
 
-        Mail::raw( "Nome: {$fullName}\nEmail: {$data['email']}\n\nMessaggio:\n{$data['details']}", function ($message) use ($data, $fullName) { $message->to('mail@confluence.revdev.it') ->subject("Support Ticket - {$fullName}") ->replyTo($data['email'], $fullName); } );
-    }
+        
      return back()->with('success', 'Support request sent successfully!');
 
+}
 }

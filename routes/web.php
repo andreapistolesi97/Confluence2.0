@@ -17,6 +17,8 @@ use App\Http\Controllers\UserActionController;
 use App\Http\Controllers\SearchContactController;
 use App\Http\Controllers\TotalUserController;
 use App\Http\Controllers\BlacklistController;
+use Illuminate\Support\Facades\Mail;
+
 
 
 
@@ -65,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     //PRODUCTION ACTION
     Route::get('/productionaction', [BusinessDriverController::class, 'productionAction']);
 
+   
 
 
 
