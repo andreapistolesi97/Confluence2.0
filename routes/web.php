@@ -36,8 +36,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('homepage');
 
     Route::get('/dashboard/top-actions', [UserActionController::class, 'topActions'])
-    ->name('dashboard.top-actions')
-    ->middleware('auth');
+        ->name('dashboard.top-actions')
+        ->middleware('auth');
 
     //MYPROFILE
     Route::middleware(['auth'])->group(function () {
@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
         return view('help.help');
     });
 
-    Route::post('/help' ,[ContactController::class, 'send'])->name('help.send'); 
+    Route::post('/help', [ContactController::class, 'send'])->name('help.send');
 
     //PRODUCTION ACTION
     Route::get('/productionaction', [BusinessDriverController::class, 'productionAction']);
@@ -130,7 +130,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/productionlogs/run', [UserActionController::class, 'productionlogsRun'])
         ->name('productionlogs.run')
         ->middleware('auth');
-    // Route::get('/simslogs',       [LogController::class, 'sims'])->name('simslogs');
 
     // REVIEW
     Route::get('/review', [BusinessDriverController::class, 'review'])
@@ -165,14 +164,26 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/searches/blacklist', [BusinessDriverController::class, 'blacklist'])
         ->name('searches.blacklist');
-    
+
     Route::get('/searches/blacklist/export', [BlacklistController::class, 'export'])
-    ->name('searches.blacklist.export');
+        ->name('searches.blacklist.export');
 
     Route::post('/searches/blacklist/import', [BlacklistController::class, 'import'])
-    ->name('searches.blacklist.import');
+        ->name('searches.blacklist.import');
 
-    
+    Route::get('/documentation', function () {
+        return view('documentation.documentation');
+    })->name('documentation');
+
+    Route::get('/documentation/formattingoverview', function () {
+        return view('documentation.formattingoverview');
+    })->name('documentation.formattingoverview');
+
+    Route::get('/documentation/overview', function () {
+        return view('documentation.overview');
+    })->name('documentation.overview');
+
+
 
 
 

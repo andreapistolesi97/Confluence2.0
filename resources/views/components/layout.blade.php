@@ -38,7 +38,7 @@
 
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'homepage'))
-                <x-sidebarmenu title="Homepage" url="/homepage" icon="home"  />
+                <x-sidebarmenu title="Homepage" url="/homepage" icon="home" />
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
@@ -85,21 +85,36 @@
                     ['label' => 'Contacts', 'url' => '/searches/contacts'],
                     ['label' => 'Phone Number Formatting', 'url' => '/searches/phonenumberformatting'],
                     ['label' => 'Blacklist', 'url' => '/searches/blacklist'],
-
                 ]" />
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'documentation'))
                 <x-sidebarmenu title="Documentation" icon="documentation" :items="[
-                    ['label' => 'Field Overview', 'url' => '/fieldoverview'],
-                    ['label' => 'Formatting Overview', 'url' => '/formattingoverview'],
-                    ['label' => 'General Documentation', 'url' => '/generaldocumentation'],
-                    ['label' => 'Process Documentation', 'url' => '/processdocumentation'],
-                    ['label' => 'Contacts Policies', 'url' => '/contactspolicies'],
+                    ['label' => 'Formatting Overview', 'url' => '/documentation/formattingoverview'],
+                    [
+                        'label' => 'General Documentation',
+                        'url' =>
+                            'https://docs.google.com/document/d/1-ghZ0JonvjG8AVJCbnLliJPk2P-8IZj1oWzOpVp-tIU/edit?tab=t.0',
+                        'external' => true,
+                    ],
+                    [
+                        'label' => 'Process Documentation',
+                        'url' =>
+                            'https://docs.google.com/spreadsheets/d/1-dPCksm15viZKJoeO9FjiG5trmoHXA23VhhCNtR-QmA/edit?gid=1852746943#gid=1852746943',
+                        'external' => true,
+                    ],
+                    [
+                        'label' => 'Contacts Policies',
+                        'url' =>
+                            'https://docs.google.com/presentation/d/1TEtwm6ERekC5J7p4KrsGxq_jOP3KUkh6gQP8vSZPanM/edit?slide=id.p1#slide=id.p1',
+                        'external' => true,
+                    ],
                 ]" />
                 <div class="border-t border-gray-200 my-2"></div>
             @endif
+
+
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'help'))
                 <x-sidebarmenu title="Help & Support" url="/help" icon="help" />
