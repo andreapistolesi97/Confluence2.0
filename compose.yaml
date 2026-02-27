@@ -1,0 +1,86 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: confluence_app
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      APP_ENV: local
+      # se vuoi, puoi passare anche altre env qui, ma meglio via .env
+    networks:
+      - confluence
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: confluence_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - confluence
+
+  mysql:
+    image: mysql:8.4
+    container_name: confluence_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: confluence
+      MYSQL_USER: confluence
+      MYSQL_PASSWORD: confluence
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - confluence_mysql:/var/lib/mysql
+    networks:
+      - confluence
+
+  redis:
+    image: redis:7-alpine
+    container_name: confluence_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - confluence
+
+  vite:
+    image: node:22-alpine
+    container_name: confluence_vite
+    working_dir: /var/www/html
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - confluence
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: confluence_queue
+    working_dir: /var/www/html
+    command: php artisan queue:work --tries=3 --timeout=90
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - confluence
+
+networks:
+  confluence:
+
+volumes:
+  confluence_mysql:

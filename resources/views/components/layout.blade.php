@@ -47,14 +47,14 @@
                 <div class="border-t border-gray-200 my-2 "></div>
             @endif
 
-            @if (\App\Support\CheckPermission::hasPermissions($role, 'review'))
+            <!-- @if (\App\Support\CheckPermission::hasPermissions($role, 'review'))
                 <x-sidebarmenu title="Review" icon="review" :items="[
                     ['label' => 'Review', 'url' => '/review'],
                     ['label' => 'Detailed Review', 'url' => '/detailedreview'],
                     ['label' => 'Review Queue Overview', 'url' => '/queueoverview'],
                 ]" />
                 <div class="border-t border-gray-200 my-2"></div>
-            @endif
+            @endif  -->
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'logs'))
                 <x-sidebarmenu title="Logs" icon="logs" :items="[
@@ -66,10 +66,10 @@
             @endif
 
 
-            @if (\App\Support\CheckPermission::hasPermissions($role, 'productionaction'))
+            <!-- @if (\App\Support\CheckPermission::hasPermissions($role, 'productionaction'))
                 <x-sidebarmenu title="Production Action" url="/productionaction" icon="productionaction" />
                 <div class="border-t border-gray-200 my-2"></div>
-            @endif
+            @endif -->
 
             @if (\App\Support\CheckPermission::hasPermissions($role, 'monitoring'))
                 <x-sidebarmenu title="Monitoring" icon="monitoring" :items="[
