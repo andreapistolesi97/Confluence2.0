@@ -18,16 +18,21 @@ RUN apk add --no-cache \
 RUN docker-php-ext-configure intl \
  && docker-php-ext-install -j$(nproc) pdo_mysql intl zip mbstring opcache
 
+# Redis extension
+RUN apk add --no-cache $PHPIZE_DEPS \
+ && pecl install redis \
+ && docker-php-ext-enable redis \
+ && apk del $PHPIZE_DEPS
+
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# User (optional but nice)
+# User
 RUN addgroup -g 1000 -S www \
  && adduser -u 1000 -S www -G www
 
 WORKDIR /var/www/html
 
-# Permissions (Laravel needs storage + bootstrap/cache writable)
 RUN chown -R www:www /var/www/html
 
 USER www
