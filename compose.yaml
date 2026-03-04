@@ -5,15 +5,18 @@ services:
       dockerfile: Dockerfile
     container_name: confluence_app
     working_dir: /var/www/html
+    env_file:
+      - .env.docker
     volumes:
       - ./:/var/www/html
     depends_on:
-      - mysql
-      - redis
-    environment:
-      APP_ENV: local
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - confluence
+    restart: unless-stopped
 
   nginx:
     image: nginx:1.27-alpine
@@ -27,6 +30,7 @@ services:
       - app
     networks:
       - confluence
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.4
@@ -42,6 +46,13 @@ services:
       - confluence_mysql:/var/lib/mysql
     networks:
       - confluence
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "confluence", "-pconfluence" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   redis:
     image: redis:7-alpine
@@ -50,6 +61,12 @@ services:
       - "6379:6379"
     networks:
       - confluence
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   vite:
     image: node:22-alpine
@@ -69,17 +86,24 @@ services:
       dockerfile: Dockerfile
     container_name: confluence_queue
     working_dir: /var/www/html
+    env_file:
+      - .env.docker
+    entrypoint: []
     command: php artisan queue:work --tries=3 --timeout=90
     volumes:
       - ./:/var/www/html
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - confluence
+    restart: unless-stopped
 
 networks:
   confluence:
+
 
 volumes:
   confluence_mysql:
