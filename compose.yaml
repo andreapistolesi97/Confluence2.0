@@ -1,14 +1,14 @@
 services:
+
+  # ── PHP-FPM (applicazione Laravel) ─────────────────────
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: confluence_app
     working_dir: /var/www/html
-    env_file:
-      - .env.docker
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html
     depends_on:
       mysql:
         condition: service_healthy
@@ -18,13 +18,14 @@ services:
       - confluence
     restart: unless-stopped
 
+  # ── Nginx (web server) ─────────────────────────────────
   nginx:
     image: nginx:1.27-alpine
     container_name: confluence_nginx
     ports:
       - "8081:80"
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - app
@@ -32,6 +33,7 @@ services:
       - confluence
     restart: unless-stopped
 
+  # ── MySQL 8.4 ──────────────────────────────────────────
   mysql:
     image: mysql:8.4
     container_name: confluence_mysql
@@ -44,16 +46,18 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - confluence_mysql:/var/lib/mysql
+      - ./docker/mysql/init-contacts-db.sql:/docker-entrypoint-initdb.d/10-contacts-db.sql:ro
     networks:
       - confluence
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "confluence", "-pconfluence" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "confluence", "-pconfluence"]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 30s
 
+  # ── Redis 7 ────────────────────────────────────────────
   redis:
     image: redis:7-alpine
     container_name: confluence_redis
@@ -63,11 +67,12 @@ services:
       - confluence
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
 
+  # ── Vite (dev server per gli asset frontend) ───────────
   vite:
     image: node:22-alpine
     container_name: confluence_vite
@@ -76,22 +81,27 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html
     networks:
       - confluence
 
+  # ── Queue worker (job in background) ───────────────────
   queue:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: confluence_queue
     working_dir: /var/www/html
-    env_file:
-      - .env.docker
     entrypoint: []
-    command: php artisan queue:work --tries=3 --timeout=90
+    command: >
+      sh -c "
+        echo '==> [queue] Attendo bootstrap app...'
+        while [ ! -f /var/www/html/vendor/autoload.php ]; do sleep 2; done
+        echo '==> [queue] Avvio queue worker...'
+        php artisan queue:work redis --tries=3 --timeout=90
+      "
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html
     depends_on:
       mysql:
         condition: service_healthy
@@ -103,7 +113,6 @@ services:
 
 networks:
   confluence:
-
 
 volumes:
   confluence_mysql:

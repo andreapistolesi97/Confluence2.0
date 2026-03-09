@@ -1,85 +1,69 @@
 #!/bin/bash
 set -e
 
-echo "==> [entrypoint] Avvio bootstrap Laravel..."
+echo "============================================"
+echo "  Confluence - Bootstrap Laravel"
+echo "============================================"
 
-# -------------------------------------------------------
-# 1. Attendi che MySQL sia disponibile
-# -------------------------------------------------------
-echo "==> [entrypoint] Attendo MySQL su ${DB_HOST}:${DB_PORT:-3306}..."
+# ── 1. Attendi MySQL ──────────────────────────────────────
+echo "==> Attendo MySQL su ${DB_HOST:-mysql}:${DB_PORT:-3306}..."
 until php -r "
   try {
-    \$pdo = new PDO(
-      'mysql:host=${DB_HOST:-mysql};port=${DB_PORT:-3306};dbname=${DB_DATABASE:-confluence}',
+    new PDO(
+      'mysql:host=${DB_HOST:-mysql};port=${DB_PORT:-3306}',
       '${DB_USERNAME:-confluence}',
       '${DB_PASSWORD:-confluence}'
     );
     echo 'ok';
-  } catch (Exception \$e) {
-    exit(1);
-  }
+  } catch (Exception \$e) { exit(1); }
 " 2>/dev/null | grep -q ok; do
-  echo "==> [entrypoint] MySQL non ancora pronto, riprovo tra 2s..."
   sleep 2
 done
-echo "==> [entrypoint] MySQL pronto!"
+echo "==> MySQL pronto."
 
-# -------------------------------------------------------
-# 2. Copia .env se non esiste
-# -------------------------------------------------------
-if [ ! -f /var/www/html/.env ]; then
-  echo "==> [entrypoint] Copio .env.docker -> .env"
-  cp /var/www/html/.env.docker /var/www/html/.env
+# ── 2. File .env ──────────────────────────────────────────
+if [ ! -f .env ]; then
+  echo "==> Copio .env.docker -> .env"
+  cp .env.docker .env
 fi
 
-# -------------------------------------------------------
-# 3. Installa dipendenze Composer se vendor/ non esiste
-# -------------------------------------------------------
-if [ ! -d /var/www/html/vendor ]; then
-  echo "==> [entrypoint] Eseguo composer install..."
+# ── 3. Dipendenze Composer ────────────────────────────────
+if [ ! -f vendor/autoload.php ]; then
+  echo "==> composer install..."
   composer install --no-interaction --prefer-dist --optimize-autoloader
 fi
 
-# -------------------------------------------------------
-# 4. Genera APP_KEY se non presente
-# -------------------------------------------------------
-if ! grep -q "^APP_KEY=base64:" /var/www/html/.env; then
-  echo "==> [entrypoint] APP_KEY mancante o non valida. Genero nuova APP_KEY..."
+# ── 4. APP_KEY ────────────────────────────────────────────
+if ! grep -q '^APP_KEY=base64:' .env; then
+  echo "==> Genero APP_KEY..."
   php artisan key:generate --force
-else
-  echo "==> [entrypoint] APP_KEY già presente."
 fi
 
-# -------------------------------------------------------
-# 5. Esegui migration
-# -------------------------------------------------------
-echo "==> [entrypoint] Controllo database e migrations..."
+# ── 5. Migrations ─────────────────────────────────────────
+echo "==> Eseguo migrations..."
 php artisan migrate --force --no-interaction
 
-# -------------------------------------------------------
-# 6. Storage link
-# -------------------------------------------------------
-if [ ! -L /var/www/html/public/storage ]; then
-  echo "==> [entrypoint] Creo storage link..."
+# ── 6. Storage link ───────────────────────────────────────
+if [ ! -L public/storage ]; then
+  echo "==> Creo storage link..."
   php artisan storage:link
 fi
 
-# -------------------------------------------------------
-# 7. Cache config & route (solo se non in debug mode)
-# -------------------------------------------------------
+# ── 7. Cache (solo in produzione) ─────────────────────────
 if [ "${APP_DEBUG}" = "false" ]; then
-  echo "==> [entrypoint] Cache config e route..."
-  su-exec www php artisan config:cache
-  su-exec www php artisan route:cache
-  su-exec www php artisan view:cache
+  echo "==> Cache config / route / view..."
+  php artisan config:cache
+  php artisan route:cache
+  php artisan view:cache
 fi
 
-# -------------------------------------------------------
-# 8. Permessi storage e bootstrap/cache
-# -------------------------------------------------------
-echo "==> [entrypoint] Fix permessi..."
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache
+# ── 8. Permessi ───────────────────────────────────────────
+echo "==> Fix permessi..."
+chown -R www:www storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
 
-echo "==> [entrypoint] Bootstrap completato. Avvio php-fpm..."
-exec php-fpm
+echo "============================================"
+echo "  Bootstrap completato - avvio servizio"
+echo "============================================"
+
+exec "$@"

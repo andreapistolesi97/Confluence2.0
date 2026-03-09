@@ -8,10 +8,6 @@ storage/framework/views
 .git
 .idea
 .vscode
-*.sql
-dump.sql
 tests
 .editorconfig
 .gitattributes
-README*.md
-Thank
