@@ -68,15 +68,17 @@ fi
 # -------------------------------------------------------
 if [ "${APP_DEBUG}" = "false" ]; then
   echo "==> [entrypoint] Cache config e route..."
-  php artisan config:cache
-  php artisan route:cache
-  php artisan view:cache
+  su-exec www php artisan config:cache
+  su-exec www php artisan route:cache
+  su-exec www php artisan view:cache
 fi
 
 # -------------------------------------------------------
 # 8. Permessi storage e bootstrap/cache
 # -------------------------------------------------------
+echo "==> [entrypoint] Fix permessi..."
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache
 
-echo "==> [entrypoint] Bootstrap completato. Avvio php-fpm..."
-exec php-fpm
+echo "==> [entrypoint] Bootstrap completato. Avvio php-fpm come www..."
+exec su-exec www php-fpm

@@ -12,7 +12,8 @@ RUN apk add --no-cache \
     zlib-dev \
     freetype-dev \
     libjpeg-turbo-dev \
-    libpng-dev
+    libpng-dev \
+    su-exec
 
 # PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -50,6 +51,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 RUN chown -R www:www /var/www/html
 
-USER www
+# USER www (Removed: entrypoint.sh handles dropping privileges with su-exec)
 
 ENTRYPOINT ["entrypoint.sh"]
