@@ -62,7 +62,21 @@ Questo comando:
 - **Avvia** Vite (installa npm e compila asset)
 - **Avvia** il queue worker per i job in background
 
-### 3. Apri l'applicazione
+### 3. Crea un utente di test
+
+Il database parte vuoto. Per poter accedere all'applicazione, crea un utente:
+
+```bash
+docker compose exec app php artisan tinker --execute="App\Models\User::create(['name'=>'Andrea','surname'=>'Pistolesi','email'=>'andrea.pistolesi@example.it','password'=>bcrypt('Abc123!'),'role'=>'Admin','username'=>'andrea.pistolesi']);"
+```
+
+Credenziali di accesso:
+- **Email:** `andrea.pistolesi@example.it`
+- **Password:** `Abc123!`
+
+Puoi modificare nome, email, password e ruolo a piacere. Ruoli disponibili: `Admin`, `Integrator`, `Production Planner`, `Sales`.
+
+### 4. Apri l'applicazione
 
 ```
 http://localhost:8081
