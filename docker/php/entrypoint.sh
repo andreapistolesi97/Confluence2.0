@@ -43,17 +43,18 @@ fi
 # -------------------------------------------------------
 # 4. Genera APP_KEY se non presente
 # -------------------------------------------------------
-APP_KEY_VALUE=$(grep -E "^APP_KEY=" /var/www/html/.env | cut -d'=' -f2 | tr -d '[:space:]')
-if [ -z "$APP_KEY_VALUE" ]; then
-  echo "==> [entrypoint] Genero APP_KEY..."
+if ! grep -q "^APP_KEY=base64:" /var/www/html/.env; then
+  echo "==> [entrypoint] APP_KEY mancante o non valida. Genero nuova APP_KEY..."
   php artisan key:generate --force
+else
+  echo "==> [entrypoint] APP_KEY già presente."
 fi
 
 # -------------------------------------------------------
 # 5. Esegui migration
 # -------------------------------------------------------
-echo "==> [entrypoint] Eseguo migrations..."
-php artisan migrate --force
+echo "==> [entrypoint] Controllo database e migrations..."
+php artisan migrate --force --no-interaction
 
 # -------------------------------------------------------
 # 6. Storage link

@@ -1,14 +1,6 @@
 # Relazione Tecnica: Infrastruttura Docker e Guida all'Installazione
 
-### Passaggi per l'Installazione
-
-1.  **Clonare il repository:**
-    ```bash
-    git clone https://github.com/andreapistolesi97/Confluence2.0.git
-    cd Confluence2.0
-    ```
-
-## 2. Guida all'Avvio per il Docente (Procedura Rapida)
+## 1. Guida all'Avvio per il Docente (Procedura Rapida)
 
 Seguire questi passaggi per avviare il progetto su un computer pulito. La procedura è completamente automatizzata.
 
@@ -42,43 +34,42 @@ Apre un terminale (o PowerShell/CMD su Windows) e digiti i seguenti comandi:
 
 ---
 
-## 3. Guida Dettagliata per Sviluppatori
+## 2. Guida Dettagliata per Sviluppatori
 
-## 3.1. Introduzione
+### 2.1. Introduzione
 La presente documentazione descrive l'architettura di containerizzazione implementata per il progetto **Confluence**. L'intera infrastruttura è progettata per essere robusta, scalabile e facilmente portabile tra diversi ambienti di sviluppo, garantendo al contempo la parità tra gli ambienti e una gestione semplificata delle dipendenze.
 
----
-
-## 3.2. Architettura del Sistema
+### 2.2. Architettura del Sistema
 Il progetto adotta un'architettura a micro-servizi orchestrata tramite **Docker Compose**. Di seguito il dettaglio dei componenti:
 
-### 2.1. Container Applicativo (`app`)
+#### Container Applicativo (`app`)
 - **Immagine:** Base PHP 8.4-fpm su Alpine Linux (ottimizzata per dimensioni e sicurezza).
 - **Ruolo:** Gestisce la logica di business Laravel.
 - **Caratteristiche:**
   - Estensioni PHP pre-installate: `pdo_mysql`, `redis`, `gd`, `intl`, `zip`, `bcmath`, `opcache`.
-  - Gestione avanzata dei permessi tramite `su-exec` per garantire che i processi PHP non girino mai come root, ma abbiano i permessi necessari sulle cartelle `storage` e `cache`.
+  - Gestione avanzata dei permessi: l'entrypoint viene avviato come `root` per garantire la corretta impostazione dei permessi sulle cartelle di Laravel (`storage`, `cache`) e per permettere a PHP-FPM di aprire i flussi di log. Successivamente, PHP-FPM scala automaticamente i privilegi all'utente non-root `www` per l'esecuzione dell'app.
+  - **Sicurezza:** L'entrypoint verifica e genera automaticamente la `APP_KEY` di Laravel se mancante, garantendo che l'applicazione sia sempre pronta all'uso.
 
-### 2.2. Web Server (`nginx`)
+#### Web Server (`nginx`)
 - **Immagine:** Nginx 1.27-alpine.
-- **Ruolo:** Gestisce le richieste HTTP(S), serve i file statici e inoltra le chiamate dinamiche al container `app` tramite protocollo FastCGI.
+- **Ruolo:** Gestisce le richieste HTTP(S), serve i file statici e inoltra le chiamate dinamiche al container `app`.
 
-### 2.3. Database Layer (`mysql`)
+#### Database Layer (`mysql`)
 - **Immagine:** MySQL 8.4 (Oracle Linux).
 - **Ruolo:** Persistenza dei dati relazionali.
-- **Persistenza:** Utilizza un volume Docker dedicato per evitare la perdita di dati allo spegnimento del container.
+- **Persistenza:** Utilizza un volume Docker dedicato per evitare la perdita di dati allo spegnimento.
 
-### 2.4. Cache & Queue Buffer (`redis`)
+#### Cache & Queue Buffer (`redis`)
 - **Immagine:** Redis 7-alpine.
 - **Ruolo:** Gestione della cache applicativa e buffer per le code (queues) di Laravel.
 
-### 2.5. Frontend Development (`vite`)
+#### Frontend Development (`vite`)
 - **Immagine:** Node 22-alpine.
 - **Ruolo:** Compilazione degli asset in tempo reale (JavaScript/CSS) e Hot Module Replacement (HMR).
 
-### 2.6. Background Workers (`queue`)
+#### Background Workers (`queue`)
 - **Immagine:** Stessa immagine del container `app`.
-- **Ruolo:** Esecuzione asincrona dei job in background, garantendo che le operazioni pesanti non blocchino l'interfaccia utente.
+- **Ruolo:** Esecuzione asincrona dei job in background.
 
 ---
 
@@ -90,7 +81,7 @@ Per avviare correttamente il progetto su un nuovo PC, sono necessari i seguenti 
 
 ---
 
-## 4. Procedura di Avvio Rapido
+## 4. Procedura di Avvio Rapido (Standard)
 
 ### Passo 1: Preparazione Ambiente
 Aprire un terminale nella cartella del progetto. Non è necessario creare manualmente il file `.env`, poiché il sistema lo farà automaticamente durante il primo avvio utilizzando il template `.env.docker`.
@@ -123,9 +114,11 @@ L'applicazione è pronta quando nel log appare il messaggio: `==> [entrypoint] B
 
 ## 6. Risoluzione dei Problemi Comuni
 
-### 6.1. Problemi di Permessi (Windows/Linux/Mac)
-*   **Gestione Permessi Corretta:** L'entrypoint viene avviato come `root` per garantire la corretta impostazione dei permessi sulle cartelle di Laravel (`storage`, `cache`) e per permettere a PHP-FPM di aprire i flussi di log.
-*   **Sicurezza:** PHP-FPM è configurato per scalare automaticamente i privilegi all'utente `www` dopo l'avvio, assicurando che l'applicazione non giri mai come root.
+### 6.1. Problemi di Permessi
+L'entrypoint del container `app` è configurato per correggere automaticamente i permessi delle cartelle `storage` e `bootstrap/cache` ad ogni avvio. Se riscontri errori di accesso, prova a riavviare con:
+```bash
+docker compose restart app
+```
 
 ### 6.2. Pulizia Totale Ambiente
 In caso di errori persistenti o necessità di reset completo (Attenzione: elimina tutti i dati nel DB!):
@@ -140,10 +133,10 @@ docker compose up --build -d
 I principali comandi di gestione sono:
 - **Artisan:** `docker compose exec app php artisan <comando>`
 - **Composer:** `docker compose exec app composer <comando>`
-- **Shell Interattiva:** `docker compose exec app bash`
-- **Spegnimento:** `docker compose down`
+- **Shell:** `docker compose exec app bash`
+- **Stop:** `docker compose down`
 
 ---
 
 ## 8. Conclusione
-L'infrastruttura è stata validata e testata. Grazie all'uso di `su-exec` e di un robusto script di entrypoint, il progetto offre un'esperienza "one-click" per i nuovi sviluppatori, riducendo drasticamente i tempi di setup e i conflitti di configurazione.
+L'infrastruttura è stata validata e testata. Grazie all'uso dell'entrypoint intelligente e della corretta gestione degli utenti, il progetto offre un'esperienza "one-click" per i docenti e gli sviluppatori, riducendo i tempi di setup e i conflitti di configurazione.
