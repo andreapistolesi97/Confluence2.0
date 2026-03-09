@@ -39,6 +39,7 @@ services:
     container_name: confluence_mysql
     ports:
       - "3307:3306"
+    command: --innodb-strict-mode=OFF --innodb-file-per-table=ON --innodb-default-row-format=DYNAMIC
     environment:
       MYSQL_DATABASE: confluence
       MYSQL_USER: confluence
