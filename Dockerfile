@@ -39,6 +39,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # PHP config
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 
+# PHP-FPM pool config (override user/group)
+RUN sed -i 's/user = www-data/user = www/g' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/group = www-data/group = www/g' /usr/local/etc/php-fpm.d/www.conf
+
 # User
 RUN addgroup -g 1000 -S www \
     && adduser -u 1000 -S www -G www

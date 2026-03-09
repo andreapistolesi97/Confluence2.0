@@ -80,5 +80,5 @@ echo "==> [entrypoint] Fix permessi..."
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache
 
-echo "==> [entrypoint] Bootstrap completato. Avvio php-fpm come www..."
-exec su-exec www php-fpm
+echo "==> [entrypoint] Bootstrap completato. Avvio php-fpm..."
+exec php-fpm

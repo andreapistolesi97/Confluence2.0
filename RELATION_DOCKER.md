@@ -1,11 +1,55 @@
 # Relazione Tecnica: Infrastruttura Docker e Guida all'Installazione
 
-## 1. Introduzione
+### Passaggi per l'Installazione
+
+1.  **Clonare il repository:**
+    ```bash
+    git clone https://github.com/andreapistolesi97/Confluence2.0.git
+    cd Confluence2.0
+    ```
+
+## 2. Guida all'Avvio per il Docente (Procedura Rapida)
+
+Seguire questi passaggi per avviare il progetto su un computer pulito. La procedura è completamente automatizzata.
+
+### Requisiti
+- **Docker Desktop** installato e attivo.
+- **Git** installato.
+
+### Procedura Passo-Passo
+Apre un terminale (o PowerShell/CMD su Windows) e digiti i seguenti comandi:
+
+1.  **Clonazione del Progetto:**
+    ```bash
+    git clone https://github.com/andreapistolesi97/Confluence2.0.git
+    cd Confluence2.0
+    ```
+
+2.  **Lancio dell'Architettura:**
+    ```bash
+    docker compose up --build -d
+    ```
+
+3.  **Attesa Inizializzazione:**
+    Il primo avvio richiede circa 1-2 minuti perché il sistema deve scaricare le immagini e installare le librerie. Per verificare quando il sistema è pronto, può osservare i log:
+    ```bash
+    docker compose logs -f app
+    ```
+    Appena legge `==> [entrypoint] Bootstrap completato`, l'app è pronta.
+
+4.  **Accesso:**
+    Aprire il browser all'indirizzo: **[http://localhost:8081](http://localhost:8081)**
+
+---
+
+## 3. Guida Dettagliata per Sviluppatori
+
+## 3.1. Introduzione
 La presente documentazione descrive l'architettura di containerizzazione implementata per il progetto **Confluence**. L'intera infrastruttura è progettata per essere robusta, scalabile e facilmente portabile tra diversi ambienti di sviluppo, garantendo al contempo la parità tra gli ambienti e una gestione semplificata delle dipendenze.
 
 ---
 
-## 2. Architettura del Sistema
+## 3.2. Architettura del Sistema
 Il progetto adotta un'architettura a micro-servizi orchestrata tramite **Docker Compose**. Di seguito il dettaglio dei componenti:
 
 ### 2.1. Container Applicativo (`app`)
@@ -80,7 +124,8 @@ L'applicazione è pronta quando nel log appare il messaggio: `==> [entrypoint] B
 ## 6. Risoluzione dei Problemi Comuni
 
 ### 6.1. Problemi di Permessi (Windows/Linux/Mac)
-L'entrypoint del container `app` è configurato per correggere automaticamente i permessi delle cartelle `storage` e `bootstrap/cache`. Qualora si riscontrassero problemi, un riavvio dei container con `docker compose restart app` solitamente risolve l'anomalia.
+*   **Gestione Permessi Corretta:** L'entrypoint viene avviato come `root` per garantire la corretta impostazione dei permessi sulle cartelle di Laravel (`storage`, `cache`) e per permettere a PHP-FPM di aprire i flussi di log.
+*   **Sicurezza:** PHP-FPM è configurato per scalare automaticamente i privilegi all'utente `www` dopo l'avvio, assicurando che l'applicazione non giri mai come root.
 
 ### 6.2. Pulizia Totale Ambiente
 In caso di errori persistenti o necessità di reset completo (Attenzione: elimina tutti i dati nel DB!):
