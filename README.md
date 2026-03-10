@@ -1,59 +1,204 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Confluence
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Applicazione Laravel 12 con Docker Compose.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **PHP 8.4** (FPM Alpine)
+- **Laravel 12**
+- **MySQL 8.4**
+- **Redis 7**
+- **Nginx 1.27**
+- **Vite 7** + Vue 3 + Tailwind CSS 4
+- **Node 22**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Architettura Docker
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Servizio | Container | Porta |
+|----------|-----------|-------|
+| PHP-FPM (app) | `confluence_app` | — |
+| Nginx | `confluence_nginx` | `8081` |
+| MySQL 8.4 | `confluence_mysql` | `3307` |
+| Redis 7 | `confluence_redis` | `6379` |
+| Vite (dev) | `confluence_vite` | `5173` |
+| Queue worker | `confluence_queue` | — |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Guida al Deploy Locale
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prerequisiti
 
-## Laravel Sponsors
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installato e **avviato**
+- I **10 file SQL** esportati da phpMyAdmin (dump completi di struttura + dati)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+### Step 1 — Clona il repository
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/TUO-USER/confluence_deploy.git
+cd confluence_deploy
+```
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Step 2 — Avvia i container
 
-## Code of Conduct
+```bash
+docker compose up --build -d
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+> La prima volta ci vogliono alcuni minuti per scaricare le immagini e installare le dipendenze.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Step 3 — Attendi il bootstrap dell'app
 
-## License
+```bash
+docker compose logs -f app
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Aspetta fino a che vedi:
+
+```
+==> Bootstrap completato!
+```
+
+Poi premi `Ctrl+C` per uscire dai log.
+
+---
+
+### Step 4 — Prepara MySQL per le import
+
+Entra nella shell MySQL come root:
+
+```bash
+docker exec -it confluence_mysql mysql -uroot -proot
+```
+
+Esegui questi comandi SQL:
+
+```sql
+SET GLOBAL log_bin_trust_function_creators = 1;
+
+GRANT ALL PRIVILEGES ON *.* TO 'confluence'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+EXIT;
+```
+
+---
+
+### Step 5 — Ricrea il database principale
+
+```bash
+docker exec -it confluence_mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS confluence; CREATE DATABASE confluence CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+---
+
+### Step 6 — Importa il database principale
+
+Copia il file SQL dentro il container e importalo:
+
+```bash
+docker cp dbtp2gmxsji1pl.sql confluence_mysql:/tmp/dbtp2gmxsji1pl.sql
+
+docker exec -it confluence_mysql mysql -uconfluence -pconfluence confluence < /dev/null
+docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence confluence < /tmp/dbtp2gmxsji1pl.sql"
+```
+
+> Questo e' il database principale dell'app. Viene importato nel database `confluence`.
+
+---
+
+### Step 7 — Importa i 9 database dei business driver
+
+Per **ognuno** dei 9 database, esegui questi 3 comandi (sostituisci `NOME_DB` con il nome reale del file/database):
+
+```bash
+docker exec -it confluence_mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS NOME_DB; CREATE DATABASE NOME_DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; GRANT ALL PRIVILEGES ON NOME_DB.* TO 'confluence'@'%'; FLUSH PRIVILEGES;"
+
+docker cp NOME_DB.sql confluence_mysql:/tmp/NOME_DB.sql
+
+docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence NOME_DB < /tmp/NOME_DB.sql"
+```
+
+I 9 database sono:
+
+| Database | Descrizione |
+|----------|-------------|
+| `db1ywgcfln6ko1` | Dfusione |
+| `db8mwsqzhezgcg` | Media Prospect |
+| `dbbsplwbo27riv` | Interactive Global Data |
+| `dbbvt3npg0g3ey` | Lean ADV |
+| `dbemqtn9jyekyk` | Lithium Main |
+| `dbg3kzec8qennw` | Levante Media |
+| `dbhi9cvdwadwsr` | Netpulse Media |
+| `dbqmhgqdjxxyad` | Digity Solutions |
+| `dby2mm99vtfozo` | Lithium Ads |
+
+**Esempio completo per `db1ywgcfln6ko1`:**
+
+```bash
+docker exec -it confluence_mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS db1ywgcfln6ko1; CREATE DATABASE db1ywgcfln6ko1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; GRANT ALL PRIVILEGES ON db1ywgcfln6ko1.* TO 'confluence'@'%'; FLUSH PRIVILEGES;"
+
+docker cp db1ywgcfln6ko1.sql confluence_mysql:/tmp/db1ywgcfln6ko1.sql
+
+docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence db1ywgcfln6ko1 < /tmp/db1ywgcfln6ko1.sql"
+```
+
+> Ripeti per tutti e 9 i database.
+
+---
+
+### Step 8 — Apri l'applicazione
+
+Vai su: **http://localhost:8081**
+
+Credenziali di accesso:
+
+| Campo | Valore |
+|-------|--------|
+| Email | `andrea.pistolesi@example.it` |
+| Password | `Abc123!` |
+
+---
+
+## Comandi utili
+
+```bash
+# Ferma tutti i container
+docker compose down
+
+# Ferma e cancella TUTTI i dati (reset completo)
+docker compose down -v
+
+# Riavvia i container
+docker compose up -d
+
+# Log dell'app in tempo reale
+docker compose logs -f app
+
+# Shell nel container app
+docker exec -it confluence_app bash
+
+# Shell MySQL
+docker exec -it confluence_mysql mysql -uconfluence -pconfluence confluence
+
+# Esegui comandi Artisan
+docker exec -it confluence_app php artisan <comando>
+```
+
+---
+
+## Troubleshooting
+
+| Problema | Soluzione |
+|----------|-----------|
+| **500 Internal Server Error** | Controlla i log: `docker compose logs -f app` |
+| **504 Gateway Timeout** | Attendi il bootstrap completo oppure controlla: `docker compose logs -f nginx` |
+| **Access denied for user** | Riesegui lo Step 4 (GRANT ALL PRIVILEGES) |
+| **Table already exists** | Riesegui lo Step 5/7 con il `DROP DATABASE` prima del `CREATE DATABASE` |
+| **Container name conflict** | `docker rm -f confluence_app confluence_nginx confluence_mysql confluence_redis confluence_vite confluence_queue` e poi riesegui `docker compose up --build -d` |
