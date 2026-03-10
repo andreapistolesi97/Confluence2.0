@@ -1,27 +1,10 @@
 # Confluence
 
-Applicazione Laravel 12 con Docker Compose.
+Applicazione Laravel per l'esame di Applicazioni Web Mobile e Cloud
 
-## Tech Stack
-
-- **PHP 8.4** (FPM Alpine)
-- **Laravel 12**
-- **MySQL 8.4**
-- **Redis 7**
-- **Nginx 1.27**
-- **Vite 7** + Vue 3 + Tailwind CSS 4
-- **Node 22**
-
-## Architettura Docker
-
-| Servizio | Container | Porta |
-|----------|-----------|-------|
-| PHP-FPM (app) | `confluence_app` | — |
-| Nginx | `confluence_nginx` | `8081` |
-| MySQL 8.4 | `confluence_mysql` | `3307` |
-| Redis 7 | `confluence_redis` | `6379` |
-| Vite (dev) | `confluence_vite` | `5173` |
-| Queue worker | `confluence_queue` | — |
+- **Docenti:** Bonura Diego - Lillini Christian
+- **Autore:** Pistolesi Andrea
+- **Nome progetto:** Confluence
 
 ---
 
@@ -30,165 +13,85 @@ Applicazione Laravel 12 con Docker Compose.
 ### Prerequisiti
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installato e **avviato**
-- I **10 file SQL** esportati da phpMyAdmin (dump completi di struttura + dati)
+- [Git](https://git-scm.com/)
 
 ---
 
-### Step 1 — Clona il repository
+### Step 1 — Clonare il repository
 
 ```bash
-git clone https://github.com/TUO-USER/confluence_deploy.git
-cd confluence_deploy
+git clone https://github.com/andreapistolesi97/Confluence2.0.git
+cd Confluence2.0
 ```
 
 ---
 
-### Step 2 — Avvia i container
+### Step 2 — Avviare Docker
 
 ```bash
 docker compose up --build -d
 ```
 
-> La prima volta ci vogliono alcuni minuti per scaricare le immagini e installare le dipendenze.
-
 ---
 
-### Step 3 — Attendi il bootstrap dell'app
+### Step 3 — Attendere il bootstrap
 
 ```bash
 docker compose logs -f app
 ```
 
-Aspetta fino a che vedi:
+Aspettare finche' non compare:
 
 ```
-==> Bootstrap completato!
+Bootstrap completato - avvio servizio
+ready to handle connections
 ```
 
-Poi premi `Ctrl+C` per uscire dai log.
+Premere `Ctrl+C` per uscire dai log.
 
 ---
 
-### Step 4 — Prepara MySQL per le import
-
-Entra nella shell MySQL come root:
+### Step 4 — Preparare MySQL per l'import
 
 ```bash
-docker exec -it confluence_mysql mysql -uroot -proot
-```
-
-Esegui questi comandi SQL:
-
-```sql
-SET GLOBAL log_bin_trust_function_creators = 1;
-
-GRANT ALL PRIVILEGES ON *.* TO 'confluence'@'%' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-
-EXIT;
+docker compose exec mysql mysql -u root -proot -e "SET GLOBAL log_bin_trust_function_creators=1; GRANT ALL PRIVILEGES ON *.* TO 'confluence'@'%'; FLUSH PRIVILEGES;"
 ```
 
 ---
 
-### Step 5 — Ricrea il database principale
+### Step 5 — Importare il database principale (utenti, permessi, tutte le tabelle)
 
 ```bash
-docker exec -it confluence_mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS confluence; CREATE DATABASE confluence CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+docker compose exec mysql mysql -u root -proot -e "DROP DATABASE confluence; CREATE DATABASE confluence CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+docker compose exec -T mysql mysql -u confluence -pconfluence confluence < dbtp2gmxsji1pl.sql
 ```
 
 ---
 
-### Step 6 — Importa il database principale
-
-Copia il file SQL dentro il container e importalo:
+### Step 6 — Importare i 9 database dei business driver (tutte le tabelle e tutti i dati)
 
 ```bash
-docker cp dbtp2gmxsji1pl.sql confluence_mysql:/tmp/dbtp2gmxsji1pl.sql
-
-docker exec -it confluence_mysql mysql -uconfluence -pconfluence confluence < /dev/null
-docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence confluence < /tmp/dbtp2gmxsji1pl.sql"
-```
-
-> Questo e' il database principale dell'app. Viene importato nel database `confluence`.
-
----
-
-### Step 7 — Importa i 9 database dei business driver
-
-Assicurati che i 9 file `.sql` siano nella cartella del progetto, poi copia e incolla tutto come un unico blocco:
-
-```bash
-docker compose exec -T mysql mysql -u confluence -pconfluence db1ywgcfln6ko1 < db1ywgcfln6ko1.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence db8mwsqzhezgcg < db8mwsqzhezgcg.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence dbbsplwbo27riv < dbbsplwbo27riv.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence dbbvt3npg0g3ey < dbbvt3npg0g3ey.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence dbemqtn9jyekyk < dbemqtn9jyekyk.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence dbg3kzec8qennw < dbg3kzec8qennw.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence dbhi9cvdwadwsr < dbhi9cvdwadwsr.sql
-docker compose exec -T mysql mysql -u confluence -pconfluence dbqmhgqdjxxyad < dbqmhgqdjxxyad.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence db1ywgcfln6ko1 < db1ywgcfln6ko1.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence db8mwsqzhezgcg < db8mwsqzhezgcg.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence dbbsplwbo27riv < dbbsplwbo27riv.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence dbbvt3npg0g3ey < dbbvt3npg0g3ey.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence dbemqtn9jyekyk < dbemqtn9jyekyk.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence dbg3kzec8qennw < dbg3kzec8qennw.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence dbhi9cvdwadwsr < dbhi9cvdwadwsr.sql && \
+docker compose exec -T mysql mysql -u confluence -pconfluence dbqmhgqdjxxyad < dbqmhgqdjxxyad.sql && \
 docker compose exec -T mysql mysql -u confluence -pconfluence dby2mm99vtfozo < dby2mm99vtfozo.sql
 ```
 
-| Database | Descrizione |
-|----------|-------------|
-| `db1ywgcfln6ko1` | Dfusione |
-| `db8mwsqzhezgcg` | Media Prospect |
-| `dbbsplwbo27riv` | Interactive Global Data |
-| `dbbvt3npg0g3ey` | Lean ADV |
-| `dbemqtn9jyekyk` | Lithium Main |
-| `dbg3kzec8qennw` | Levante Media |
-| `dbhi9cvdwadwsr` | Netpulse Media |
-| `dbqmhgqdjxxyad` | Digity Solutions |
-| `dby2mm99vtfozo` | Lithium Ads |
-
 ---
 
-### Step 8 — Apri l'applicazione
+### Step 7 — Aprire l'applicazione
 
 Vai su: **http://localhost:8081**
 
-Credenziali di accesso:
+Credenziali:
 
 | Campo | Valore |
 |-------|--------|
 | Email | `andrea.pistolesi@example.it` |
 | Password | `Abc123!` |
-
----
-
-## Comandi utili
-
-```bash
-# Ferma tutti i container
-docker compose down
-
-# Ferma e cancella TUTTI i dati (reset completo)
-docker compose down -v
-
-# Riavvia i container
-docker compose up -d
-
-# Log dell'app in tempo reale
-docker compose logs -f app
-
-# Shell nel container app
-docker exec -it confluence_app bash
-
-# Shell MySQL
-docker exec -it confluence_mysql mysql -uconfluence -pconfluence confluence
-
-# Esegui comandi Artisan
-docker exec -it confluence_app php artisan <comando>
-```
-
----
-
-## Troubleshooting
-
-| Problema | Soluzione |
-|----------|-----------|
-| **500 Internal Server Error** | Controlla i log: `docker compose logs -f app` |
-| **504 Gateway Timeout** | Attendi il bootstrap completo oppure controlla: `docker compose logs -f nginx` |
-| **Access denied for user** | Riesegui lo Step 4 (GRANT ALL PRIVILEGES) |
-| **Table already exists** | Riesegui lo Step 5/7 con il `DROP DATABASE` prima del `CREATE DATABASE` |
-| **Container name conflict** | `docker rm -f confluence_app confluence_nginx confluence_mysql confluence_redis confluence_vite confluence_queue` e poi riesegui `docker compose up --build -d` |
