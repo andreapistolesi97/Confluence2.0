@@ -115,17 +115,19 @@ docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence conflu
 
 ### Step 7 — Importa i 9 database dei business driver
 
-Per **ognuno** dei 9 database, esegui questi 3 comandi (sostituisci `NOME_DB` con il nome reale del file/database):
+Assicurati che i 9 file `.sql` siano nella cartella del progetto, poi copia e incolla tutto come un unico blocco:
 
 ```bash
-docker exec -it confluence_mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS NOME_DB; CREATE DATABASE NOME_DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; GRANT ALL PRIVILEGES ON NOME_DB.* TO 'confluence'@'%'; FLUSH PRIVILEGES;"
-
-docker cp NOME_DB.sql confluence_mysql:/tmp/NOME_DB.sql
-
-docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence NOME_DB < /tmp/NOME_DB.sql"
+docker compose exec -T mysql mysql -u confluence -pconfluence db1ywgcfln6ko1 < db1ywgcfln6ko1.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence db8mwsqzhezgcg < db8mwsqzhezgcg.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dbbsplwbo27riv < dbbsplwbo27riv.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dbbvt3npg0g3ey < dbbvt3npg0g3ey.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dbemqtn9jyekyk < dbemqtn9jyekyk.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dbg3kzec8qennw < dbg3kzec8qennw.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dbhi9cvdwadwsr < dbhi9cvdwadwsr.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dbqmhgqdjxxyad < dbqmhgqdjxxyad.sql
+docker compose exec -T mysql mysql -u confluence -pconfluence dby2mm99vtfozo < dby2mm99vtfozo.sql
 ```
-
-I 9 database sono:
 
 | Database | Descrizione |
 |----------|-------------|
@@ -138,18 +140,6 @@ I 9 database sono:
 | `dbhi9cvdwadwsr` | Netpulse Media |
 | `dbqmhgqdjxxyad` | Digity Solutions |
 | `dby2mm99vtfozo` | Lithium Ads |
-
-**Esempio completo per `db1ywgcfln6ko1`:**
-
-```bash
-docker exec -it confluence_mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS db1ywgcfln6ko1; CREATE DATABASE db1ywgcfln6ko1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; GRANT ALL PRIVILEGES ON db1ywgcfln6ko1.* TO 'confluence'@'%'; FLUSH PRIVILEGES;"
-
-docker cp db1ywgcfln6ko1.sql confluence_mysql:/tmp/db1ywgcfln6ko1.sql
-
-docker exec -it confluence_mysql bash -c "mysql -uconfluence -pconfluence db1ywgcfln6ko1 < /tmp/db1ywgcfln6ko1.sql"
-```
-
-> Ripeti per tutti e 9 i database.
 
 ---
 
